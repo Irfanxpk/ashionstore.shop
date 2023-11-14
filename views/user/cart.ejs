@@ -1,0 +1,511 @@
+ <%- include("../partials/header") %>
+ 
+ <div class="breadcrumb-option">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb__links">
+                        <a href="./index.html"><i class="fa fa-home"></i> Home</a>
+                        <span>Shopping cart</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Breadcrumb End -->
+
+    <!-- Shop Cart Section Begin -->
+    <!-- <section class="shop-cart spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="shop__cart__table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Price</th>
+                                    <th>Quantity</th>
+                                    <th>Total</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="cart__product__item">
+                                        <img src="img/shop-cart/cp-1.jpg" alt="">
+                                        <div class="cart__product__item__title">
+                                            <h6>Chain bucket bag</h6>
+                                            <div class="rating">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="cart__price">$ 150.0</td>
+                                    <td class="cart__quantity">
+                                        <div class="pro-qty">
+                                            <input type="text" value="1">
+                                        </div>
+                                    </td>
+                                    <td class="cart__total">$ 300.0</td>
+                                    <td class="cart__close"><span class="icon_close"></span></td>
+                                </tr>
+                                <tr>
+                                    <td class="cart__product__item">
+                                        <img src="img/shop-cart/cp-2.jpg" alt="">
+                                        <div class="cart__product__item__title">
+                                            <h6>Zip-pockets pebbled tote briefcase</h6>
+                                            <div class="rating">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="cart__price">$ 170.0</td>
+                                    <td class="cart__quantity">
+                                        <div class="pro-qty">
+                                            <input type="text" value="1">
+                                        </div>
+                                    </td>
+                                    <td class="cart__total">$ 170.0</td>
+                                    <td class="cart__close"><span class="icon_close"></span></td>
+                                </tr>
+                                <tr>
+                                    <td class="cart__product__item">
+                                        <img src="img/shop-cart/cp-3.jpg" alt="">
+                                        <div class="cart__product__item__title">
+                                            <h6>Black jean</h6>
+                                            <div class="rating">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="cart__price">$ 85.0</td>
+                                    <td class="cart__quantity">
+                                        <div class="pro-qty">
+                                            <input type="text" value="1">
+                                        </div>
+                                    </td>
+                                    <td class="cart__total">$ 170.0</td>
+                                    <td class="cart__close"><span class="icon_close"></span></td>
+                                </tr>
+                                <tr>
+                                    <td class="cart__product__item">
+                                        <img src="img/shop-cart/cp-4.jpg" alt="">
+                                        <div class="cart__product__item__title">
+                                            <h6>Cotton Shirt</h6>
+                                            <div class="rating">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="cart__price">$ 55.0</td>
+                                    <td class="cart__quantity">
+                                        <div class="pro-qty">
+                                            <input type="text" value="1">
+                                        </div>
+                                    </td>
+                                    <td class="cart__total">$ 110.0</td>
+                                    <td class="cart__close"><span class="icon_close"></span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <div class="cart__btn">
+                        <a href="#">Continue Shopping</a>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <div class="cart__btn update__btn">
+                        <a href="#"><span class="icon_loading"></span> Update cart</a>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="discount__content">
+                        <h6>Discount codes</h6>
+                        <form action="#">
+                            <input type="text" placeholder="Enter your coupon code">
+                            <button type="submit" class="site-btn">Apply</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-lg-4 offset-lg-2">
+                    <div class="cart__total__procced">
+                        <h6>Cart total</h6>
+                        <ul>
+                            <li>Subtotal <span>$ 750.0</span></li>
+                            <li>Total <span>$ 750.0</span></li>
+                        </ul>
+                        <a href="#" class="primary-btn">Proceed to checkout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- cart=2 -->
+
+<section class="shop-cart spad">
+    <div class="container" id="Cart">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="shop__cart__table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                                <th>Total</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <% if(cartdata . length > 0) { %>
+                        <tbody>
+                            <% cartdata.forEach(item => { %>
+                                <% item.items.forEach(productItem => { %>
+                                <tr>
+                                    <td class="cart__product__item">
+                                    <img src="/uploads/product/<%= productItem.productid.images[0] %>" alt="" class="cartImg" width="80" height="100">
+                                    <div class="cart__product__item__title" id="prdctprice">
+                                        <h6><%= productItem.productid.name %></h6>
+                                        <!-- Add your product rating logic here -->
+                                    </div>
+                                    </td>
+                                    <td class="cart__price" id="cart_price">$ <%= productItem.productid.price.toFixed(2) %></td>
+                                    <td class="cart__quantity">
+                                        <div class="pro-qty">
+                                        <span class="dec qtybtn" onclick="productquantity('<%= productItem.productid._id %>',-1)">-</span>
+                                        <input type="text" value="<%= productItem.count %>" data-productid="<%= productItem.productid._id %>" min="1">
+                                            <span class="inc qtybtn" onclick="productquantity('<%= productItem.productid._id %>',1)">+</span>
+                                    </div>
+                                    </td>
+                                    <td class="cart__total" id="cart_total">$ <%= (productItem.productid.price * productItem.count).toFixed(2) %></td>
+                                    <td class="cart__close" ><span class="icon_close" id="delete-product" onclick="prddlt()" data-productid="<%= productItem.productid._id %>"></span></td>
+                                </tr>
+                                <% }) %>
+                            <% }) %>
+                            <% } %>
+                            </tbody>
+
+
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+        <script>
+
+            function productquantity(productID, newQuantity) {
+  // Send an AJAX request to update the product quantity in the backend
+  console.log("hello");
+  $.ajax({
+    url: "/updateProductQuantity", // Replace with the actual endpoint
+    method: "POST",
+    data: {
+      productID: productID,
+      quantity: newQuantity,
+    },
+    success: function (response) {
+      $("#Cart").load("/cart #Cart");
+
+      // Handle the response if needed
+    },
+    error: function (error) {
+      console.error("Error updating product quantity:", error);
+    },
+  });
+}
+        </script>
+
+
+ <script>
+
+    // ...
+
+    function prddlt() {
+
+    // Listen for the click event on the close icon
+    $('body').on('click', '.icon_close', function() {
+        var $closeIcon = $(this);
+        var productID = $closeIcon.data('productid');
+
+
+        // Call the backend to delete the product
+        deleteProductFromCart(productID ,$closeIcon);
+    });
+
+    // ...
+
+    function deleteProductFromCart(productID , $closeIcon ) {
+        // Send an AJAX request to delete the product from the cart
+       $.ajax({
+    url: '/deleteCartItems', // Replace with the actual endpoint
+    method: 'POST', // Use the appropriate HTTP method
+    data: {
+        id: productID
+    },
+    success: function (response) {
+        if (response.success) {
+            // Handle success (if needed)
+            $("#Cart").load("/cart #Cart");
+       console.log("response")
+            // Remove the HTML element for the deleted item
+           $closeIcon.closest('tr').remove();
+           
+        } else {
+            console.error('Error deleting product from cart');
+        }
+    },
+    error: function (error) {
+        console.error('Error deleting product from cart:', error);
+    }
+});
+    }
+}
+
+
+    </script>
+
+
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-6">
+                <div class="cart__btn">
+                    <a href="/shop">Continue Shopping</a>
+                </div>
+            </div>
+            <!-- <div class="col-lg-6 col-md-6 col-sm-6">
+                <div class="cart__btn update__btn">
+                    <a href="#"><span class="icon_loading"></span> Update cart</a>
+                </div>
+            </div> -->
+        </div>
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="discount__content">
+                    <h6>Discount codes</h6>
+                    <form action="#">
+                        <input type="text" placeholder="Enter your coupon code">
+                        <button type="submit" class="site-btn">Apply</button>
+                    </form>
+                </div>
+            </div>
+            <div class="col-lg-4 offset-lg-2">
+                <div class="cart__total__procced">
+                    <h6>Cart total</h6>
+                     <% if(cartdata.length > 0) { %>
+                        <ul >
+
+                            <li>Subtotal <span id="subtotal">$ <%= totalsum.toFixed(2) %></span></li>
+                           
+                            <li>Delevery fee<span id="subtotal">$ <%= express.toFixed(2) %></span></li>
+                            <li>Total <span id="total">$ <%= (totalsum + express).toFixed(2) %></span></li>
+                                  
+                             </ul>
+<% } %>
+
+<% if(totalsum.toFixed(2) != 0) { %>
+                    <a href="/checkout" class="primary-btn">Proceed to checkout</a>
+                    <% }else{ %>
+                        <a href="#" onclick="emptycart()" class="primary-btn">Proceed to checkout</a>
+                        <% } %>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<script>
+    function emptycart(){
+        Swal.fire({
+                            icon: "warning",
+                            title: "Your cart is empty",
+                            confirmButtonColor: "#3085d6",
+                            confirmButtonText: "Shop Now",
+                            showCancelButton: true,
+                            cancelButtonColor: "#d33",
+                            text: "Please put somthing in your cart",
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location.href = "/shop"; // Redirect to the login page
+                            }
+                        });
+    }
+</script>
+
+    <!-- Shop Cart Section End -->
+
+
+
+    
+
+    <!-- <script>    var proQty = $('.pro-qty');
+proQty.prepend('<span class="dec qtybtn">-</span>');
+proQty.append('<span class="inc qtybtn">+</span');
+
+proQty.on('click', '.qtybtn', function () {
+    var $button = $(this);
+    var $input = $button.parent().find('input');
+    var oldValue = parseFloat($input.val());
+    var productID = $input.data('productid');
+    var qty = 0
+
+    if ($button.hasClass('inc')) {
+        var newVal = oldValue + 1;
+        qty = 1
+        updateProductQuantity(productID, qty);
+    } else {
+        // Don't allow decrementing below zero
+        if (oldValue > 1) {
+            var newVal = oldValue - 1;
+            qty = -1
+            updateProductQuantity(productID, qty);
+        } else {
+            newVal = 0;
+        }
+    }
+
+    $input.val(newVal);
+    
+    // Update the total price based on the new quantity
+    
+    updateTotalPrice($input);
+});
+
+// Function to update the total price based on the quantity input
+function updateTotalPrice($input) {
+    var quantity = parseFloat($input.val());
+    var $row = $input.closest('tr');
+    var price = parseFloat($row.find('.cart__price').text().replace('$ ', ''));
+    var totalElement = $row.find('.cart__total');
+
+    var newTotal = (price * quantity).toFixed(2);
+    totalElement.text('$ ' + newTotal);
+
+    // Calculate and update the subtotal and total amounts after the change
+    updateCartTotals();
+}
+
+function updateCartTotals() {
+    var totalSum = 0;
+
+    // Iterate through each row in the cart
+    $('.cart__product__item').each(function () {
+        var price = parseFloat($(this).find('.cart__price').text().replace('$ ', ''));
+        var quantity = parseFloat($(this).find('input').val());
+        totalSum += price * quantity;
+    });
+
+    // Update the cart totals using the updated subtotal and express values
+    var subtotalElement = document.getElementById('subtotal');
+    var totalElement = document.getElementById('total');
+    // var express = 49/* your express value here */;
+
+    if (subtotalElement && totalElement) {
+        // Update the subtotal
+        subtotalElement.textContent = '$ ' + totalSum.toFixed(2);
+
+        // Update the total, including the express cost
+        var totalWithExpress = totalSum + express;
+        totalElement.textContent = '$ ' + totalWithExpress.toFixed(2);
+    }
+}
+
+function updateProductQuantity(productID, newQuantity) {
+    // Send an AJAX request to update the product quantity in the backend
+    console.log("hello")
+    $.ajax({
+        url: '/updateProductQuantity', // Replace with the actual endpoint
+        method: 'POST',
+        data: {
+            productID: productID,
+            quantity: newQuantity
+        },
+        success: function (response) {
+            // Handle the response if needed
+        },
+        error: function (error) {
+            console.error('Error updating product quantity:', error);
+        }
+    });
+}
+
+    </script> -->
+    <!-- <script>
+        $(document).ready(function() {
+    // ...
+
+    // Listen for the click event on the close icon
+    $('body').on('click', '.icon_close', function() {
+        var $closeIcon = $(this);
+        var productID = $closeIcon.data('productid');
+
+
+        // Call the backend to delete the product
+        deleteProductFromCart(productID ,$closeIcon);
+    });
+
+    // ...
+
+    function deleteProductFromCart(productID , $closeIcon ) {
+        // Send an AJAX request to delete the product from the cart
+       $.ajax({
+    url: '/deleteCartItems', // Replace with the actual endpoint
+    method: 'POST', // Use the appropriate HTTP method
+    data: {
+        id: productID
+    },
+    success: function (response) {
+        if (response.success) {
+            // Handle success (if needed)
+       console.log("response")
+            // Remove the HTML element for the deleted item
+           $closeIcon.closest('tr').remove();
+        } else {
+            console.error('Error deleting product from cart');
+        }
+    },
+    error: function (error) {
+        console.error('Error deleting product from cart:', error);
+    }
+});
+    }
+});
+
+    </script> -->
+<%- include("../partials/footer") %>

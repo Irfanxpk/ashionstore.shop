@@ -1,0 +1,248 @@
+<%- include("../partials/header") %>
+
+    <!-- Breadcrumb Begin -->
+    <div class="breadcrumb-option">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb__links">
+                        <a href="/  "><i class="fa fa-home"></i> Home</a>
+                        <a href="#">Products </a>
+                        <span>Essential structured blazer</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Breadcrumb End -->
+
+    <!-- Product Details Section Begin -->
+    <section class="product-details spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="product__details__pic">
+                        <div class="product__details__pic__left product__thumb nice-scroll">
+                            <% product.images.forEach((images, index) => { %>
+                                <a class="pt <%= index === 0 ? 'active' : '' %>" href="#product-<%= index + 1 %>">
+                                    <img src="/uploads/product/<%= images %>" alt="">
+                                </a>
+                            <% }); %>
+                        </div>
+                        <div class="product__details__slider__content">
+                            <div class="product__details__pic__slider owl-carousel">
+                                <% product.images.forEach((image, index) => { %>
+                                    <img data-hash="product-<%= index + 1 %>" class="product__big__img" src="/uploads/product/<%= image %>" alt="">
+                                <% }); %>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="product__details__text">
+                        <h3><%= product.name %> <span>Brand:Allen Solly </span></h3>
+                        <div class="rating">                  
+                                            <!-- <%= product.brand %> -->
+                            <!-- Display your product's rating here -->
+                        </div>
+                        <div class="product__details__price">$ <%= product.price %> <span>$ <%= product.price %></span></div>
+                        <p><%= product.description %></p>
+                        <div class="product__details__button">
+                            <div class="quantity">
+                                <span>Quantity:</span>
+                                <div class="pro-qty">
+                                    <input type="text" value="1">
+                                </div>
+                            </div>
+                            <% if (locals.already) { %>
+                                 <a href="/cart" class="cart-btn"  ><span class="icon_bag_alt" ></span>Go To Cart</a>
+
+                                <% } else { %>
+
+                            <a href="#" class="cart-btn" id="addtocart" onclick="addToCart('<%= product._id %>')" style="display: block;"><span class="icon_bag_alt" ></span> Add to cart</a>
+                            <a href="/cart" class="cart-btn" id="gotocart"style="display: none;" ><span class="icon_bag_alt" ></span>Go To Cart</a>
+                            <% } %>
+                            <ul>
+                                <li><a href="#"><span class="icon_heart_alt"></span></a></li>
+                                <li><a href="#"><span class="icon_adjust-horiz"></span></a></li>
+                            </ul>
+                        </div>
+                        <div class="product__details__widget">
+                            <ul>
+                                <li>
+                                    <% if(product.stock > 0){ %>
+                                    <span>Availability:</span>
+                                    <div class="stock__checkbox">
+                                        <label for="stockin">
+                                            In Stock
+                                            <!-- <input type="checkbox" id="stockin"> -->
+                                            <!-- <span class="checkmark"></span> -->
+                                        </label>
+                                    </div>
+                                    <% }else { %>
+                                        <span>Availability:</span>
+                                    <div class="stock__checkbox">
+                                        <label for="stockin">
+                                            Out Of Stock
+                                            <!-- <input type="checkbox" id="stockin"> -->
+                                            <!-- <span class="checkmark"></span> -->
+                                        </label>
+                                    </div>
+                                     <% } %>
+                                </li>
+                                <!-- colour and balce ddetails -->
+                                
+                                    <span>Promotions:</span>
+                                    <p>Free shipping</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="related__title">
+                        <h5>RELATED PRODUCTS</h5>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-4 col-sm-6">
+                    <div class="product__item">
+                        <div class="product__item__pic set-bg" data-setbg="/img/product/related/rp-1.jpg">
+                            <div class="label new">New</div>
+                            <ul class="product__hover">
+                                <li><a href="/img/product/related/rp-1.jpg" class="image-popup"><span class="arrow_expand"></span></a></li>
+                                <li><a href="#"><span class="icon_heart_alt"></span></a></li>
+                                <li><a href="#"><span class="icon_bag_alt"></span></a></li>
+                            </ul>
+                        </div>
+                        <div class="product__item__text">
+                            <h6><a href="#">Buttons tweed blazer</a></h6>
+                            <div class="rating">
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                            </div>
+                            <div class="product__price">$ 59.0</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-4 col-sm-6">
+                    <div class="product__item">
+                        <div class="product__item__pic set-bg" data-setbg="/img/product/related/rp-2.jpg">
+                            <ul class="product__hover">
+                                <li><a href="/img/product/related/rp-2.jpg" class="image-popup"><span class="arrow_expand"></span></a></li>
+                                <li><a href="#"><span class="icon_heart_alt"></span></a></li>
+                                <li><a href="#"><span class="icon_bag_alt"></span></a></li>
+                            </ul>
+                        </div>
+                        <div class="product__item__text">
+                            <h6><a href="#">Flowy striped skirt</a></h6>
+                            <div class="rating">
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                            </div>
+                            <div class="product__price">$ 49.0</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-4 col-sm-6">
+                    <div class="product__item">
+                        <div class="product__item__pic set-bg" data-setbg="/img/product/related/rp-3.jpg">
+                            <div class="label stockout">out of stock</div>
+                            <ul class="product__hover">
+                                <li><a href="/img/product/related/rp-3.jpg" class="image-popup"><span class="arrow_expand"></span></a></li>
+                                <li><a href="#"><span class="icon_heart_alt"></span></a></li>
+                                <li><a href="#"><span class="icon_bag_alt"></span></a></li>
+                            </ul>
+                        </div>
+                        <div class="product__item__text">
+                            <h6><a href="#">Cotton T-Shirt</a></h6>
+                            <div class="rating">
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                            </div>
+                            <div class="product__price">$ 59.0</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-4 col-sm-6">
+                    <div class="product__item">
+                        <div class="product__item__pic set-bg" data-setbg="/img/product/related/rp-4.jpg">
+                            <ul class="product__hover">
+                                <li><a href="/img/product/related/rp-4.jpg" class="image-popup"><span class="arrow_expand"></span></a></li>
+                                <li><a href="#"><span class="icon_heart_alt"></span></a></li>
+                                <li><a href="#"><span class="icon_bag_alt"></span></a></li>
+                            </ul>
+                        </div>
+                        <div class="product__item__text">
+                            <h6><a href="#">Slim striped pocket shirt</a></h6>
+                            <div class="rating">
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                            </div>
+                            <div class="product__price">$ 59.0</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Product Details Section End -->
+
+   
+
+
+
+<!-- AddToCart -->
+<script>
+                        function addToCart(id) {
+            fetch(`/addtoCart/<%= product._id %>`)
+                .then(response => response.json())
+                .then(data => {
+                if (data.success) {
+                    Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: data.message,
+                    showConfirmButton: false,
+                    timer: 1500, // Adjust the duration as needed
+                    });
+              
+                     document.getElementById('addtocart').style.display = "none";
+                     document.getElementById('gotocart').style.display = "block";
+
+
+
+                    // You can add the product to the cart or perform other actions here
+                } else {
+                    Swal.fire({
+                    icon: 'warning', // Change the icon to 'error' for unsuccessful actions
+                    title: 'Oops!',
+                    text: data.message,
+                    showConfirmButton: false,
+                    timer: 1500, // Adjust the duration as needed
+                    });
+                    console.error('Error:', data.message);
+                }
+                })
+                .catch(error => {
+                console.error('Error:', error);
+                });
+            }
+
+         </script>
+
+<%- include("../partials/footer") %>
+<script src="/js/cartajax.js"></script>

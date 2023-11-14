@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.5.0/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="/css/style.otp.css">
+   
+
+</head>
+<body>
+   
+
+<div class="alert alert-danger alert-dismissible fade show fixed-top" role="alert" id="validation-alert2" style="display: none; text-align: center;">
+    <span aria-hidden="true">&times;</span>
+  </a>
+  <div id="otpmsg"> <!-- Wrap the text in a <div> for center alignment -->
+   
+  </div>
+</div>
+ 
+    <div class="" id="prompt">
+        Enter the code sent to your Email below to log in!
+    </div>
+    <form method="get"  class="" id="digit-group" data-group-name="digits" data-autosubmit="false" autocomplete="off" action="/verify-otp">
+      <input type="text" id="digit-1" name="digit-1" data-next="digit-2" />
+      <input type="text" id="digit-2" name="digit-2" data-next="digit-3" data-previous="digit-1" />
+      <input type="text" id="digit-3" name="digit-3" data-next="digit-4" data-previous="digit-2" />
+      <span class="" id="splitter">&ndash;</span>
+      <input type="text" id="digit-4" name="digit-4" data-next="digit-5" data-previous="digit-3" />
+      <input type="text" id="digit-5" name="digit-5" data-next="digit-6" data-previous="digit-4" />
+      <input type="text" id="digit-6" name="digit-6" data-previous="digit-5" />
+      <div class="button" style="display: flex; justify-content: center; align-items: center; margin-top: 20px; ">
+        <button class="action btn-primary" type="submit" id="verifyOtp">Verify Me</button>
+      </div>    
+      <!-- <button class="action btn-primary" id="resendOtp"  >Resend OTP</button> -->
+    </form>
+    <div class="pt-2">
+    <button class="action btn-primary" id="resendOtp"  style="display: none;">Resend OTP</button>
+   </div>
+    <div style="height: 20px;"></div>
+    <div id="timer"></div>
+    
+<div id="message">
+  <% if (locals.message) { %>
+                        <p class="text-danger " style="color: darkseagreen; text-align: center;"> <%= locals.message %></p>
+                            <% } %>
+</div>
+
+<script src="/js/jquery.otp.js"></script>
+
+</body>
+</html>
+</html>
