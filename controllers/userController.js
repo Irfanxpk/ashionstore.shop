@@ -3,10 +3,9 @@ const  bcrypt = require("bcrypt");
 const nodemailer = require('nodemailer')
 const fs = require('fs')
 const ejs = require("ejs");
-const dotenv = require('dotenv');
+ require('dotenv').config()
 const { Console, log } = require('console');
-dotenv.config()
-const Razorpay = require('razorpay')
+const razorpay = require('razorpay')
 const {key_id , key_secret }= process.env
 
 const Product = require('../models/Product')
@@ -16,10 +15,10 @@ const Order = require('../models/orderModel')
 
 
 
-const razorpayInstance = new Razorpay({
+const Razorpay = new razorpay({
   
-  key_id: key_id,
-  key_secret: key_secret
+  key_id: process.env.key_id,
+  key_secret: process.env.key_secret
 })
 
 let otp;
@@ -109,6 +108,7 @@ const securePassword = async (password) => {
 const home = async (req,res)=>{
   const isLoggedIn = false
   const products = await Product.findMany({status:'active'})
+ 
     res.render('index',{isLoggedIn , products});
 }
 
@@ -294,8 +294,10 @@ const login = async (req,res)=>{
 //===========================User Authentication===================================
 const loginvalid = async (req,res)=>{
   try {
+     console.log(process.env.EMAIL);
   const logemail = await User.findOne({ email: req.body.email });
  const loginPassword = req.body.Password;
+ if(logemail){
  const logpass = await bcrypt.compare(loginPassword, logemail.password)
  if(logemail&&logpass){
 console.log("sdgjfhds")
@@ -320,11 +322,13 @@ console.log("sdgjfhds")
   res.render('login',{message:"you are blocked by admin"});
  }
 }else if(!logemail){
-  res.render('login',{email:"INVALID PASSWORD"});
+  res.render("login", { email: "INVALID PASSWORD" });
 }else {
   res.render('login',{password:"INVALID PASSWORD"});
 }
-  
+} else {
+ res.render("login", { email: "INVALID EMAIL" });
+}
 }catch(err){
   console.log(err)
 }
@@ -479,9 +483,73 @@ const productPage = async (req, res) => {
 
 
 //===========================Payment things =============================
-const Payment = async (req, res) => {
+const createOrder = async (req, res) => {
+  try {
+    console.log("create order")
+    const options = {
+      amount: 500000, // Amount in smallest currency unit (e.g., paisa)
+      currency: "INR", // Currency code
+      receipt: `order_rcptid_${Math.floor(Math.random() * 1000)}`,
+    };
+    console.log("create order222")
+      const order = await Razorpay.orders.create(options)
+      console.log(order,";aosdfhasjf")
+      res.json(order);
+    
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
 
-}
+
+//==========================Verify order =========================
+const verifypayment = async (req, res) => {
+  try {
+    console.log("verifff");
+
+    const user_id = req.session.user_id;
+    const paymentData = req.body;
+    const cartData = await Cart.find({ userid: user_id });
+
+    console.log(
+      "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+    );
+
+    console.log(cartData);
+
+    const hmac = crypto.createHmac("sha256", process.env.RAZORPAYSECRETKEY);
+    hmac.update(
+      paymentData.payment.razorpay_order_id +
+        "|" +
+        paymentData.payment.razorpay_payment_id
+    );
+    const hmacValue = hmac.digest("hex");
+    if (hmacValue === paymentData.payment.razorpay_signature) {
+      //     const productIds = cartData.products.map((product) => product.productId);
+      // console.log("Product IDs:", productIds);
+      //       await product.findByIdAndUpdate(
+      //         { _id: productIds },
+      //         { $inc: { quantity: -count } })
+
+      await Order.findByIdAndUpdate(
+        { _id: paymentData.order.receipt },
+        {
+          $set: {
+            paymentStatus: "placed",
+            paymentId: paymentData.payment.razorpay_payment_id,
+          },
+        }
+      );
+
+      await Cart.deleteOne({ userid: user_id });
+      console.log("XP 9");
+      res.json({ placed: true });
+    }
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
 
 
 //===============================PLace Order============================
@@ -738,6 +806,8 @@ module.exports = {
   deleteAddress,
   updateAddress,
   orderSuccess,
+  createOrder,
+  verifypayment,
   search,
   filter,
   cancelOrder,

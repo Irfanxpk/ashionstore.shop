@@ -6,6 +6,7 @@ const path = require('path');
 const mongoose = require('mongoose');
 const app = express();
 const session = require('express-session');
+require("dotenv").config();
 // const noCache = require('nocache');
 const crypto = require('crypto');
 
@@ -25,12 +26,14 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public"), { maxAge: 3600000 }));
 // app.use(nocache());
 
+
 app.use(session({
     secret:crypto.randomBytes(64).toString('hex'),   
     resave: false,
     saveUninitialized: true,
     cookie: { secure: false },
 }))
+
 
 
 //=============================================Routes

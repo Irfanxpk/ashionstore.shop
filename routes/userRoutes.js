@@ -32,6 +32,8 @@ router.post("/EditAddress/:id", userController.updateAddress);
 router.get('/deleteAddress/:id',userController.deleteAddress);
 router.post("/updateUser", userController.updateUser);
 router.post('/placeorder',userController.placeOrder)
+router.post("/create-order", userController.createOrder);
+router.post("/verify-payment", userController.verifypayment);
 router.get('/orderSuccess',userController.orderSuccess)
 router.get("/search" , userController.search);
 router.post('/filter',userController.filter)

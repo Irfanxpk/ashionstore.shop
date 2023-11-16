@@ -452,7 +452,7 @@ Deliver To New Address</p>
                 <div class="col-lg-3 col-sm-6">
                     <div data-bs-toggle="collapse">
                         <label class="card-radio-label">
-                            <input type="radio" name="pay-method" id="pay-methodoption1" class="card-radio-input" value="Credit / Debit Card">
+                            <input type="radio" name="pay-method" id="pay-methodoption1" class="card-radio-input" value="Online">
 <span class="card-radio py-3 text-center text-truncate">
 <i class="bx bx-credit-card d-block h2 mb-3"></i>
 Credit / Debit Card
@@ -463,7 +463,7 @@ Credit / Debit Card
 <div class="col-lg-3 col-sm-6">
     <div>
         <label class="card-radio-label">
-            <input type="radio" name="pay-method" id="pay-methodoption2" class="card-radio-input" value="Paypal">
+            <input type="radio" name="pay-method" id="pay-methodoption2" class="card-radio-input" value="Online">
             <span class="card-radio py-3 text-center text-truncate">
                 <i class="bx bxl-paypal d-block h2 mb-3"></i>
                 Paypal
@@ -540,7 +540,7 @@ Credit / Debit Card
         </div> 
         <div class="col">
             <div class="text-end mt-2 mt-sm-0">
-               <button class="btn btn-success" onclick="submitForm()"> 
+               <button class="btn btn-success" onclick="submitForm2()"> 
                     <i class="mdi mdi-cart-outline me-1" ></i> Procced </a>
                    </button>
                 </div>
@@ -553,16 +553,16 @@ Credit / Debit Card
 
 
 <script>
-    function submitForm() {
+    function submitForm2() {
       // Fetch selected values from the form
-      
+      console.log("Fetching selected values")
       const addressType = document.querySelector('input[name="address"]:checked').value;
       const payMethod = document.querySelector('input[name="pay-method"]:checked').value;
       
+      console.log("iam is submit")
       // Validate form based on selected address type
       if (addressType == "NewAddress") {
           // Validate new address fields
-          console.log("iam is submit")
 
         const name = document.getElementById("name").value;
         const email = document.getElementById("email").value;
@@ -571,10 +571,10 @@ Credit / Debit Card
         const state = document.getElementById("state").value;
         const city = document.getElementById("city").value;
         const zipCode = document.getElementById('zip').value;
-        if (!zipCode || !city || !state || !name || !phone || !address || !email ) {
-          Swal.fire("Please fill All The Field for the new address");
-          return;
-        }
+        // if (!zipCode || !city || !state || !name || !phone || !address || !email ) {
+        //   Swal.fire("Please fill all The Field for the new address");
+        //   return;
+        // }
  
         const  formData = {
               name:name,
@@ -595,11 +595,15 @@ Credit / Debit Card
         }).then((result) => {
             if (result.isConfirmed) {
             // Continue with the form submission
-            submitFormInternal(formData, 1);
+            if(payMethod == 'Online'){
+                                
+               razorpay()
+
+            }
             } else {
             // Continue with the form submission
             console.log("iam inside denied");
-            submitFormInternal(formData, 0);
+            // submitFormInternal(formData, 0);
             }
   });
       } else {
@@ -609,9 +613,95 @@ Credit / Debit Card
            addressid: addressid,
            payMethod:payMethod
         }
-        submitFormInternal(formData , -1);
+        // submitFormInternal(formData , -1);
       }
     }
+
+
+function razorpay(){
+
+    console.log("razore pay here")
+ fetch('/create-order', {
+             method: 'POST',
+                }).then(order => order.json())
+    .then(order => {
+                console.log(order);
+                var options = {
+                "key": "rzp_test_5ObyJzizTQWfpx",
+                "amount": order.amount,
+                "currency": "INR",
+                "name": "HIS&HERS",
+                "description": "Test Transaction",
+                // "image": "user/images/logo.jpg",
+                "order_id": order.id,
+                handler: function (response) {
+                    console.log("hello")
+                    verifyPayment(response, order);
+                     submitFormInternal(formData, 1);
+                },
+                "prefill": {
+                    "name": "HIS&HERS",
+                    "email": "info@his&hers.com",
+                    "contact": "9000090000"
+                },
+                "notes": {
+                    "address": "HIS&HERS"
+                },
+                "theme": {
+                    "color": "#cc9967"
+                }
+                };
+                var rzp1 = new Razorpay(options);
+                rzp1.open();
+            
+               
+            }).catch(error => {
+    console.error('Error creating order:', error);
+  });
+
+}
+
+
+function verifyPayment(payment, order) {
+    console.log('aass');
+    // const amount2 = document.getElementById("total").value;
+    // console.log(amount2);
+    $.ajax({
+      url: "/verify-payment",
+      method: "post",
+      data: {
+        payment: payment,
+        order: order,
+        // amount2: amount2,
+      },
+      success: (response) => {
+        if (response.placed === true) {
+          window.location.href = '/order-success';
+        } else {
+          Swal.fire({
+            position: "center",
+            icon: "error",
+            title: "Payment failed",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        }
+      },
+    });
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     function submitFormInternal(formData , val) {
       // Proceed with form submission using Fetch API or any other method
@@ -732,6 +822,7 @@ $ 745.2
 </div>
 
 </div>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"></script>
 <script type="text/javascript">
