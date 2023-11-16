@@ -6,10 +6,21 @@ const ejs = require("ejs");
 const dotenv = require('dotenv');
 const { Console, log } = require('console');
 dotenv.config()
+const Razorpay = require('razorpay')
+const {key_id , key_secret }= process.env
+
 const Product = require('../models/Product')
 const Address = require('../models/addressModel')
 const Cart = require('../models/cartModel')
 const Order = require('../models/orderModel')
+
+
+
+const razorpayInstance = new Razorpay({
+  
+  key_id: key_id,
+  key_secret: key_secret
+})
 
 let otp;
 let email2;
@@ -459,6 +470,17 @@ const productPage = async (req, res) => {
   }
 }
 
+
+
+
+
+
+
+
+//===========================Payment things =============================
+const Payment = async (req, res) => {
+
+}
 
 
 //===============================PLace Order============================
