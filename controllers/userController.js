@@ -7,7 +7,7 @@ const ejs = require("ejs");
 const { Console, log } = require('console');
 const razorpay = require('razorpay')
 const {key_id , key_secret }= process.env
-
+const crypto = require('crypto')  
 const Product = require('../models/Product')
 const Address = require('../models/addressModel')
 const Cart = require('../models/cartModel')
@@ -517,12 +517,13 @@ const verifypayment = async (req, res) => {
 
     console.log(cartData);
 
-    const hmac = crypto.createHmac("sha256", process.env.RAZORPAYSECRETKEY);
+    const hmac = crypto.createHmac("sha256", process.env.key_secret);
     hmac.update(
       paymentData.payment.razorpay_order_id +
-        "|" +
-        paymentData.payment.razorpay_payment_id
-    );
+      "|" +
+      paymentData.payment.razorpay_payment_id
+      );
+      console.log(hmac);
     const hmacValue = hmac.digest("hex");
     if (hmacValue === paymentData.payment.razorpay_signature) {
       //     const productIds = cartData.products.map((product) => product.productId);
@@ -531,17 +532,17 @@ const verifypayment = async (req, res) => {
       //         { _id: productIds },
       //         { $inc: { quantity: -count } })
 
-      await Order.findByIdAndUpdate(
-        { _id: paymentData.order.receipt },
-        {
-          $set: {
-            paymentStatus: "placed",
-            paymentId: paymentData.payment.razorpay_payment_id,
-          },
-        }
-      );
+      // await Order.findByIdAndUpdate(
+      //   { _id: paymentData.order.receipt },
+      //   {
+      //     $set: {
+      //       paymentStatus: "placed",
+      //       paymentId: paymentData.payment.razorpay_payment_id,
+      //     },
+      //   }
+      // );
 
-      await Cart.deleteOne({ userid: user_id });
+      // await Cart.deleteOne({ userid: user_id });
       console.log("XP 9");
       res.json({ placed: true });
     }
@@ -580,7 +581,7 @@ const savedAddress = await User.findOneAndUpdate(
   { upsert: true, new: true }
 );
 
- addressid = savedAddress.addresses[savedAddress.addresses.length -1]._id
+ addressid = await savedAddress.addresses[savedAddress.addresses.length -1]._id
 console.log(addressid)
 
 }else if (val == 0){
@@ -602,7 +603,7 @@ const newAddress = {
    { upsert: true, new: true }
  );
 
- addressid = savedAddress.addresses[savedAddress.addresses.length - 1]._id;
+ addressid = await savedAddress.addresses[savedAddress.addresses.length - 1]._id;
 }else{
 
 addressid= formData.addressid

@@ -571,10 +571,10 @@ Credit / Debit Card
         const state = document.getElementById("state").value;
         const city = document.getElementById("city").value;
         const zipCode = document.getElementById('zip').value;
-        // if (!zipCode || !city || !state || !name || !phone || !address || !email ) {
-        //   Swal.fire("Please fill all The Field for the new address");
-        //   return;
-        // }
+        if (!zipCode || !city || !state || !name || !phone || !address || !email ) {
+          Swal.fire("Please fill all The Field for the new address");
+          return;
+        }
  
         const  formData = {
               name:name,
@@ -597,11 +597,16 @@ Credit / Debit Card
             // Continue with the form submission
             if(payMethod == 'Online'){
                                 
-               razorpay()
+               razorpay(formData , 1)
 
             }
             } else {
             // Continue with the form submission
+            if(payMethod == 'Online'){
+                
+                razorpay(formData , 0)
+
+            }
             console.log("iam inside denied");
             // submitFormInternal(formData, 0);
             }
@@ -613,12 +618,19 @@ Credit / Debit Card
            addressid: addressid,
            payMethod:payMethod
         }
-        // submitFormInternal(formData , -1);
-      }
+
+         if(payMethod == 'Online'){
+                
+                razorpay(formData , -1)
+
+            }else{
+        submitFormInternal(formData , -1);
+            }
+    }
     }
 
 
-function razorpay(){
+function razorpay(formData , val){
 
     console.log("razore pay here")
  fetch('/create-order', {
@@ -636,8 +648,8 @@ function razorpay(){
                 "order_id": order.id,
                 handler: function (response) {
                     console.log("hello")
-                    verifyPayment(response, order);
-                     submitFormInternal(formData, 1);
+                    verifyPayment(response, order , formData , val);
+                    
                 },
                 "prefill": {
                     "name": "HIS&HERS",
@@ -662,7 +674,7 @@ function razorpay(){
 }
 
 
-function verifyPayment(payment, order) {
+function verifyPayment(payment, order , formData , val) {
     console.log('aass');
     // const amount2 = document.getElementById("total").value;
     // console.log(amount2);
@@ -676,7 +688,8 @@ function verifyPayment(payment, order) {
       },
       success: (response) => {
         if (response.placed === true) {
-          window.location.href = '/order-success';
+ submitFormInternal(formData, val);
+        //   window.location.href = '/orderSuccess';
         } else {
           Swal.fire({
             position: "center",
