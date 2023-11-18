@@ -53,8 +53,8 @@ const adminLogin = async (req, res) => {
         req.session.admin_id = admdata.Name;
 
         const user = await User.find()
-        // res.redirect("/admin/index");
-        res.render("index", { user });
+        res.redirect("/admin/index");
+        // res.render("index", { user });
       } else {
         res.render("signin", { message: "Wrong password..!!" });
       }
