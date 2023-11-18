@@ -122,6 +122,9 @@ const userinfo = async (req, res)=>{
   const orders = await Order.find({user_Id: userData._id});
   console.log(orders)
   console.log(addresses)
+  await orders.sort(
+    (a, b) => new Date(b.purchaseDate) - new Date(a.purchaseDate)
+  );
   const isLoggedIn = await req.session.user_id ? true : false
 // res.render('userProfile',{userData ,addresses , isLoggedIn:true})
  res.render('userProfile',{isLoggedIn , userData , orders});
@@ -606,13 +609,13 @@ const newAddress = {
  addressid = await savedAddress.addresses[savedAddress.addresses.length - 1]._id;
 }else{
 
-addressid= formData.addressid
+addressid = formData.addressid
 
 }
 
   const payment = formData.payMethod;
   console.log(addressid );
-  const status = payment == "Cash on delivery" ? "placed" : "pending";
+  const status = payment == "COD" ? "placed" : "pending";
 
   const addressdata =
     val == 0
@@ -758,22 +761,40 @@ const filter = async (req, res) =>{
 
 
 //=========================cancelOrder======================
-const cancelOrder = async (req,res) => {
+const cancelOrder = async (req, res) => {
   try {
-    const id = req.params.id;
-    console.log(id); 
+    const orderId = req.params.id;
 
-    const cancel = await Order.updateOne(
-      { _id: id },
-      { $set: { status: "Cancelled" } }
-    );
-    res.redirect("/userProfile")
-  // const order = await Order.find({_id: req.})
+    // Retrieve order details by ID
+    const order = await Order.findById(orderId);
 
-  }catch (error) {
+    if (!order) {
+      return res.status(404).json({ message: "Order not found" });
+    }
+
+    // Update order status to "Cancelled"
+    await Order.findByIdAndUpdate(orderId, { status: "Cancelled" });
+
+    // Restore stock for each product in the cancelled order
+    for (const item of order.items) {
+      const productId = item.productid;
+      const quantity = item.count;
+
+      // Update product stock by adding the cancelled quantity
+      await Product.findByIdAndUpdate(productId, {
+        $inc: { stock: quantity },
+      });
+    }
+
+    // Redirect or send a response
+    return res.redirect("/userProfile");
+  } catch (error) {
     console.log(error.message);
+    return res.status(500).json({ message: "Internal server error" });
   }
-}
+};
+
+
 //==========================Cart Page===========================
 // const loadcart = async (req,res)=>{
 //   res.render('cart')

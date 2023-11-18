@@ -421,6 +421,7 @@ function submitForm() {
 <% if(orders.length > 0) {%>
 
 <% orders.forEach(order => { %>
+  <% order.items.forEach(item => { %>
 <div class="bg-white card mb-4 order-list shadow-sm">
 
 
@@ -432,7 +433,7 @@ function submitForm() {
     </a>
     <div class="media">
       <a href="#">
-        <img class="mr-4" src="uploads/product/<%= order.items[0].img %>" alt="Generic placeholder image">
+        <img class="mr-4" src="uploads/product/<%= item.img %>" alt="Generic placeholder image">
       </a>
       <div class="media-body">
         <a href="#">
@@ -440,18 +441,21 @@ function submitForm() {
         </a>
         <h6 class="mb-2">
           <a href="#"></a>
-          <a href="/orderDetails/<%= order._id %>" class="text-black"><%= order.items[0].name %></a>
+          <a href="/orderDetails/<%= order._id %>" class="text-black"><%= item.name %></a>
         </h6>
        
-        <p class="text-gray mb-3"><i class="icofont-list"></i> ORDER #<%= order._id %> <i class="icofont-clock-time ml-2"><br></i> <%= order.purchaseDate.toTimeString() %></p>
-        <% order.items.forEach(item => { %>
+        <p class="text-gray mb-3"><i class="icofont-list"></i> ORDER #<%= order._id %> <i class="icofont-clock-time ml-2"><br></i> <% const formattedDate = new Date(order.purchaseDate).toLocaleString(); %>
+<%= formattedDate %></p>
+        
           <p class="text-dark"><%= item.name %> x <%= item.count %></p>
-        <% }); %>
+        
         <hr>
         <div class="float-right">
           <!-- <a class="btn btn-sm btn-outline-primary" href="#"><i class="icofont-headphone-alt"></i> HELP</a> -->
           <!-- Replace the "REORDER" button with "CANCEL" button -->
+          <% if(order.status != 'Cancelled'){ %>
           <a class="btn btn-sm btn-danger" href="/cancelOrder/<%= order._id %>"><i class="icofont-close"></i> CANCEL</a>
+            <% } %>
         </div>
         <p class="mb-0 text-black text-primary pt-2">
           <span class="text-black font-weight-bold"> Total :</span> $<%= order.totalAmount %>
@@ -465,6 +469,7 @@ function submitForm() {
   
   
 </div>
+<% }); %>
 <% }); %>
 
 <% }else { %>
