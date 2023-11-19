@@ -114,7 +114,10 @@ const addCategory = async (req, res) => {
 
   try {
     const category = new Category({ name, description });
-    const check = await Category.find({ name:category.name});
+    const categoryName = category.name.toLowerCase();
+
+// Check for existing categories with the normalized name
+const check = await Category.find({ name: categoryName });
     if(check!=false) {
       res.render("addCategory",{message:"Category already exist"})
     }else{
@@ -139,13 +142,39 @@ const loadEdit = async (req, res) => {
 //================EDIT CATOGORY================
 const updateCategory = async (req, res) => {
   try {
-    const updatedCategory = {
-      name: req.body.name,
-      description: req.body.description,
-    };
 
-    await Category.findByIdAndUpdate(req.params.id, updatedCategory); // Update the category by ID
-    res.redirect('/admin/category'); // Redirect back to the category list page
+    const name= req.body.name
+    const description= req.body.description
+    
+     const category = await Category.findById(req.params.id)
+    const categoryName = name.toLowerCase();
+    if (categoryName != category.name) {
+
+      console.log("hello")
+// Check for existing categories with the normalized name
+const check = await Category.find({ name: categoryName });
+const category = await Category.findById(req.params.id); // Find the category by ID
+    if(check!=false) {
+      res.render("editCategory", { category });
+
+    }else{
+      res.render("editCategory", { category ,message:"Category already exist"});
+    }
+  }else{
+    
+        const updatedCategory = {
+          name: req.body.name,
+          description: req.body.description,
+        };
+    
+        await Category.findByIdAndUpdate(req.params.id, updatedCategory); // Update the category by ID
+        res.redirect('/admin/category'); // Redirect back to the category list page
+      
+      }
+    
+
+
+
   } catch (error) {
     console.error(error);
   }

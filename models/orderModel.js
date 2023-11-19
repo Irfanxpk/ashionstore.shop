@@ -5,9 +5,29 @@ const orderdetails = mongoose.Schema({
     type: String,
     required: true,
   },
-  deliveryDetails: {
-    type: Object,
-  },
+  addresses: [
+    {
+      location: {
+        type: String,
+      },
+      address: {
+        type: String,
+      },
+      city: {
+        type: String,
+      },
+      zip: {
+        type: String,
+      },
+      phone: String,
+      email: {
+        type: String,
+      },
+      state: {
+        type: String,
+      },
+    },
+  ],
   items: [
     {
       productid: {
