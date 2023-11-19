@@ -123,6 +123,30 @@
                         <input class="form-control bg-dark" type="file"  name="images" accept="image/*" multiple>
                     </div>
                  -->
+            <div class="mb-3 pt-4">
+                <label for="existingImages" class="form-label">Existing Product Images:</label>
+                <div id="existingImages">
+                    <% product.images.forEach(function(image, index) { %>
+                        <div class="d-flex align-items-center mb-2">
+                            <img src="/uploads/product/<%= image %>" alt="Product Image" class="img-thumbnail mr-2"
+                                style="width: 150px; height: 150px;">
+                            <form action="/admin/edit-product/<%= product._id %>/update-image/<%= index %>" method="post"
+                                enctype="multipart/form-data">
+                                <input type="file" name="updatedImage" accept="image/*">
+                                <button type="submit" class="btn btn-sm btn-primary">Update</button>
+                            </form>
+                        </div>
+                        <% }) %>
+                </div>
+            </div>
+            
+            <!-- Input for new images -->
+            <div class="mb-3 pt-4">
+                <label for="newImages" class="form-label">Upload Additional Product Images:</label>
+                <input class="form-control" type="file" id="newImages" name="newImages" accept="image/*" multiple>
+            </div>
+
+
                     <div class="m-n2">
                         <button class="btn btn-primary w-50 m-4  " type="submit">Update</button>
                     </div>
@@ -135,20 +159,20 @@
 
          
             <!-- Footer Start -->
-            <div class="container-fluid pt-4 px-4">
+            <!-- <div class="container-fluid pt-4 px-4">
                 <div class="bg-secondary rounded-top p-4">
                     <div class="row">
                         <div class="col-12 col-sm-6 text-center text-sm-start">
                             &copy; <a href="#">Your Site Name</a>, All Right Reserved. 
                         </div>
-                        <div class="col-12 col-sm-6 text-center text-sm-end">
+                        <div class="col-12 col-sm-6 text-center text-sm-end"> -->
                             <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
-                            Designed By <a href="https://htmlcodex.com">HTML Codex</a>
+                            <!-- Designed By <a href="https://htmlcodex.com">HTML Codex</a>
                             <br>Distributed By: <a href="https://themewagon.com" target="_blank">ThemeWagon</a>
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
             <!-- Footer End -->
         </div>
         <!-- Content End -->
