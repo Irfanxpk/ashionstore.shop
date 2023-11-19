@@ -29,22 +29,27 @@
                                 <div class="accordion" id="accordionExample">
                                     <div class="card">
                                         <div class="card-heading active">
-                                            <a data-toggle="collapse" data-target="#collapseOne">Women</a>
+                                            <a data-toggle="collapse" data-target="#collapseOne">Select By Category</a>
                                         </div>
                                         <div id="collapseOne" class="collapse show" data-parent="#accordionExample">
                                             <div class="card-body">
                                                 <ul>
-                                                    <li><a href="#">Coats</a></li>
+                                                    <% if(categories.length > 0) { %>
+                                                    <% categories.forEach(function(category) { %>
+                                                    <li><a href="/filter-category/<%= category._id %>"><%= category.name %></a></li>
+                                                    <% }); %>
+                                                    <% } %>
+                                                    <!-- <li><a href="#">Coats</a></li>
                                                     <li><a href="#">Jackets</a></li>
                                                     <li><a href="#">Dresses</a></li>
                                                     <li><a href="#">Shirts</a></li>
                                                     <li><a href="#">T-shirts</a></li>
-                                                    <li><a href="#">Jeans</a></li>
+                                                    <li><a href="#">Jeans</a></li> -->
                                                 </ul>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="card">
+                                    <!-- <div class="card">
                                         <div class="card-heading">
                                             <a data-toggle="collapse" data-target="#collapseTwo">Men</a>
                                         </div>
@@ -111,7 +116,7 @@
                                                 </ul>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
                         </div>
@@ -136,7 +141,7 @@
                         </form>
                         </div>
                         <div class="sidebar__sizes">
-                            <div class="section-title">
+                            <!-- <div class="section-title">
                                 <h4>Shop by size</h4>
                             </div>
                             <div class="size__list">
@@ -180,10 +185,10 @@
                                     <input type="checkbox" id="xl">
                                     <span class="checkmark"></span>
                                 </label>
-                            </div>
+                            </div> -->
                         </div>
                         <div class="sidebar__color">
-                            <div class="section-title">
+                            <!-- <div class="section-title">
                                 <h4>Shop by size</h4>
                             </div>
                             <div class="size__list color__list">
@@ -227,7 +232,7 @@
                                     <input type="checkbox" id="yellows">
                                     <span class="checkmark"></span>
                                 </label>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>
@@ -241,7 +246,7 @@
                 
                 <ul class="product__hover">
                   <li>
-                    <a href="uploads/product/<%= product.images[0] %>" class="image-popup"
+                    <a href="/uploads/product/<%= product.images[0] %>" class="image-popup"
                       ><span class="arrow_expand"></span
                     ></a>
                   </li>

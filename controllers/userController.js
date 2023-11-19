@@ -11,7 +11,7 @@ const crypto = require("crypto");
 const Product = require("../models/Product");
 const Cart = require("../models/cartModel");
 const Order = require("../models/orderModel");
-
+const Catagory = require("../models/category");
 const Razorpay = new razorpay({
   key_id: process.env.key_id,
   key_secret: process.env.key_secret,
@@ -108,10 +108,10 @@ const home = async (req, res) => {
 
 const userinfo = async (req, res) => {
   const userData = await User.findOne({ _id: req.session.user_id });
-  const addresses = await Address.find({ user: userData._id });
+  // const addresses = await Address.find({ user: userData._id });
   const orders = await Order.find({ user_Id: userData._id });
   console.log(orders);
-  console.log(addresses);
+  // console.log(addresses);
   await orders.sort(
     (a, b) => new Date(b.purchaseDate) - new Date(a.purchaseDate)
   );
@@ -593,7 +593,7 @@ const placeOrder = async (req, res) => {
     }
 
     const payment = formData.payMethod;
-    console.log(addressid);
+    // console.log(addressid);
     const status = payment == "COD" ? "placed" : "placed";
 
     const addressdata =
@@ -603,7 +603,7 @@ const placeOrder = async (req, res) => {
             { tempaddress: { $elemMatch: { _id: addressid } } }
           )
         : await User.findOne(
-            { _id: id },
+            { _id: id },  
             { addresses: { $elemMatch: { _id: addressid } } }
           );
 
@@ -631,7 +631,7 @@ const placeOrder = async (req, res) => {
       const datas = new Order({
         user_Id: id,
         // deliveryDetails: addressdata.addresses[0],
-
+        addresses: addressdata.addresses[0],
         items: carts.items,
         purchaseDate: Date.now(),
         totalAmount: totalsum,
@@ -648,7 +648,7 @@ const placeOrder = async (req, res) => {
       for (let i = 0; i < data.length; i++) {
         let products = data[i].productid;
         let count = data[i].count;
-        console.log(Product);
+        // console.log(Product);
 
         await Product.updateOne({ _id: products }, { $inc: { stock: -count } });
       }
@@ -696,7 +696,8 @@ const search = async (req, res) => {
     });
 
     const isLoggedIn = req.session.user_id ? true : false;
-    res.render("shop", { products, isLoggedIn });
+    const categories = await Catagory.find({ status: "active" });
+    res.render("shop", { products, isLoggedIn , categories});
   } catch (error) {
     console.log(error.message);
   }
@@ -718,11 +719,30 @@ const filter = async (req, res) => {
       price: { $gte: minamount, $lte: maxamount },
     });
     const isLoggedIn = (await req.session.user_id) ? true : false;
-    res.render("shop", { isLoggedIn, products });
+    const categories = await Catagory.find({ status: "active" });
+    res.render("shop", { isLoggedIn, products , categories });
   } catch (error) {
     console.log(error.message);
   }
 };
+
+
+
+//===================filter Category=================
+const filterCategory = async (req, res) => {
+  try {
+    const category = req.params.category;
+    const products = await Product.find({ category: category });
+    console.log(products);
+    const isLoggedIn = (await req.session.user_id) ? true : false;
+    const categories = await Catagory.find({ status: "active" });
+    res.render("shop", { products , isLoggedIn, categories });
+  } catch (error) {
+    console.log(error.message);
+  }
+}
+
+
 
 //=========================cancelOrder======================
 const cancelOrder = async (req, res) => {
@@ -766,7 +786,8 @@ const cancelOrder = async (req, res) => {
 const loadshop = async (req, res) => {
   const products = await Product.find({ status: "active" });
   const isLoggedIn = (await req.session.user_id) ? true : false;
-  res.render("shop", { products, isLoggedIn });
+  const categories = await Catagory.find({status: "active"});
+  res.render("shop", { products, isLoggedIn , categories});
 };
 
 module.exports = {
@@ -793,5 +814,6 @@ module.exports = {
   verifypayment,
   search,
   filter,
+  filterCategory,
   cancelOrder,
 };
