@@ -594,7 +594,7 @@ const placeOrder = async (req, res) => {
 
     const payment = formData.payMethod;
     // console.log(addressid);
-    const status = payment == "COD" ? "placed" : "placed";
+    const status = payment == "COD" ? "Pending" : "Paid";
 
     const addressdata =
       val == 0
@@ -635,9 +635,9 @@ const placeOrder = async (req, res) => {
         items: carts.items,
         purchaseDate: Date.now(),
         totalAmount: totalsum,
-        status: "Pending",
+        status: "Placed",
         paymentMethod: payment,
-        paymentStatus: "Pending",
+        paymentStatus: status,
         shippingMethod: "Express",
         shippingFee: "0",
       });

@@ -136,7 +136,8 @@
               No Image
             <% } %>
           </td>
-          <td><%= order.purchaseDate %></td>
+        <% const formattedDate=new Date(order.purchaseDate).toLocaleString(); %>
+          <td><%= formattedDate %></td>
           <td>₹<%= order.totalAmount %>.00</td>
           <td><%= order.status %></td>
           <td>
@@ -148,12 +149,12 @@
               value="<%= order.status %>"
                                                          
             >
-               <option value="Pending" <%= order.status == "Pending" ? 'selected' : '' %>>Pending</option>
-                                        <option value="Processing" <%= order.status == "Processing" ? 'selected' : '' %>>Processing</option>
+               <option value="Pending" <%= order.status == "Placed" ? 'selected' : '' %>>Placed</option>
+                                        <!-- <option value="Processing" <%= order.status == "Processing" ? 'selected' : '' %>>Processing</option> -->
                                         <option value="Shipped" <%= order.status == "Shipped" ? 'selected' : '' %>>Shipped</option>
                                         <option value="Delivered" <%= order.status == "Delivered" ? 'selected' : '' %>>Delivered</option>
                                         <option value="cancelled" <%= order.status == "cancelled" ? 'selected' : '' %>>cancelled</option>
-                                        <option value="Returned" <%= order.status == "Returned" ? 'selected' : '' %>>Returned</option>
+                                        <!-- <option value="Returned" <%= order.status == "Returned" ? 'selected' : '' %>>Returned</option> -->
             </select>
           </td>
           <!-- Add more columns as needed for your order table -->

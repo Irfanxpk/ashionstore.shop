@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Sales Report</title>
+    <style>
+        /* Define your CSS styles here */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Sales Report</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>User ID</th>
+                <th>Products</th>
+                <th>Payment Status</th>
+                <th>Payment Method</th>
+                <th>Payment Amount</th>
+                <th>Order Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% orderdata.forEach(function(order, index) { %>
+                <tr>
+                    <td>
+                        <%= index + 1 %>
+                    </td>
+                    <td>
+                        <%= order.user_Id %>
+                    </td>
+                    <td>
+                        <% order.items.forEach(function(item) { %>
+                            <%= item.name %>, <!-- Assuming productName exists in item object -->
+                                <% }) %>
+                    </td>
+                    <td>
+                        <%= order.paymentStatus %>
+                    </td>
+                    <td>
+                        <%= order.paymentMethod %>
+                    </td>
+                    <td>
+                        $<%= order.totalAmount %>
+                    </td>
+                    <td>
+                        <%= order.status %>
+                    </td>
+                </tr>
+                <% }) %>
+        </tbody>
+    </table>
+</body>
+
+</html>

@@ -5,6 +5,9 @@ const bcrypt = require("bcrypt");
 const Product = require('../models/Product');
 const multer = require('multer');
 const Order = require('../models/orderModel');
+let pdf = require("html-pdf");
+const ejs = require("ejs");
+const path = require("path");
 //================loading errors =============================
 const loadError = async (req, res) => {
   try {
@@ -72,8 +75,7 @@ const blockUser = async (req, res) => {
   try {
     const userId = req.params.userId; // Extract the user's ID from the request
     await User.findByIdAndUpdate(userId, { status: 'blocked' });
-    const user = await User.find()
-    res.render('index',{user}); 
+    res.redirect('/admin/index'); 
   } catch (error) {
     res.status(500).send('Error blocking user');
   }
@@ -84,8 +86,7 @@ const unblockUser = async (req, res) => {
   try {
     const userId = req.params.userId; // Extract the user's ID from the request
     await User.findByIdAndUpdate(userId, { status: 'active' });
-    const user = await User.find()
-    res.render("index", {user}); 
+    res.redirect("/admin/index"); 
   } catch (error) {
     res.status(500).send('Error unblocking user');
   }
@@ -94,8 +95,62 @@ const unblockUser = async (req, res) => {
 //==================load dash==================
 const loadDash = async (req, res) => {
   const user = await User.find()
-  res.render("index", {user});
-};
+  const ordractve = await Order.find({ status: "Placed" })
+  const Total = await Order.aggregate([
+    {
+      $match: {
+        status: "Delivered",
+      },
+    },
+    {
+      $group: {
+        _id: null,
+        totalAmount: { $sum: "$totalAmount" },
+      },
+    },
+  ]);
+
+
+const today = new Date();
+today.setHours(0, 0, 0, 0); // Set hours, minutes, seconds, and milliseconds to 0 for comparison
+
+const tomorrow = new Date(today);
+tomorrow.setDate(today.getDate() + 1); // Get the date for tomorrow to filter today's orders
+
+const todayTotal = await Order.aggregate([
+  {
+    $match: {
+      purchaseDate: {
+        $gte: today,
+        $lt: tomorrow,
+      },
+    },
+  },
+  {
+    $group: {
+      _id: null,
+      totalPrice: { $sum: "$totalAmount" },
+    },
+  },
+]);
+
+console.log(todayTotal[0].totalPrice);
+
+
+
+
+
+
+  if (Total.length == 0) {
+    // Total[0].totalAmount = 0
+
+    res.render("index", {user , ordractve});
+  }else {
+  
+  res.render("index", { user, ordractve, Total : Total[0].totalAmount});
+  console.log(Total[0].totalAmount);
+
+}};
 
 //================load product catogory================
 
@@ -280,6 +335,67 @@ res
   }
 }
 
+
+
+
+//============sales report================
+const sales = async (req, res) => {
+ try {
+   var data = [];
+   var k = 0;
+   const orderdata = await Order
+     .find()
+     .sort({ purchaseDate: -1 });
+   // const orderproducts = await order.aggregate([{$project:{"items.productid":productname}}]).populate("items.productid")
+   // console.log(orderproducts);
+
+   console.log(orderdata);
+   const week1 = await Order.find({ status: "delivered" }).count();
+   console.log(week1);
+
+   console.log(data);
+   res.render("sales",{orderdata});
+ } catch (error) {
+   console.log(error.message);
+ }
+
+}
+
+//===============Sales Report================
+const SalesReport = async (req, res) => {
+  const orderdata = await Order.find({})
+  ejs.renderFile(
+    path.join(__dirname, "../views/admin/", "report-template.ejs"),
+    {
+      orderdata,
+    },
+    (err, data) => {
+      if (err) {
+        res.send(err);
+      } else {
+        let options = {
+          height: "11.25in",
+          width: "8.5in",
+          header: {
+            height: "20mm",
+          },
+          footer: {
+            height: "20mm",
+          },
+        };
+        pdf.create(data, options).toFile("report.pdf", function (err, data) {
+          if (err) {
+            res.send(err);
+          } else {
+            const pdfpath = path.join(__dirname, "../report.pdf");
+            res.sendFile(pdfpath);
+          }
+        });
+      }
+    }
+  );
+}
+
 module.exports = {
   loadAdmin,
   loadError,
@@ -298,4 +414,6 @@ module.exports = {
   adminLogout,
   orders,
   changeOrderStatus,
+  sales,
+  SalesReport,
 };

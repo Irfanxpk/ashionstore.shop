@@ -123,28 +123,25 @@
                         <input class="form-control bg-dark" type="file"  name="images" accept="image/*" multiple>
                     </div>
                  -->
+                 
             <div class="mb-3 pt-4">
                 <label for="existingImages" class="form-label">Existing Product Images:</label>
-                <div id="existingImages">
+                <div id="existingImages" class="d-flex flex-wrap">
                     <% product.images.forEach(function(image, index) { %>
-                        <div class="d-flex align-items-center mb-2">
-                            <img src="/uploads/product/<%= image %>" alt="Product Image" class="img-thumbnail mr-2"
-                                style="width: 150px; height: 150px;">
-                            <form action="/admin/edit-product/<%= product._id %>/update-image/<%= index %>" method="post"
-                                enctype="multipart/form-data">
-                                <input type="file" name="updatedImage" accept="image/*">
-                                <button type="submit" class="btn btn-sm btn-primary">Update</button>
-                            </form>
-                        </div>
+                        <div class="mr-2 mb-2">
+                            <img src="/uploads/product/<%= image %>" alt="Product Image" class="img-thumbnail"
+                                style="width: 80px; height: 110px;">
+                        </div> &nbsp;&nbsp;
                         <% }) %>
                 </div>
             </div>
+
             
             <!-- Input for new images -->
-            <div class="mb-3 pt-4">
+            <!-- <div class="mb-3 pt-4">
                 <label for="newImages" class="form-label">Upload Additional Product Images:</label>
                 <input class="form-control" type="file" id="newImages" name="newImages" accept="image/*" multiple>
-            </div>
+            </div> -->
 
 
                     <div class="m-n2">

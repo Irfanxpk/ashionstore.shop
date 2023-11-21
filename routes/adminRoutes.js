@@ -67,6 +67,8 @@ adminRoute.get('/listProduct/:id', productController.listProduct);
 adminRoute.get('/unlistProduct/:id', productController.unlistproduct)
 adminRoute.get("/orders", adminController.orders);
 adminRoute.post("/changeOrderStatus/:id", adminController.changeOrderStatus);
+adminRoute.get('/sales', adminController.sales)
+adminRoute.get('/SalesReport', adminController.SalesReport)
 // adminRoute.patch("/products/stock/:id", productController.stockupdate);
 // module.exports = router;
 module.exports = adminRoute;
