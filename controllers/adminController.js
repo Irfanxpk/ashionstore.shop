@@ -134,6 +134,7 @@ const todayTotal = await Order.aggregate([
   },
 ]);
 
+
 console.log(todayTotal[0].totalPrice);
 
 
