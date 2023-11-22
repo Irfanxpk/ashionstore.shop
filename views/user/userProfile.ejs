@@ -453,9 +453,11 @@ function submitForm() {
         <div class="float-right">
           <!-- <a class="btn btn-sm btn-outline-primary" href="#"><i class="icofont-headphone-alt"></i> HELP</a> -->
           <!-- Replace the "REORDER" button with "CANCEL" button -->
-          <% if(order.status != 'Cancelled'){ %>
-          <a class="btn btn-sm btn-danger" href="/cancelOrder/<%= order._id %>"><i class="icofont-close"></i> CANCEL</a>
-            <% } %>
+          
+          <a class="btn btn-sm btn-danger" onclick="confirmCancellation('<%= order._id %>')">
+            <i class="icofont-close"></i> CANCEL
+          </a>
+            
         </div>
         <p class="mb-0 text-black text-primary pt-2">
           <span class="text-black font-weight-bold"> Total :</span> $<%= order.totalAmount %>
@@ -482,6 +484,55 @@ function submitForm() {
 
 
 <% } %>
+
+
+
+
+<script>
+  function confirmCancellation(orderId) {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'This action cannot be undone!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Yes, cancel it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // If user confirms, make a fetch request to cancel the order
+        fetch(`/cancelOrder/${orderId}`, {
+          method: 'POST', // or 'DELETE', 'PUT', etc. depending on your backend setup
+          // Add headers and body as needed
+        })
+        .then(response => {
+          if (response.ok) {
+            // If cancellation was successful, remove the button
+            const cancelButton = document.querySelector('.btn-danger');
+            if (cancelButton) {
+              cancelButton.remove();
+            }
+            Swal.fire('Cancelled!', 'Your order has been cancelled.', 'success');
+          } else {
+            Swal.fire('Error!', 'Unable to cancel the order.', 'error');
+          }
+        })
+        .catch(error => {
+          Swal.fire('Error!', 'Something went wrong.', 'error');
+          console.error('Error:', error);
+        });
+      }
+    });
+  }
+</script>
+
+
+
+
+
+
+
+
 
 
 <!-- <div class="bg-white card mb-4 order-list shadow-sm">

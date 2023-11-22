@@ -1,0 +1,124 @@
+body {
+    font-family: "Roboto", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    font-weight: 300;
+    background: #efefef; }
+  
+  p {
+    color: #b3b3b3; }
+  
+  h1, h2, h3, h4, h5, h6,
+  .h1, .h2, .h3, .h4, .h5, .h6 {
+    font-family: "Roboto", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"; }
+  
+  a {
+    -webkit-transition: .3s all ease;
+    -o-transition: .3s all ease;
+    transition: .3s all ease; }
+    a, a:hover {
+      text-decoration: none !important; }
+  
+  .content {
+    padding: 7rem 0; }
+  
+  h2 {
+    font-size: 20px; }
+  
+  .custom-dropdown > a {
+    color: #000; }
+    .custom-dropdown > a .arrow {
+      display: inline-block;
+      position: relative;
+      -webkit-transition: .3s transform ease;
+      -o-transition: .3s transform ease;
+      transition: .3s transform ease; }
+  
+  .custom-dropdown.show > a .arrow {
+    -webkit-transform: rotate(-180deg);
+    -ms-transform: rotate(-180deg);
+    transform: rotate(-180deg); }
+  
+  .custom-dropdown .btn:active, .custom-dropdown .btn:focus {
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+    outline: none; }
+  
+  .custom-dropdown .btn.btn-custom {
+    border: 1px solid #efefef; }
+  
+  .custom-dropdown .title-wrap {
+    padding-top: 10px;
+    padding-bottom: 10px; }
+  
+  .custom-dropdown .title {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase; }
+  
+  .custom-dropdown .dropdown-link .profile-pic {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 50px;
+    flex: 0 0 50px; }
+    .custom-dropdown .dropdown-link .profile-pic img {
+      width: 50px;
+      border-radius: 50%; }
+  
+  .custom-dropdown .dropdown-link .profile-info h3, .custom-dropdown .dropdown-link .profile-info span {
+    margin: 0;
+    padding: 0; }
+  
+  .custom-dropdown .dropdown-link .profile-info h3 {
+    font-size: 16px; }
+  
+  .custom-dropdown .dropdown-link .profile-info span {
+    display: block;
+    font-size: 13px; }
+  
+  .custom-dropdown .dropdown-menu {
+    border: 1px solid transparent !important;
+    -webkit-box-shadow: 0 15px 30px 0 rgba(0, 0, 0, 0.2);
+    box-shadow: 0 15px 30px 0 rgba(0, 0, 0, 0.2);
+    margin-top: -10px !important;
+    padding-top: 0;
+    padding-bottom: 0;
+    opacity: 0;
+    border-radius: 0;
+    background: #fff;
+    right: auto !important;
+    left: auto !important;
+    -webkit-transition: .3s margin-top ease, .3s opacity ease, .3s visibility ease;
+    -o-transition: .3s margin-top ease, .3s opacity ease, .3s visibility ease;
+    transition: .3s margin-top ease, .3s opacity ease, .3s visibility ease;
+    visibility: hidden; }
+    .custom-dropdown .dropdown-menu.active {
+      opacity: 1;
+      visibility: visible;
+      margin-top: 0px !important; }
+    .custom-dropdown .dropdown-menu a {
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+      font-size: 14px;
+      padding: 15px 15px;
+      position: relative;
+      color: #b2bac1; }
+      .custom-dropdown .dropdown-menu a:last-child {
+        border-bottom: none; }
+      .custom-dropdown .dropdown-menu a .icon {
+        margin-right: 15px;
+        display: inline-block; }
+      .custom-dropdown .dropdown-menu a:hover, .custom-dropdown .dropdown-menu a:active, .custom-dropdown .dropdown-menu a:focus {
+        background: #fff;
+        color: #000; }
+        .custom-dropdown .dropdown-menu a:hover .number, .custom-dropdown .dropdown-menu a:active .number, .custom-dropdown .dropdown-menu a:focus .number {
+          color: #fff; }
+      .custom-dropdown .dropdown-menu a .number {
+        padding: 2px 6px;
+        font-size: 11px;
+        background: #fd7e14;
+        position: absolute;
+        top: 50%;
+        -webkit-transform: translateY(-50%);
+        -ms-transform: translateY(-50%);
+        transform: translateY(-50%);
+        right: 15px;
+        border-radius: 4px;
+        color: #fff; }
+  
