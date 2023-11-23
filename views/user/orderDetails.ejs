@@ -1,0 +1,326 @@
+<%- include("../partials/header") %>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+<style type="text/css">
+   
+
+    .card {
+        box-shadow: 0 20px 27px 0 rgb(0 0 0 / 5%);
+    }
+
+    .card {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+        word-wrap: break-word;
+        background-color: #fff;
+        background-clip: border-box;
+        border: 0 solid rgba(0, 0, 0, 0.125);
+        border-radius: 1rem;
+    }
+
+    .text-reset {
+        --bs-text-opacity: 1;
+        color: inherit !important;
+    }
+
+    a {
+        color: #5465ff;
+        text-decoration: none;
+    }
+</style>
+
+<style>
+    .bs4-order-tracking {
+        margin-bottom: 30px;
+        overflow: hidden;
+        color: #878788;
+        padding-left: 0px;
+        margin-top: 30px
+    }
+
+    .bs4-order-tracking li {
+        list-style-type: none;
+        font-size: 13px;
+        width: 25%;
+        float: left;
+        position: relative;
+        font-weight: 400;
+        color: #878788;
+        text-align: center
+    }
+
+    .bs4-order-tracking li:first-child:before {
+        margin-left: 15px !important;
+        padding-left: 11px !important;
+        text-align: left !important
+    }
+
+    .bs4-order-tracking li:last-child:before {
+        margin-right: 5px !important;
+        padding-right: 11px !important;
+        text-align: right !important
+    }
+
+    .bs4-order-tracking li>div {
+        color: #fff;
+        width: 29px;
+        text-align: center;
+        line-height: 29px;
+        display: block;
+        font-size: 12px;
+        background: #878788;
+        border-radius: 50%;
+        margin: auto
+    }
+
+    .bs4-order-tracking li:after {
+        content: '';
+        width: 150%;
+        height: 2px;
+        background: #878788;
+        position: absolute;
+        left: 0%;
+        right: 0%;
+        top: 15px;
+        z-index: -1
+    }
+
+    .bs4-order-tracking li:first-child:after {
+        left: 50%
+    }
+
+    .bs4-order-tracking li:last-child:after {
+        left: 0% !important;
+        width: 0% !important
+    }
+
+    .bs4-order-tracking li.active {
+        font-weight: bold;
+        color: #dc3545
+    }
+
+    .bs4-order-tracking li.active>div {
+        background: #dc3545
+    }
+
+    .bs4-order-tracking li.active:after {
+        background: #dc3545
+    }
+
+    .card-timeline {
+        background-color: #fff;
+        z-index: 0
+    }
+</style>
+
+
+    <div class="container-fluid" style="background-color: aliceblue;">
+        <div class="container">
+
+
+
+            <div class="d-flex justify-content-between align-items-center py-3">
+                <h2 class="h5 mb-0">
+                    <a href="#" class="text-muted"></a> Order #<%= order._id %>
+                </h2>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <!-- Order Information -->
+                            <div class="mb-3 d-flex justify-content-between">
+                                <!-- Order Date, Number, Payment Info, Status -->
+                                <div>
+                                    <span class="me-3">
+                                        <%= new Date(order.purchaseDate).toLocaleDateString() %>
+                                    </span>
+                                    <!-- <span class="me-3">#<%= order._id.toString() %></span> -->
+                                    <span class="me-3">
+                                        <%= order.paymentMethod %> - <%= order.paymentStatus %>
+                                    </span>
+                                    <span class="badge rounded-pill bg-info">
+                                        <%= order.paymentStatus %>
+                                    </span>
+                                </div>
+                                <!-- Actions Dropdown -->
+                                <div class="d-flex">
+                                    <!-- Invoice Download -->
+                                    <button class="btn btn-link p-0 me-3 d-none d-lg-block btn-icon-text">
+                                        <i class="bi bi-download"></i>
+                                        <span class="text">Invoice</span>
+                                    </button>
+                                    <!-- Dropdown Menu -->
+                                    <div class="dropdown">
+                                        <button class="btn btn-link p-0 text-muted" type="button" data-bs-toggle="dropdown">
+                                            <i class="bi bi-three-dots-vertical"></i>
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-menu-end">
+                                            <li>
+                                                <a class="dropdown-item" href="#"><i class="bi bi-pencil"></i> Edit</a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item" href="#"><i class="bi bi-printer"></i> Print</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                    
+                            <!-- Order Items -->
+                            <table class="table table-borderless">
+                                <tbody>
+                                    <% order.items.forEach(item=> { %>
+                                        <tr>
+                                            <td>
+                                                <!-- Product Details -->
+                                                <div class="d-flex mb-2">
+                                                    <div class="flex-shrink-0">
+                                                        <img src="/uploads/product/<%= item.img %>" alt="Product Image" width="35" class="img-fluid" />
+                                                    </div>
+                                                    <div class="flex-lg-grow-1 ms-3">
+                                                        <h6 class="small mb-0">
+                                                            <a href="#" class="text-reset">
+                                                                <%= item.name %>
+                                                            </a>
+                                                        </h6>
+                                                        <span class="small">Count: <%= item.count %></span>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <%= item.count %>
+                                            </td>
+                                            <td class="text-end">$<%= item.total.toFixed(2) %>
+                                            </td>
+                                        </tr>
+                                        <% }); %>
+                                </tbody>
+                                <!-- Order Summary -->
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="2">Subtotal</td>
+                                        <td class="text-end">$<%= order.totalAmount.toFixed(2) %>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">Shipping</td>
+                                        <td class="text-end">$<%= order.shippingFee %>
+                                        </td>
+                                    </tr>
+                                    <!-- You can add more rows for additional details like discounts, taxes, etc. -->
+                                    <!-- <tr>
+                                        <td colspan="2">Discount</td>
+                                        <td class="text-danger text-end">-$10.00</td>
+                                    </tr> -->
+                                    <tr class="fw-bold">
+                                        <td colspan="2">TOTAL</td>
+                                        <td class="text-end">$<%= order.totalAmount.toFixed(2) %>
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+
+
+                    <div class="card mb-4">
+                        <!-- <div class="card-body">
+                <div class="row">
+                  <div class="col-lg-6">
+                    <h3 class="h6">Payment Method</h3>
+                    <p>
+                      Visa -1234 <br />
+                      Total: $169,98
+                      <span class="badge bg-success rounded-pill">PAID</span>
+                    </p>
+                  </div>
+                  <div class="col-lg-6">
+                    <h3 class="h6">Billing address</h3>
+                    <address>
+                      <strong>John Doe</strong><br />
+                      1355 Market St, Suite 900<br />
+                      San Francisco, CA 94103<br />
+                      <abbr title="Phone">P:</abbr> (123) 456-7890
+                    </address>
+                  </div>
+                </div>
+              </div> -->
+
+
+
+                        <div class="card card-timeline px-2 border-none">
+                            <ul class="bs4-order-tracking">
+                                <li class="step <%= order.status === 'Placed'|| order.status === 'Shipped' || order.status === 'Out for delivery' || order.status === 'Delivered' ? 'active' : '' %>">
+                                    <div><i class="fas fa-user"></i></div> Order Placed
+                                </li>
+                                <li class="step <%= order.status === 'Shipped' || order.status === 'Out for delivery' || order.status === 'Delivered' ? 'active' : '' %>">
+                                    <div><i class="fas fa-bread-slice"></i></div> Shipped
+                                </li>
+                                <li class="step <%= order.status === 'Out for delivery' || order.status === 'Delivered'  ? 'active' : '' %>">
+                                    <div><i class="fas fa-truck"></i></div> Out for delivery
+                                </li>
+                                <li class="step <%= order.status === 'Delivered' ? 'active' : '' %>">
+                                    <div><i class="fas fa-birthday-cake"></i></div> Delivered
+                                </li>
+                            </ul>
+                            <h5 class="text-center"><b></b>. The order has been <%= order.status.toLowerCase() %>!</h5>
+                        </div>
+
+
+
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <!-- <div class="card mb-4">
+                        <div class="card-body">
+                            <h3 class="h6">Customer Notes</h3>
+                            <p>
+                                Sed enim, faucibus litora velit vestibulum habitasse. Cras
+                                lobortis cum sem aliquet mauris rutrum. Sollicitudin. Morbi,
+                                sem tellus vestibulum porttitor.
+                            </p>
+                        </div>
+                    </div> -->
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <!-- Shipping Information -->
+                        <h3 class="h6">Shipping Information</h3>
+                        <strong>
+                            <%= order.shippingMethod %>
+                        </strong>
+                        <span>
+                            <a href="#" class="text-decoration-underline" target="_blank">
+                                <%= order.trackingNumber %>
+                            </a>
+                            <i class="bi bi-box-arrow-up-right"></i>
+                        </span>
+                        <hr />
+                
+                        <!-- Address Details -->
+                        <h3 class="h6">Address</h3>
+                        <address>
+                            <strong>
+                                <%= order.addresses[0].name %>
+                            </strong><br />
+                            <%= order.addresses[0].address %><br />
+                                <%= order.addresses[0].city %>, <%= order.addresses[0].state %>
+                                        <%= order.addresses[0].zip %><br />
+                                            <abbr title="Phone">Phone</abbr>
+                                            <%= order.addresses[0].phone %>
+                        </address>
+                    </div>
+                </div>
+
+                </div>
+            </div>
+
+
+
+
+
+        </div>
+    </div>
+<%- include("../partials/footer") %>

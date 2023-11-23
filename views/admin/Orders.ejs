@@ -151,6 +151,7 @@
             >
                <option value="Pending" <%= order.status == "Placed" ? 'selected' : '' %>>Placed</option>
                                         <!-- <option value="Processing" <%= order.status == "Processing" ? 'selected' : '' %>>Processing</option> -->
+                                        <option value="Out for delivery" <%=order.status=="Out for delivery" ? 'selected' : '' %>>Out for delivery</option>
                                         <option value="Shipped" <%= order.status == "Shipped" ? 'selected' : '' %>>Shipped</option>
                                         <option value="Delivered" <%= order.status == "Delivered" ? 'selected' : '' %>>Delivered</option>
                                         <option value="cancelled" <%= order.status == "cancelled" ? 'selected' : '' %>>cancelled</option>

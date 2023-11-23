@@ -744,6 +744,20 @@ const filterCategory = async (req, res) => {
 
 
 
+const singleOrderDetails = async (req, res) => {
+
+  try {
+    const orderId = req.params.id;
+    console.log(orderId);
+    const order = await Order.findById(orderId)
+    console.log(order);
+   const isLoggedIn = (await req.session.user_id) ? true : false;
+    res.render("orderDetails", { order , isLoggedIn});
+}catch (error) {
+  console.log(error.message);
+}
+}
+
 //=========================cancelOrder======================
 const cancelOrder = async (req, res) => {
   try {
@@ -816,4 +830,5 @@ module.exports = {
   filter,
   filterCategory,
   cancelOrder,
+  singleOrderDetails,
 };

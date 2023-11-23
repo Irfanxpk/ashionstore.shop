@@ -120,6 +120,43 @@
 a:hover{
     text-decoration:none;
 }
+.bn9 {
+	padding: 2px;
+	outline: 0;
+	font-size: 10px;
+	color: rgb(0, 0, 0);
+	background: -webkit-gradient(linear,
+			left top,
+			right top,
+			from(#fdde5c),
+			color-stop(#f8ab5e),
+			color-stop(#f56a62),
+			color-stop(#a176c8),
+			color-stop(#759beb),
+			color-stop(#65beb3),
+			to(#70db96));
+	background: linear-gradient(to right,
+			#fdde5c,
+			#f8ab5e,
+			#f56a62,
+			#a176c8,
+			#759beb,
+			#65beb3,
+			#70db96);
+	border-radius: 30px;
+	border: 0;
+	box-shadow: none;
+	cursor: pointer;
+}
+
+.bn9>span {
+	display: block;
+	padding: 3px 10px;
+	font-size: 13px;
+	font-weight: 500;
+	background: #ebebeb;
+	border-radius: 30px;
+}
     </style>
 <link rel="stylesheet" href="/css/userprofile.css">
 <%- include("../partials/header") %>
@@ -167,10 +204,10 @@ a:hover{
 <div class="card-body">
 <form id="myForm" name="myForm">
 
-<div class="mb-3">
+<!-- <div class="mb-3">
 <label class="small mb-1" for="inputUsername">Username (how your name will appear to other users on the site)</label>
 <input class="form-control" name="username" id="inputUsername" type="text" placeholder="Enter your username" value="username" readonly >
-</div>
+</div> -->
 
 <div class="row gx-3 mb-3">
 
@@ -191,10 +228,10 @@ a:hover{
 <input class="form-control" name="phone" id="inputPhone" type="tel" placeholder="Enter your phone number" value="<%= userData.phone %>" readonly>
 </div>
 
-<div class="col-md-6">
+<!-- <div class="col-md-6">
 <label class="small mb-1" for="inputLocation">Location</label>
 <input class="form-control" id="inputLocation" type="text" placeholder="Enter your location" value="San Francisco, CA" readonly>
-</div>
+</div> -->
 </div>
 
 <!-- <div class="mb-3">
@@ -444,19 +481,21 @@ function submitForm() {
           <a href="/orderDetails/<%= order._id %>" class="text-black"><%= item.name %></a>
         </h6>
        
-        <p class="text-gray mb-3"><i class="icofont-list"></i> ORDER #<%= order._id %> <i class="icofont-clock-time ml-2"><br></i> <% const formattedDate = new Date(order.purchaseDate).toLocaleString(); %>
+        <!-- <p class="text-gray mb-3"><i class="icofont-list"></i> ORDER #<%= order._id %> <i class="icofont-clock-time ml-2"><br></i> <% const formattedDate = new Date(order.purchaseDate).toLocaleString(); %>
 <%= formattedDate %></p>
         
           <p class="text-dark"><%= item.name %> x <%= item.count %></p>
-        
+         -->
         <hr>
         <div class="float-right">
           <!-- <a class="btn btn-sm btn-outline-primary" href="#"><i class="icofont-headphone-alt"></i> HELP</a> -->
           <!-- Replace the "REORDER" button with "CANCEL" button -->
           
-          <a class="btn btn-sm btn-danger" onclick="confirmCancellation('<%= order._id %>')">
+          <a href="/orderDetails/<%= order._id %>"><button class="bn9"><span>Detail</span></button></a>
+
+          <!-- <a class="btn btn-sm btn-danger" onclick="confirmCancellation('<%= order._id %>')">
             <i class="icofont-close"></i> CANCEL
-          </a>
+          </a> -->
             
         </div>
         <p class="mb-0 text-black text-primary pt-2">

@@ -50,11 +50,11 @@
                                 <div class="input-group ">
                                     <div class="input-group-icon col-12">
                                         <label class="label">Email</label>
-                                        <input class="input--style-4 js-datepicker " type="email" name="email">
+                                        <input class="input--style-4  " type="email" name="email">
                                         <% if (locals.email) { %>
                                         <p class="text-danger"><%= locals.email %></p>
                                             <% } %>
-                                        <i class="zmdi zmdi-calendar-note input-icon js-btn-calendar"></i>
+                                        <!-- <i class="zmdi zmdi-calendar-note input-icon js-btn-calendar"></i> -->
                                     </div>
                                 </div>
                             <!-- </div> -->
@@ -72,8 +72,8 @@
                         <div class="p-t-15 d-flex justify-content-center">
                             <button class="btn btn--radius-2 w-100 btn--blue" type="submit">Submit</button>
                         </div>
-                        
-                        <a href="/register"> Create a Account</a>
+                        <p style="margin-top: 4%;"> Don't have an account? <a href="/register">Register</a></p>
+                        <!-- <a href="/register"> Create a Account</a> -->
                     </form>
                 </div>
             </div>

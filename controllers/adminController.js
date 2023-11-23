@@ -117,29 +117,6 @@ today.setHours(0, 0, 0, 0); // Set hours, minutes, seconds, and milliseconds to 
 const tomorrow = new Date(today);
 tomorrow.setDate(today.getDate() + 1); // Get the date for tomorrow to filter today's orders
 
-const todayTotal = await Order.aggregate([
-  {
-    $match: {
-      purchaseDate: {
-        $gte: today,
-        $lt: tomorrow,
-      },
-    },
-  },
-  {
-    $group: {
-      _id: null,
-      totalPrice: { $sum: "$totalAmount" },
-    },
-  },
-]);
-
-
-console.log(todayTotal[0].totalPrice);
-
-
-
-
 
 
   if (Total.length == 0) {

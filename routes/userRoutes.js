@@ -39,6 +39,7 @@ router.get("/search" , userController.search);
 router.post('/filter',userController.filter)
 router.get("/filter-category/:category", userController.filterCategory);
 router.get("/cancelOrder/:id", userController.cancelOrder);
+router.get("/orderDetails/:id", userController.singleOrderDetails);
 // router.get("/orderDetails/:id", userController.orderDetails);
 // router.post('/Register',userController.createUser)
 
