@@ -118,7 +118,7 @@
     <thead>
       <tr>
         <th scope="col">Image</th>
-        <th scope="col">Purchase Date</th>
+        <th scope="col">Address and Date </th>
         <th scope="col">Total Amount</th>
         <th scope="col">Status</th>
         <th scope="col">Change Status</th>
@@ -137,7 +137,19 @@
             <% } %>
           </td>
         <% const formattedDate=new Date(order.purchaseDate).toLocaleString(); %>
-          <td><%= formattedDate %></td>
+          <td><%= formattedDate %>  
+        
+            <address>
+                <strong>
+                    <%= order.addresses[0].name %>
+                </strong><br />
+                <%= order.addresses[0].address %><br />
+                    <%= order.addresses[0].city %>, <%= order.addresses[0].state %>
+                            <%= order.addresses[0].zip %><br />
+                                <abbr title="Phone">Phone</abbr>
+                                <%= order.addresses[0].phone %>
+            </address>
+        </td>
           <td>₹<%= order.totalAmount %>.00</td>
           <td><%= order.status %></td>
           <td>
@@ -149,12 +161,12 @@
               value="<%= order.status %>"
                                                          
             >
-               <option value="Pending" <%= order.status == "Placed" ? 'selected' : '' %>>Placed</option>
+               <option value="Placed" <%= order.status == "Placed" ? 'selected' : '' %>>Placed</option>
                                         <!-- <option value="Processing" <%= order.status == "Processing" ? 'selected' : '' %>>Processing</option> -->
-                                        <option value="Out for delivery" <%=order.status=="Out for delivery" ? 'selected' : '' %>>Out for delivery</option>
                                         <option value="Shipped" <%= order.status == "Shipped" ? 'selected' : '' %>>Shipped</option>
+                                        <option value="Out for delivery" <%=order.status == "Out for delivery" ? 'selected' : '' %>>Out for delivery</option>
                                         <option value="Delivered" <%= order.status == "Delivered" ? 'selected' : '' %>>Delivered</option>
-                                        <option value="cancelled" <%= order.status == "cancelled" ? 'selected' : '' %>>cancelled</option>
+                                        <option value="Cancelled" <%= order.status == "Cancelled" ? 'selected' : '' %>>Cancelled</option>
                                         <!-- <option value="Returned" <%= order.status == "Returned" ? 'selected' : '' %>>Returned</option> -->
             </select>
           </td>

@@ -94,7 +94,8 @@ const unblockUser = async (req, res) => {
 
 //==================load dash==================
 const loadDash = async (req, res) => {
-  const user = await User.find()
+ 
+ try { const user = await User.find()
   const ordractve = await Order.find({ status: "Placed" })
   const Total = await Order.aggregate([
     {
@@ -128,24 +129,36 @@ tomorrow.setDate(today.getDate() + 1); // Get the date for tomorrow to filter to
   res.render("index", { user, ordractve, Total : Total[0].totalAmount});
   console.log(Total[0].totalAmount);
 
-}};
+};
 
+} catch (error) {
+  console.log(error.message);
+}
+}
 //================load product catogory================
 
 const loadCategory = async (req, res) => {
+  try {
   const category = await Category.find()
   res.render("category", {category});
+  }catch (error) {
+  console.log(error.message)
+  }
 };
 
 //=================Load add Catagory================
 const loadAddCat = async (req, res) => {
+  try {
   res.render("addCategory");
+  }catch (error) {
+    console.log(error.message)
+  }
 }
 //==================add category================
 const addCategory = async (req, res) => {
-  const { name, description } = req.body;
-
+  
   try {
+    const { name, description } = req.body;
     const category = new Category({ name, description });
     const categoryName = category.name.toLowerCase();
 
@@ -214,9 +227,9 @@ const category = await Category.findById(req.params.id); // Find the category by
 };
 
 const categoryRemove = async (req, res) => {
-  const categoryId = req.params.categoryId;
-
+  
   try {
+    const categoryId = req.params.categoryId;
     const category = await Category.findById(categoryId);
     if (!category) {
       return res.status(404).send('Category not found');
@@ -231,9 +244,9 @@ const categoryRemove = async (req, res) => {
 //==================Block or unblock Category================
 
 const categoryBlock = async (req, res) => {
-  const categoryId = req.params.categoryId;
-
+  
   try {
+    const categoryId = req.params.categoryId;
     const category = await Category.findById(categoryId);
     if (!category) {
       return res.status(404).send('Category not found');
@@ -253,9 +266,9 @@ const categoryBlock = async (req, res) => {
 };
 
 const categoryUnblock = async (req, res) => {
-  const categoryId = req.params.categoryId;
-
+  
   try {
+    const categoryId = req.params.categoryId;
     const category = await Category.findById(categoryId);
     if (!category) {
       return res.status(404).send('Category not found');
@@ -341,6 +354,7 @@ const sales = async (req, res) => {
 
 //===============Sales Report================
 const SalesReport = async (req, res) => {
+  try {
   const orderdata = await Order.find({})
   ejs.renderFile(
     path.join(__dirname, "../views/admin/", "report-template.ejs"),
@@ -372,6 +386,10 @@ const SalesReport = async (req, res) => {
       }
     }
   );
+
+  } catch (error) {
+    console.log(error.message);
+  }
 }
 
 module.exports = {

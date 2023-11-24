@@ -98,15 +98,22 @@ const securePassword = async (password) => {
 
 //===========================LODING LANDING PAGE=========================================
 const home = async (req, res) => {
+  try {
   const isLoggedIn = false;
   const products = await Product.findMany({ status: "active" });
 
   res.render("index", { isLoggedIn, products });
+  } catch (error) {
+    console.log(error.message);
+  }
 };
 
 //sample user info
 
 const userinfo = async (req, res) => {
+
+  try {
+    
   const userData = await User.findOne({ _id: req.session.user_id });
   // const addresses = await Address.find({ user: userData._id });
   const orders = await Order.find({ user_Id: userData._id });
@@ -118,9 +125,14 @@ const userinfo = async (req, res) => {
   const isLoggedIn = (await req.session.user_id) ? true : false;
   // res.render('userProfile',{userData ,addresses , isLoggedIn:true})
   res.render("userProfile", { isLoggedIn, userData, orders });
+  }catch(err) {
+    console.error(err);
+  }
 };
 
 const updateUser = async (req, res) => {
+
+  try {
   const userId = req.params.id;
   const updatedData = req.body;
   console.log(updatedData);
@@ -138,6 +150,10 @@ const updateUser = async (req, res) => {
     };
     res.json(response);
   }
+} catch (error) {
+  console.error(error);
+  res.status(500).json({ error: "Internal server error" });
+}
 };
 
 //====================Add New Address =================
@@ -258,6 +274,7 @@ const deleteAddress = async (req, res) => {
 
 //==========================loding login page============================================
 const login = async (req, res) => {
+  try {
   if (req.session.name) {
     const isLoggedIn = true;
     const products = await Product.find();
@@ -265,6 +282,9 @@ const login = async (req, res) => {
   } else {
     res.render("login");
   }
+}catch(err){
+  console.log(err);
+}
 };
 
 //===========================User Authentication===================================
@@ -311,7 +331,11 @@ const loginvalid = async (req, res) => {
 
 //==========================LODING SIGN UP PAGE======================================
 const SignUp = (req, res) => {
+  try {
   res.render("register");
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 //=============================INSERTING USER REGISTERED DATA=============================
@@ -683,8 +707,6 @@ const orderSuccess = async (req, res) => {
   }
 };
 
-//======================Order Details =============================
-const orderDetails = async (req, res) => {};
 
 //=========================Search =================
 const search = async (req, res) => {
@@ -763,6 +785,7 @@ const cancelOrder = async (req, res) => {
   try {
     const orderId = req.params.id;
 
+    console.log("cancelling order")
     // Retrieve order details by ID
     const order = await Order.findById(orderId);
 
@@ -771,7 +794,11 @@ const cancelOrder = async (req, res) => {
     }
 
     // Update order status to "Cancelled"
-    await Order.findByIdAndUpdate(orderId, { status: "Cancelled" });
+    // await Order.findByIdAndUpdate(orderId, { status: "Cancelled" });
+    await Order.findByIdAndUpdate(orderId, {
+      status: "Cancelled",
+      paymentStatus: "Refunded",
+    });
 
     // Restore stock for each product in the cancelled order
     for (const item of order.items) {
@@ -785,7 +812,8 @@ const cancelOrder = async (req, res) => {
     }
 
     // Redirect or send a response
-    return res.redirect("/userProfile");
+    // return res.redirect("/userProfile");
+     res.status(200).json({ message: "Order cancelled successfully." });
   } catch (error) {
     console.log(error.message);
     return res.status(500).json({ message: "Internal server error" });
@@ -798,10 +826,14 @@ const cancelOrder = async (req, res) => {
 // }
 
 const loadshop = async (req, res) => {
+  try {
   const products = await Product.find({ status: "active" });
   const isLoggedIn = (await req.session.user_id) ? true : false;
   const categories = await Catagory.find({status: "active"});
   res.render("shop", { products, isLoggedIn , categories});
+  }catch(err){
+    console.log(err)
+  }
 };
 
 module.exports = {

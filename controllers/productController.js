@@ -11,15 +11,23 @@ const multer = require("multer");
 //=================load products =============================
 
 const loadProduct = async (req, res) => {
+  try {
   const product = await Product.find()
   res.render("product", {product});
+  } catch (error) {
+    console.log(error.message);
+  }
 };
 
 //==================load add products =================
 
 const loadAddProduct = async (req, res) => {
+  try {
   const category = await Category.find()
   res.render("addProduct",{category});
+  } catch (error) {
+    console.log(error.message);
+  }
 }
 
 //==================add products===========================

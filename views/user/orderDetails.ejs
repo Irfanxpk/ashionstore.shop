@@ -112,6 +112,58 @@
         background-color: #fff;
         z-index: 0
     }
+
+
+
+    .button-30 {
+  align-items: center;
+  appearance: none;
+  background-color: #FCFCFD;
+  border-radius: 4px;
+  border-width: 0;
+  box-shadow: rgba(45, 35, 66, 0.4) 0 2px 4px,rgba(45, 35, 66, 0.3) 0 7px 13px -3px,#D6D6E7 0 -3px 0 inset;
+  box-sizing: border-box;
+  color: #36395A;
+  cursor: pointer;
+  display: inline-flex;
+  font-family: "JetBrains Mono",monospace;
+  height: 48px;
+  justify-content: center;
+  line-height: 1;
+  list-style: none;
+  overflow: hidden;
+  padding-left: 16px;
+  padding-right: 16px;
+  position: relative;
+  text-align: left;
+  text-decoration: none;
+  transition: box-shadow .15s,transform .15s;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  white-space: nowrap;
+  will-change: box-shadow,transform;
+  font-size: 18px;
+}
+
+.button-30:focus {
+  box-shadow: #D6D6E7 0 0 0 1.5px inset, rgba(45, 35, 66, 0.4) 0 2px 4px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #D6D6E7 0 -3px 0 inset;
+}
+
+.button-30:hover {
+  box-shadow: rgba(45, 35, 66, 0.4) 0 4px 8px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #D6D6E7 0 -3px 0 inset;
+  transform: translateY(-2px);
+}
+
+.button-30:active {
+  box-shadow: #D6D6E7 0 3px 7px inset;
+  transform: translateY(2px);
+}
+
+
+
+
+
 </style>
 
 
@@ -126,7 +178,7 @@
                 </h2>
             </div>
 
-            <div class="row">
+            <div class="row" id="looks">
                 <div class="col-lg-8">
                     <div class="card mb-4">
                         <div class="card-body">
@@ -250,9 +302,10 @@
               </div> -->
 
 
-
+                
               
                         <div class="card card-timeline px-2 border-none">
+                            <%  if(order.status != 'Cancelled') { %>
                             <ul class="bs4-order-tracking">
                                 <li class="step <%= order.status === 'Placed'|| order.status === 'Shipped' || order.status === 'Out for delivery' || order.status === 'Delivered' ? 'active' : '' %>">
                                     <div><i class="fas fa-user"></i></div> Order Placed
@@ -268,11 +321,22 @@
                                 </li>
                             </ul>
                             <h5 class="text-center"><b></b>. The order has been <%= order.status.toLowerCase() %>!</h5>
+                            <% }else { %>
+
+                            <h5 class="text-center"><b></b>. The order has been cancelled!</h5>
+                                <% } %>
                         </div>
 
-
+                        
+                    </div>
+                    
+                    <% if(order.status !='Cancelled' ) { %>
+                    <div class="card" style="background-color: transparent; width: auto; ">
+                        <button class="button-30" id="cancel-btn" role="button" style="width: fit-content; margin-bottom: 6%; height: fit-content;"    onclick="confirmCancellation('<%= order._id %>')"  >Cancel</button>
 
                     </div>
+                <% } %>
+
                 </div>
                 <div class="col-lg-4">
                     <!-- <div class="card mb-4">
@@ -324,4 +388,87 @@
 
         </div>
     </div>
+
+
+<script>
+    function confirmCancellation(orderId) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'This action cannot be undone!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Yes, cancel it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+
+
+                Swal.fire({
+                    title: 'Cancel Order',
+                    text: 'Please select a reason for cancelling your order:',
+                    input: 'select',
+                    inputOptions: {
+                        'changedMind': 'Changed my mind about the purchase',
+                        'foundCheaper': 'Found a better price elsewhere',
+                        'wrongSizeColor': 'Ordered wrong size/color',
+                        'deliveryIssue': 'Delivery taking longer than expected',
+                        'productIssue': 'Received damaged/faulty item',
+                        'financialReasons': 'Financial constraints prevent purchase',
+                        'duplicateOrder': 'Accidentally placed a duplicate order',
+                        'noLongerNeeded': 'No longer in need of the product',
+                        'other': 'Other (Please specify in comments)'
+                    },
+                    inputPlaceholder: 'Select a reason',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Confirm',
+                    cancelButtonText: 'Cancel',
+                    inputValidator: (value) => {
+                        if (!value) {
+                            return 'Please select a reason';
+                        }
+                    }
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        const reason = result.value;
+                        console.log(reason)
+                         fetch(`/cancelOrder/${orderId }`, {
+                            method: 'POST', // or 'DELETE', 'PUT', etc. depending on your backend setup
+                            // Add headers and body as needed
+                        })
+                            .then(response => {
+                                if (response.ok) {
+                                    // If cancellation was successful, remove the button
+                                    const cancelButton = document.getElementById('cancel-btn');
+                                    if (cancelButton) {
+                                        cancelButton.remove();
+                                    }
+                                    $("#looks").load(`/orderDetails/${orderId } #looks`);
+                                    Swal.fire('Cancelled!', 'Your order has been cancelled.', 'success');
+                                } else {
+                                    Swal.fire('Error!', 'Unable to cancel the order.', 'error');
+                                }
+                            })
+                            .catch(error => {
+                                Swal.fire('Error!', 'Something went wrong.', 'error');
+                                console.error('Error:', error);
+                            });
+                        // You can handle the chosen reason here, perhaps send it to your backend or perform other actions based on the reason chosen.
+                        // Swal.fire(
+                        //     'Cancelled!',
+                        //     `Your order has been cancelled for reason: ${reason}`,
+                        //     'success'
+                        // );
+                        // Handle cancellation logic here
+                    }
+                });
+                // If user confirms, make a fetch request to cancel the order
+               
+            }
+        });
+    }
+</script>
+
 <%- include("../partials/footer") %>
