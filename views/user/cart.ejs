@@ -208,7 +208,11 @@
                                     <td class="cart__price" id="cart_price">$ <%= productItem.productid.price.toFixed(2) %></td>
                                     <td class="cart__quantity">
                                         <div class="pro-qty">
+                                            <% if (productItem.count > 1){ %>
                                         <span class="dec qtybtn" onclick="productquantity('<%= productItem.productid._id %>',-1)">-</span>
+                                              <% }else{ %>
+                                        <span class="dec qtybtn" onclick="minimun()">-</span>
+                                              <% } %>
                                         <input type="text" value="<%= productItem.count %>" data-productid="<%= productItem.productid._id %>" min="1">
                                             <span class="inc qtybtn" onclick="productquantity('<%= productItem.productid._id %>',1)">+</span>
                                     </div>
@@ -300,6 +304,30 @@
 
 
     </script>
+
+
+<script>
+   function minimun() {
+    Swal.fire({
+        icon: 'warning',
+  title: "Minimum quantity is 1.",
+  width: 600,
+  padding: "3em",
+  color: "#716add",
+//   background: "#fff url(/images/trees.png)",
+  backdrop: `
+    rgba(0,0,123,0.4)
+    url("/images/nyan-cat.gif")
+    left top
+    no-repeat
+  `
+});
+   } 
+</script>
+
+
+
+
 
 
         <div class="row">

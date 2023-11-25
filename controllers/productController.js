@@ -117,6 +117,23 @@ if(product){
   }
 };
 
+
+//==============================Cropimage======================
+const cropimage = async (req, res) => {
+  try {
+    console.log("hello")
+   console.log(req.body)
+    
+   res.status(200).send('Image uploaded successfully.');
+   
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
+}
+
+
+
 //==============================delete product======================
 
 const deleteProduct = async (req, res) => {
@@ -212,4 +229,5 @@ module.exports = {
   stockupdate,
   listProduct,
   unlistproduct,
+  cropimage
 };

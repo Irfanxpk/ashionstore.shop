@@ -8,6 +8,7 @@ const session = require('express-session')
 const auth = require('../middlewares/adminAuth')
 const multer = require('multer')
 const crypto = require('crypto');
+const bodyParser = require('body-parser');
 // const authmult = require('../middlewares/multer')
 
 //===========================SESSION SETTING================================================
@@ -28,7 +29,11 @@ const storage = multer.diskStorage({
   },
 });
 
-const upload = multer({ storage: storage });
+const upload = multer({ storage: storage ,
+limits :{
+  fileSize: 50 * 1024 * 1024
+}
+});
 
 //===========================BODY PARSING===================================================
 adminRoute.use(express.json())
@@ -61,6 +66,7 @@ adminRoute.get('/product',productController.loadProduct)
 adminRoute.get('/addProduct',productController.loadAddProduct);
 adminRoute.post('/addProduct', upload.array('images',6), productController.addProduct);
 adminRoute.get('/edit-product/:id', productController.loadEditProduct);
+adminRoute.post('/uploadCroppedImage', upload.single('image'), productController.cropimage);
 adminRoute.post('/edit-product/:id',productController.editProduct);
 adminRoute.get('/delete-product/:id', productController.deleteProduct);
 adminRoute.get('/listProduct/:id', productController.listProduct);

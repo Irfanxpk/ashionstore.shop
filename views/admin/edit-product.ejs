@@ -1,4 +1,5 @@
  <%- include("../partials/adminHeader") %>
+ <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
         <!-- Content Start -->
         <div class="content">
@@ -124,19 +125,109 @@
                     </div>
                  -->
                  
-            <div class="mb-3 pt-4">
-                <label for="existingImages" class="form-label">Existing Product Images:</label>
-                <div id="existingImages" class="d-flex flex-wrap">
-                    <% product.images.forEach(function(image, index) { %>
-                        <div class="mr-2 mb-2">
-                            <img src="/uploads/product/<%= image %>" alt="Product Image" class="img-thumbnail"
-                                style="width: 80px; height: 110px;">
-                        </div> &nbsp;&nbsp;
+                 <div class="mb-3 pt-4">
+                    <label for="existingImages" class="form-label">Existing Product Images:</label>
+                    <div id="existingImages" class="d-flex flex-wrap">
+                        <% product.images.forEach(function(image, index) { %>
+                            <div class="mr-2 mb-2">
+                                <img src="/uploads/product/<%= image %>" alt="Product Image" class="img-thumbnail"
+                                    style="width: 80px; height: 110px;" id="imagePreview<%= index %>">
+                
+                                <button type="button" class="btn btn-primary btn-sm" onclick="editImage('<%= image %>', '<%= index %>')" >Crop</button>
+                                <button type="button" class="btn btn-danger btn-sm" onclick="deleteImage('<%= image %>', '<%= index %>')">Delete</button>
+                            </div> &nbsp;&nbsp;
                         <% }) %>
+                    </div>
                 </div>
-            </div>
+                
 
             
+<script>
+
+                function editImage(imageName, index) {
+                    const imageElement = document.getElementById(`imagePreview${index}`);
+                    const cropperModalContent = `
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Crop Image</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="text-center">
+                                        <img id="cropperImage" src="${imageElement.src}" alt="Croppable Image" style="max-width: 100%;">
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                   
+                                    <button type="button" class="btn btn-primary" onclick="cropImage('${imageName}', '${index}')">Crop</button>
+                                </div>
+                            </div>
+                        </div>`;
+                    
+                    Swal.fire({
+                        title: 'Crop Image',
+                        html: cropperModalContent,
+                        showCancelButton: true,
+                        showConfirmButton: false,
+                        didOpen: () => {
+                            const imageElement = document.getElementById('cropperImage');
+                            cropper = new Cropper(imageElement, {
+                                aspectRatio: 0.74, // Set your desired aspect ratio
+                                viewMode: 1, // Set the view mode for the Cropper.js instance
+                                cropBoxResizable: false,
+                            });
+                        },
+                        willClose: () => {
+                            if (cropper) {
+                                cropper.destroy();
+                            }
+                        },
+                    });
+                }
+                
+                function cropImage(imageName, index) {
+    const imageElement = document.getElementById(`imagePreview${index}`);
+    if (cropper) {
+        const canvas = cropper.getCroppedCanvas();
+        const croppedImage = canvas.toDataURL('image/jpeg');
+
+        console.log(croppedImage, imageName , index);
+        // Send the cropped image data to the server using fetch
+        fetch('/admin/uploadCroppedImage', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ imageName, croppedImage }),
+        })
+        .then(response => {
+            if (response.ok) {
+                // On successful response (assuming your server responds with a success status)
+                // Update the original image source after the server confirmation
+                imageElement.src = croppedImage;
+                Swal.close(); // Close the SweetAlert modal after cropping
+            } else {
+                // Handle errors or unsuccessful response here
+                console.error('Failed to upload cropped image');
+            }
+        })
+        .catch(error => {
+            // Handle fetch errors here
+            console.error('Error while uploading cropped image:', error);
+        });
+    }
+}
+
+                
+
+</script>
+
+
+
+
+
+
             <!-- Input for new images -->
             <!-- <div class="mb-3 pt-4">
                 <label for="newImages" class="form-label">Upload Additional Product Images:</label>
