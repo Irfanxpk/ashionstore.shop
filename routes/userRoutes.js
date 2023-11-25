@@ -4,6 +4,8 @@ const userController = require("../controllers/userController")
 const auth = require("../middlewares/userAuth");
 const cartController = require("../controllers/cartController")
 
+const addressController = require("../controllers/addressController")
+
 router.get('/',auth.isLogout,userController.home)
 router.get('/login',userController.login)
 router.post('/login',userController.loginvalid)
@@ -26,11 +28,16 @@ router.get('/shop',userController.loadshop);
 
 router.get('/userprofile',userController.userinfo);    
 router.post("/edit/:id", userController.updateUser);
-router.post('/addAddress' , userController.addNewAddress);
-router.get('/editAddress/:id',userController.editAddress)
-router.post("/EditAddress/:id", userController.updateAddress);
-router.get('/deleteAddress/:id',userController.deleteAddress);
 router.post("/updateUser", userController.updateUser);
+
+
+//=========Address Routes=============
+router.post('/addAddress' , addressController.addNewAddress);
+router.get('/editAddress/:id',addressController.editAddress)
+router.post("/EditAddress/:id", addressController.updateAddress);
+router.get('/deleteAddress/:id',addressController.deleteAddress);
+
+
 router.post('/placeorder',userController.placeOrder)
 router.post("/create-order", userController.createOrder);
 router.post("/verify-payment", userController.verifypayment);

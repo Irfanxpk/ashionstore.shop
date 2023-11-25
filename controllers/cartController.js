@@ -21,9 +21,13 @@ const loadCart = async (req, res) => {
     const express = 99;
     console.log("ex")
     
-    const datatotal = total.items.map((item) => {
+    let datatotal
+
+    // if (data[0].items.length > 0){
+     datatotal = total.items.map((item) => {
       return item.total * item.count;
     });
+  // }
     console.log("da");
     
     let totalsum = 0;
@@ -38,7 +42,7 @@ const loadCart = async (req, res) => {
     .find({ userid: id })
     .populate("items.productid");
     
-    // console.log(cartdata);
+    console.log(cartdata);
     // if (cartdata.items.length > 0) {
         console.log(data[0].items.length);
         if (data) {
@@ -49,8 +53,8 @@ const loadCart = async (req, res) => {
             data,
             id,
             totalsum,
-            express,
-            standard,
+            // express,
+            // standard,
           });
         // }
       } else {
@@ -238,8 +242,7 @@ const loadChekout = async (req, res) => {
     const id = req.session.user_id;
     const data = await Cart.find({ userid: id });
     const total = await Cart.findOne({ userid: id }).populate("items.total");
-    const standard = 49;
-    const express = 99;
+  
     const datatotal = total.items.map((item) => {
       return item.total * item.count;
     });
@@ -266,8 +269,8 @@ const loadChekout = async (req, res) => {
         data,
         id,
         totalsum,
-        express,
-        standard,
+        // express,
+        // standard,
       });
     } else {
       console.log("Your cart is empty.");
