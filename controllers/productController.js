@@ -119,6 +119,8 @@ const updateimg = async (req, res) => {
     product.images[index] = req.files[0].filename;
 
     await product.save();
+
+    res.json({ message: "Image updated successfully", index});
     }else{
       res.send("Product not found");
     
@@ -127,12 +129,44 @@ const updateimg = async (req, res) => {
 
 
 
-  }catch (error) {
-    console.log(error)
+  }catch (err) {
+    console.error("Error updating image:", err);
+    res.status(500).json({ error: "Error updating image" });
   }
 }
 
+// ==========================delete=single=image===============
 
+const deleteimg = async (req,res)=>{
+
+  try {
+
+    const {img , index , id} = req.body;
+    
+    console.log(req.body)
+    
+    const imagePath = path.join("public", "uploads", "product_resized", img); // Adjust the path accordingly
+    fs.unlink(imagePath, (err) => {
+      if (err) {
+        console.error("Error deleting image:", err);
+        return;
+      }
+      console.log("Image deleted successfully");
+    });
+    const product = await Product.findById(id);
+    if(product){
+    product.images.splice(index, 1);
+    await product.save();
+    res.json({ message: "Image deleted successfully", index});
+    }else{
+      res.send("Product not found");
+    
+    }
+
+  }catch (err) {
+    console.log(err)
+  }
+}
 
 //==============================Edit product======================
 const editProduct = async (req, res) => {
@@ -273,5 +307,6 @@ module.exports = {
   listProduct,
   unlistproduct,
   cropimage,
-  updateimg
+  updateimg,
+  deleteimg,
 };

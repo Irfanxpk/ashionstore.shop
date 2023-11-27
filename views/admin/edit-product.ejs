@@ -135,7 +135,7 @@
                 
                                 <!-- <button type="button" class="btn btn-primary btn-sm" onclick="editImage('<%= image %>', '<%= index %>')" >Crop</button> -->
                                 <button type="button" class="btn btn-danger btn-sm" onclick="selectImage('<%= image %>', '<%= index %>' , '<%= product._id %>')"> update</button>
-                                <button type="button" class="btn btn-danger btn-sm" onclick="deleteImage('<%= image %>', '<%= index %>')">Delete</button>
+                                <button type="button" class="btn btn-danger btn-sm" onclick="deleteImage('<%= image %>', '<%= index %>' , '<%= product._id %>')">Delete</button>
                             </div> &nbsp;&nbsp;
                         <% }) %>
                     </div>
@@ -206,6 +206,7 @@
                             .then(response => response.json())
                             .then(data => {
                                 console.log('Upload successful:', data);
+                                $("#imgDiv").load(`/admin/edit-product/${id} #imgDiv`);
                             })
                             .catch(error => {
                                 console.error('Error uploading:', error);
@@ -229,6 +230,47 @@
 
                 </script>
 
+
+
+<script >
+
+    function deleteImage(img, index , id) {
+        const data = {
+            img: img,
+            index: index,
+            id: id
+         }
+         Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                
+              fetch('/admin/deleteimg', {
+                    method: 'POST',
+                     headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('Upload successful:', data);
+                        $("#imgDiv").load(`/admin/edit-product/${id} #imgDiv`);
+                    })
+                    .catch(error => {
+                        console.error('Error uploading:', error);
+                    });
+
+            }
+        })
+    }
+</script>
 
 
 
