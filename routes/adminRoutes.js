@@ -151,7 +151,7 @@ adminRoute.get('/product',productController.loadProduct)
 adminRoute.get('/addProduct',productController.loadAddProduct);
 adminRoute.post('/addProduct', upload.array('images',6), resizeAndSave, productController.addProduct);
 adminRoute.get('/edit-product/:id', productController.loadEditProduct);
-adminRoute.post("/updateimg", upload.single('image'),resizeAndSave , productController.updateimg);
+adminRoute.post("/updateimg", upload.array('images',1),resizeAndSave , productController.updateimg);
 adminRoute.post('/uploadCroppedImage', upload.single('image'), productController.cropimage);
 adminRoute.post('/edit-product/:id',productController.editProduct);
 adminRoute.get('/delete-product/:id', productController.deleteProduct);

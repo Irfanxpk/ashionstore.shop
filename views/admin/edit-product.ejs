@@ -125,7 +125,7 @@
                     </div>
                  -->
                  
-                 <div class="mb-3 pt-4">
+                 <div class="mb-3 pt-4" id="imgDiv">
                     <label for="existingImages" class="form-label">Existing Product Images:</label>
                     <div id="existingImages" class="d-flex flex-wrap">
                         <% product.images.forEach(function(image, index) { %>
@@ -134,7 +134,7 @@
                                     style="width: 80px; height: 110px;" id="imagePreview<%= index %>">
                 
                                 <!-- <button type="button" class="btn btn-primary btn-sm" onclick="editImage('<%= image %>', '<%= index %>')" >Crop</button> -->
-                                <button type="button" class="btn btn-danger btn-sm" onclick="selectImage('<%= image %>', '<%= index %>')"> update</button>
+                                <button type="button" class="btn btn-danger btn-sm" onclick="selectImage('<%= image %>', '<%= index %>' , '<%= product._id %>')"> update</button>
                                 <button type="button" class="btn btn-danger btn-sm" onclick="deleteImage('<%= image %>', '<%= index %>')">Delete</button>
                             </div> &nbsp;&nbsp;
                         <% }) %>
@@ -145,7 +145,7 @@
 
 
                 <script>
-                    function selectImage(img , index) {
+                    function selectImage(img , index , id) {
                         const input = document.createElement('input');
                         input.type = 'file';
                         input.accept = 'image/*';
@@ -174,7 +174,8 @@
                                 }).then((result) => {
                                     if (result.isConfirmed) {
                                         // If confirmed, proceed with uploading the images
-                                        uploadImages(files);
+                                     
+                                        uploadImages(files , img , index , id);
                                     }
                                 });
                             }
@@ -183,14 +184,22 @@
                         input.click();
                     }
 
-                    function uploadImages(files) {
+                    function uploadImages(files , img, index , id) {
                         const formData = new FormData();
 
                         for (let i = 0; i < files.length; i++) {
                             formData.append('images', files[i]);
                         }
-                            
-                        fetch('/updateimg', {
+                        
+                            //formData.append('images', files[0]);
+
+                             
+                            formData.append('img', img);
+                        formData.append('index', index);
+                        formData.append('id' , id)
+                        // console.log([...formData.entries()])
+
+                        fetch('/admin/updateimg', {
                             method: 'POST',
                             body: formData
                         })

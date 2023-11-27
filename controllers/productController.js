@@ -4,6 +4,8 @@ const User = require("../models/User");
 const bcrypt = require("bcrypt");
 const Product = require("../models/Product");
 const multer = require("multer");
+const path = require("path");
+const fs = require("fs");
 
 
 
@@ -95,9 +97,39 @@ const loadEditProduct = async (req, res) => {
 
 const updateimg = async (req, res) => {
   try {
-    const productId = req.params.id;
-    const product = await Product.findById(productId);
-  }catch 
+   console.log(req.files);
+    const {img , index , id} = req.body;
+
+
+    
+
+    const imagePath = path.join("public", "uploads", "product_resized", img); // Adjust the path accordingly
+    fs.unlink(imagePath, (err) => {
+      if (err) {
+        console.error("Error deleting image:", err);
+        return;
+      }
+      console.log("Image deleted successfully");
+    });
+   
+    const product = await Product.findById(id);
+
+    if(product){
+
+    product.images[index] = req.files[0].filename;
+
+    await product.save();
+    }else{
+      res.send("Product not found");
+    
+    }
+    
+
+
+
+  }catch (error) {
+    console.log(error)
+  }
 }
 
 
@@ -133,7 +165,7 @@ if(product){
 const cropimage = async (req, res) => {
   try {
     console.log("hello")
-   console.log(req.body)
+   console.log(req.files)
     
    res.status(200).send('Image uploaded successfully.');
    
@@ -240,5 +272,6 @@ module.exports = {
   stockupdate,
   listProduct,
   unlistproduct,
-  cropimage
+  cropimage,
+  updateimg
 };
