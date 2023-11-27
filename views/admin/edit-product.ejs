@@ -130,16 +130,107 @@
                     <div id="existingImages" class="d-flex flex-wrap">
                         <% product.images.forEach(function(image, index) { %>
                             <div class="mr-2 mb-2">
-                                <img src="/uploads/product/<%= image %>" alt="Product Image" class="img-thumbnail"
+                                <img src="/uploads/product_resized/<%= image %>" alt="Product Image" class="img-thumbnail"
                                     style="width: 80px; height: 110px;" id="imagePreview<%= index %>">
                 
-                                <button type="button" class="btn btn-primary btn-sm" onclick="editImage('<%= image %>', '<%= index %>')" >Crop</button>
+                                <!-- <button type="button" class="btn btn-primary btn-sm" onclick="editImage('<%= image %>', '<%= index %>')" >Crop</button> -->
+                                <button type="button" class="btn btn-danger btn-sm" onclick="selectImage('<%= image %>', '<%= index %>')"> update</button>
                                 <button type="button" class="btn btn-danger btn-sm" onclick="deleteImage('<%= image %>', '<%= index %>')">Delete</button>
                             </div> &nbsp;&nbsp;
                         <% }) %>
                     </div>
                 </div>
                 
+
+
+
+                <script>
+                    function selectImage(img , index) {
+                        const input = document.createElement('input');
+                        input.type = 'file';
+                        input.accept = 'image/*';
+                        input.multiple = true;
+
+                        input.onchange = function (e) {
+                            const files = e.target.files;
+
+                            if (files.length === 0) {
+                                // Show SweetAlert error if no images are selected
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Oops...',
+                                    text: 'Please select at least one image!',
+                                });
+                            } else {
+                                // Show SweetAlert confirmation dialog before upload
+                                Swal.fire({
+                                    title: 'Confirm Upload',
+                                    text: 'Are you sure you want to upload these images?',
+                                    icon: 'info',
+                                    showCancelButton: true,
+                                    confirmButtonColor: '#3085d6',
+                                    cancelButtonColor: '#d33',
+                                    confirmButtonText: 'Upload'
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        // If confirmed, proceed with uploading the images
+                                        uploadImages(files);
+                                    }
+                                });
+                            }
+                        };
+
+                        input.click();
+                    }
+
+                    function uploadImages(files) {
+                        const formData = new FormData();
+
+                        for (let i = 0; i < files.length; i++) {
+                            formData.append('images', files[i]);
+                        }
+                            
+                        fetch('/updateimg', {
+                            method: 'POST',
+                            body: formData
+                        })
+                            .then(response => response.json())
+                            .then(data => {
+                                console.log('Upload successful:', data);
+                            })
+                            .catch(error => {
+                                console.error('Error uploading:', error);
+                            });
+                    }
+
+                    // Trigger file selection when SweetAlert button is clicked
+                    // Swal.fire({
+                    //     title: 'Select Image',
+                    //     text: 'Please select image(s)',
+                    //     icon: 'info',
+                    //     showCancelButton: true,
+                    //     confirmButtonColor: '#3085d6',
+                    //     cancelButtonColor: '#d33',
+                    //     confirmButtonText: 'Select'
+                    // }).then((result) => {
+                    //     if (result.isConfirmed) {
+                    //         selectImage();
+                    //     }
+                    // });
+
+                </script>
+
+
+
+
+
+
+
+
+
+
+
+
 
             
 <script>
@@ -199,7 +290,8 @@
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ imageName, croppedImage }),
+            // body: JSON.stringify({ imageName, croppedImage }),
+            body: croppedImage,
         })
         .then(response => {
             if (response.ok) {

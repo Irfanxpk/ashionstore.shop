@@ -91,6 +91,12 @@ const loadEditProduct = async (req, res) => {
   }
 };
 
+
+
+/updateimg
+
+
+
 //==============================Edit product======================
 const editProduct = async (req, res) => {
   try {

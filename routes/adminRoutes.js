@@ -9,6 +9,8 @@ const auth = require('../middlewares/adminAuth')
 const multer = require('multer')
 const crypto = require('crypto');
 const bodyParser = require('body-parser');
+const sharp = require('sharp');
+const fs = require('fs');
 // const authmult = require('../middlewares/multer')
 
 //===========================SESSION SETTING================================================
@@ -18,22 +20,105 @@ adminRoute.use(session({
   secret: crypto.randomBytes(64).toString('hex')
 }));
 
-//============================setting multer===============================================
+
+// //============================setting multer===============================================
+// const storage = multer.diskStorage({
+//   destination: function (req, file, cb) {
+//     cb(null, "public/uploads/product");
+//   },
+//   filename: function (req, file, cb) {
+//     // cb(null, Date.now() + '-' + file.originalname);
+//     cb(null,file.fieldname + "-" + Date.now() + path.extname(file.originalname))
+//   },
+// });
+
+// const upload = multer({ storage: storage ,
+// limits :{
+//   fileSize: 50 * 1024 * 1024
+// },
+// fileFilter: function (req, file, cb) {
+//   if (file.mimetype.startsWith('image/')) {
+//     cb(null, true);
+//   } else {
+//     cb('Only image files are allowed!', false);
+//   }
+// },
+// });
+
+
+
+
+// Multer configuration for file upload
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, "public/uploads/product");
   },
   filename: function (req, file, cb) {
-    // cb(null, Date.now() + '-' + file.originalname);
-    cb(null,file.fieldname + "-" + Date.now() + path.extname(file.originalname))
+    cb(null, file.fieldname + "-" + Date.now() + path.extname(file.originalname))
   },
 });
 
-const upload = multer({ storage: storage ,
-limits :{
-  fileSize: 50 * 1024 * 1024
-}
+const upload = multer({
+  storage: storage,
+  limits: {
+    fileSize: 50 * 1024 * 1024
+  },
+  fileFilter: function (req, file, cb) {
+    if (file.mimetype.startsWith('image/')) {
+      cb(null, true);
+    } else {
+      cb('Only image files are allowed!', false);
+    }
+  }
 });
+
+// Middleware to process uploaded images using Sharp after Multer
+const resizeAndSave = async (req, res, next) => {
+  try {
+    if (!req.files || !req.files.length) {
+      return next();
+    }
+
+    const processedImages = [];
+
+    for (const file of req.files) {
+      const outputDir = 'public/uploads/product_resized'; // Directory for processed images
+      const outputPath = path.join(outputDir, file.filename);
+
+      // Create the output directory if it doesn't exist
+      if (!fs.existsSync(outputDir)) {
+        fs.mkdirSync(outputDir, { recursive: true });
+      }
+
+      await sharp(file.path)
+        .resize({ width: 270, height: 360 })
+        .toFile(outputPath);
+
+      processedImages.push(outputPath); // Store the processed image paths
+      
+      fs.unlink(file.path, (err) => {
+        if (err) {
+          console.error('Error deleting file:', err);
+        } else {
+          console.log('Original file deleted:', file.path);
+        }
+      });
+    }
+    
+    // Update the request object with the processed image paths if needed
+    req.processedImages = processedImages;
+   
+    next();
+  } catch (error) {
+    console.error('Error processing images:', error);
+    res.status(500).send('Error processing images');
+  }
+};
+
+
+
+
+
 
 //===========================BODY PARSING===================================================
 adminRoute.use(express.json())
@@ -64,8 +149,9 @@ adminRoute.get('/categories/:categoryId/block', adminController.categoryBlock)
 adminRoute.get('/categories/:categoryId/unblock', adminController.categoryUnblock)
 adminRoute.get('/product',productController.loadProduct)
 adminRoute.get('/addProduct',productController.loadAddProduct);
-adminRoute.post('/addProduct', upload.array('images',6), productController.addProduct);
+adminRoute.post('/addProduct', upload.array('images',6), resizeAndSave, productController.addProduct);
 adminRoute.get('/edit-product/:id', productController.loadEditProduct);
+adminRoute.post("/updateimg", upload.single('image'),resizeAndSave , productController.updateimg);
 adminRoute.post('/uploadCroppedImage', upload.single('image'), productController.cropimage);
 adminRoute.post('/edit-product/:id',productController.editProduct);
 adminRoute.get('/delete-product/:id', productController.deleteProduct);
