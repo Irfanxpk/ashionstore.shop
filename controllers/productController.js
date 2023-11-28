@@ -144,7 +144,7 @@ const deleteimg = async (req,res)=>{
     const {img , index , id} = req.body;
     
     console.log(req.body)
-    
+
     const imagePath = path.join("public", "uploads", "product_resized", img); // Adjust the path accordingly
     fs.unlink(imagePath, (err) => {
       if (err) {
@@ -164,6 +164,29 @@ const deleteimg = async (req,res)=>{
     }
 
   }catch (err) {
+    console.log(err)
+  }
+}
+
+//=======================upload img ======================
+const uploadimg = async (req,res)=>{
+  try {
+    if (req.files) {
+      const file = req.files;
+      console.log(req.body , req.files[0].filename)
+       const id = req.body.id
+      const product = await Product.findById(id);
+       if(product){
+        product.images.push(file[0].filename);
+        await product.save();
+        res.json({ message: "Image uploaded successfully" });
+       }else{
+        res.json({ message: "Product not found" });
+       }
+    }else{
+      res.json({ message: "No image uploaded" });
+    }
+    }catch (err) {
     console.log(err)
   }
 }
@@ -309,4 +332,5 @@ module.exports = {
   cropimage,
   updateimg,
   deleteimg,
+  uploadimg
 };
