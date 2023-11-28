@@ -36,11 +36,11 @@ const orderdetails = mongoose.Schema({
       },
       name: {
         type: String,
-        required : true
+        required: true,
       },
-      img:{
-        type : String,
-        required : true
+      img: {
+        type: String,
+        required: true,
       },
       count: {
         type: Number,
@@ -83,6 +83,10 @@ const orderdetails = mongoose.Schema({
   shippingFee: {
     type: String,
     required: true,
+  },
+  Date: {
+    type: Date,
+    default: Date.now, // Set default value to current date when order is created
   },
 });
 

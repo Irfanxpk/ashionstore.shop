@@ -131,7 +131,7 @@
           <td>
             <!-- Display image if available -->
             <% if (order.items.length > 0 && order.items[0].img) { %>
-             <a href="/admin/<%=order._id%>"> <img src="/uploads/product/<%= order.items[0].img %>" alt="Product Image" style="max-width: 50px; max-height: 50px;"></a>
+             <a href="/admin/<%=order._id%>"> <img src="/uploads/product_resized/<%= order.items[0].img %>" alt="Product Image" style="max-width: 50px; max-height: 50px;"></a>
             <% } else { %>
               No Image
             <% } %>
@@ -154,6 +154,7 @@
           <td><%= order.status %></td>
           <td>
             <!-- Replace the form with a select input and use JavaScript to handle the change event -->
+            <% if (order.status != "Cancelled") { %>
             <select
               name="newStatus"
               class="form-select"
@@ -164,11 +165,17 @@
                <option value="Placed" <%= order.status == "Placed" ? 'selected' : '' %>>Placed</option>
                                         <!-- <option value="Processing" <%= order.status == "Processing" ? 'selected' : '' %>>Processing</option> -->
                                         <option value="Shipped" <%= order.status == "Shipped" ? 'selected' : '' %>>Shipped</option>
-                                        <option value="Out for delivery" <%=order.status == "Out for delivery" ? 'selected' : '' %>>Out for delivery</option>
+                                        <option value="Out for delivery" <%=order.status == "Out for delivery" ? 'selected' : '' %>>Out for delevery</option>
                                         <option value="Delivered" <%= order.status == "Delivered" ? 'selected' : '' %>>Delivered</option>
-                                        <option value="Cancelled" <%= order.status == "Cancelled" ? 'selected' : '' %>>Cancelled</option>
+                                        <option value="Cancelled" <%= order.status == "Cancelled" ? 'selected' : '' %>>Cancell</option>
                                         <!-- <option value="Returned" <%= order.status == "Returned" ? 'selected' : '' %>>Returned</option> -->
             </select>
+            <% }else { %>
+
+                <select name="newStatus" class="form-select" id="" >
+                    <option value="" onclick="cancelled()">Cancelled</option>
+                </select>
+                <% } %>
           </td>
           <!-- Add more columns as needed for your order table -->
         </tr>
@@ -177,6 +184,16 @@
   </table>
 </div>
 
+<script>
+  function cancelled() {
+    console.log("hello iam here at cancell error")
+    Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "you can't cancel the order which is already cancelled!",
+      });
+  }
+</script>
 
 <script>
   // Function to handle the change in order status

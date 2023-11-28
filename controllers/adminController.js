@@ -332,20 +332,29 @@ res
 //============sales report================
 const sales = async (req, res) => {
  try {
-   var data = [];
-   var k = 0;
+
+   const { status } = req.query;
+ 
+   console.log(status);
+
+   if (status) {
+     const regexPattern = new RegExp(status, 'i');
+     console.log(regexPattern)
+     const orderdata = await Order
+       .find({ status : regexPattern })
+       .sort({ purchaseDate: -1 });
+       console.log(orderdata);
+     res.render("sales",{orderdata});
+   }else{
+   
    const orderdata = await Order
      .find()
      .sort({ purchaseDate: -1 });
    // const orderproducts = await order.aggregate([{$project:{"items.productid":productname}}]).populate("items.productid")
    // console.log(orderproducts);
 
-   console.log(orderdata);
-   const week1 = await Order.find({ status: "delivered" }).count();
-   console.log(week1);
-
-   console.log(data);
    res.render("sales",{orderdata});
+   }
  } catch (error) {
    console.log(error.message);
  }
