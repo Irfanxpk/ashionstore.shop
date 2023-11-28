@@ -100,6 +100,23 @@
                 <div class="container-fluid pt-4 px-4">
                     <div class="bg-secondary text-center rounded p-4">
                         <div class="d-flex align-items-center justify-content-between mb-4">
+
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="statusDropdown" data-bs-toggle="dropdown"
+                                    aria-expanded="false">
+                                    Filter by Order Status
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="statusDropdown">
+                                    <li><a class="dropdown-item" href="/admin/sales">All Orders</a></li>
+                                    <li><a class="dropdown-item" href="/admin/sales?status=Placed">Placed</a></li>
+                                    <li><a class="dropdown-item" href="#statusShipped">Shipped</a></li>
+                                    <li><a class="dropdown-item" href="#statusProcessing">Out for Delevery </a></li>
+                                    <li><a class="dropdown-item" href="#statusDelivered">Delivered</a></li>
+                                    <li><a class="dropdown-item" href="#statusDelivered">Cancelled</a></li>
+                                    <!-- Add more status options as needed -->
+                                </ul>
+                            </div>
+
                             <h6 class="mb-0">Sales</h6>
                             <a href="/admin/SalesReport">Sales Report</a>
                         </div>
