@@ -175,53 +175,22 @@
                             </div>
                             <!-- Table End -->
                         
+                            <button class="btn btn-secondary calender" onclick="filterByDate()" type="button" aria-expanded="false"> filter by date</button>
+
+
                     </div>
                 </div>
             </div>
         </div>
         <!-- Blank End -->
 
-        <!-- <script>
-             function stockupdate(id){
-                 console.log("hello World")
-                 let num =  document.getElementById("stkpdate").value;
-                 console.log(num)
-              const data = { stock: num };
-             fetch(`/admin/products/stock/${id}`, {
-                method: 'PATCH',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(data),
-            })
-                .then(response => {
-                    if (response.ok) {
-                        // Action was successful, show a success alert
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Stock Updated',
-                            text: 'Stock has been updated successfully!',
-                        });
-                    } else {
-                        // Action failed, show an error alert
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Failed to Update Stock',
-                            text: 'An error occurred while updating the stock.',
-                        });
-                    }
-                })
-                .catch(error => {
-                    // Action failed, show an error alert
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Failed to Update Stock',
-                        text: 'An error occurred while updating the stock.',
-                    });
-                });
-        }
-            
-         </script> -->
+
+
+
+
+
+
+
 
         <!-- Footer Start -->
         <div class="container-fluid pt-4 px-4">
