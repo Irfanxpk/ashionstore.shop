@@ -335,7 +335,6 @@ const sales = async (req, res) => {
 
    const { status } = req.query;
  
-   console.log(status);
 
    if (status) {
      const regexPattern = new RegExp(status, 'i');
@@ -359,6 +358,30 @@ const sales = async (req, res) => {
    console.log(error.message);
  }
 
+}
+
+
+
+
+
+
+//==================filter By date==================
+const filterByDate = async (req, res) => {
+  try {
+    console.log(req.query)
+    const {startDate, endDate} = req.query
+   const orderdata = await Order.find({
+     purchaseDate: {
+       $gte: startDate,
+       $lte: endDate,
+     },
+   }).sort({ Date: -1 });
+
+      console.log(orderdata)
+    res.json(orderdata)
+  }catch(error){
+    console.log(error.message);
+  }
 }
 
 //===============Sales Report================
@@ -420,5 +443,6 @@ module.exports = {
   orders,
   changeOrderStatus,
   sales,
+  filterByDate,
   SalesReport,
 };

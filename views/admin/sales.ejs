@@ -124,7 +124,7 @@
                             <div class="col-12">
                                
                                     <div class="table-responsive">
-                                        <table class="table">
+                                        <table class="table" id="orders-table">
                                             <thead>
                                                 <tr>
                                                     <th scope="col">#</th>
@@ -174,9 +174,9 @@
                             </div>
                             </div>
                             <!-- Table End -->
-                        
+                        <div>
                             <button class="btn btn-secondary calender" onclick="filterByDate()" type="button" aria-expanded="false"> filter by date</button>
-
+                            </div>
 
                     </div>
                 </div>
@@ -185,6 +185,92 @@
         <!-- Blank End -->
 
 
+        <style>
+            #date-range-picker {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#date-range-picker label {
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+        </style>
+        <script>
+
+            
+            async function  filterByDate() {
+               const { value: dates } = await Swal.fire({
+                    title: 'Select Date Range',
+                    html:
+                        '<div id="date-range-picker">' +
+                        '<label for="start-date">Start Date:</label>' +
+                        '<input id="start-date" type="date" />' +
+                        '<label for="end-date">End Date:</label>' +
+                        '<input id="end-date" type="date" />' +
+                        '</div>',
+                    focusConfirm: false,
+                    didOpen: () => {
+                        const today = new Date().toISOString().split('T')[0];
+                        const oneYearAgo = new Date(new Date().setFullYear(new Date().getFullYear() - 1)).toISOString().split('T')[0];
+
+                        document.getElementById('start-date').min = oneYearAgo;
+                        document.getElementById('end-date').min = oneYearAgo;
+                        document.getElementById('start-date').max = today;
+                        document.getElementById('end-date').max = today;
+                    },
+                    preConfirm: () => {
+                        const startDate = document.getElementById('start-date').value;
+                        const endDate = document.getElementById('end-date').value;
+                        return [startDate, endDate];
+                    }
+                });
+
+
+                if (dates) {
+                    const [startDate, endDate] = dates;
+                   
+
+                    fetch(`/admin/salesdate?startDate=${startDate}&endDate=${endDate}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            console.log('Success:', data);
+
+                            renderOrdersTable(data)
+                            // Optionally, update the UI or show a notification upon success
+                        })
+                        .catch((error) => {
+                            console.error('Error:', error);
+                            // Optionally, handle the error or show a notification
+                        });
+
+                }
+
+            }
+
+            function renderOrdersTable(orderData) {
+                    const ordersTable = document.getElementById('orders-table');
+                    const tbody = ordersTable.querySelector('tbody');
+
+                    // Clear existing table body content
+                    tbody.innerHTML = '';
+
+                    // Loop through orderData and update the table rows
+                    orderData.forEach((order, index) => {
+                        const row = tbody.insertRow();
+                        row.innerHTML = `
+            <th scope="row">${index + 1}</th>
+            <td>${order.user_Id}</td>
+            <td>${order.items.map(item => item.name).join(', ')}</td>
+            <td>${order.paymentStatus}</td>
+            <td>${order.paymentMethod}</td>
+            <td>${order.totalAmount}</td>
+            <td>${order.status}</td>
+        `;
+                    });
+                }
+        </script>
 
 
 
@@ -206,6 +292,8 @@
                 </div>
             </div>
         </div>
+
+
         <!-- Footer End -->
     </div>
     <!-- Content End -->
@@ -217,13 +305,12 @@
     </div>
     <!-- JavaScript Libraries -->
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"
-        integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.0/dist/sweetalert2.all.min.js"></script>
     <script src="https://kit.fontawesome.com/744b7c765b.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="/admin/lib/chart/chart.min.js"></script>
+    <!-- <script src="/admin/lib/chart/chart.min.js"></script> -->
     <script src="/admin/lib/easing/easing.min.js"></script>
     <script src="/admin/lib/waypoints/waypoints.min.js"></script>
     <script src="/admin/lib/owlcarousel/owl.carousel.min.js"></script>
