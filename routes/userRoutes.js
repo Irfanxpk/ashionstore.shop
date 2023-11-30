@@ -47,6 +47,7 @@ router.post('/filter',userController.filter)
 router.get("/filter-category/:category", userController.filterCategory);
 router.post("/cancelOrder/:id", userController.cancelOrder);
 router.get("/orderDetails/:id", userController.singleOrderDetails);
+router.get("/invoice/:id", userController.downloadInvoice);
 // router.get("/orderDetails/:id", userController.orderDetails);
 // router.post('/Register',userController.createUser)
 

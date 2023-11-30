@@ -3,6 +3,8 @@ const bcrypt = require("bcrypt");
 const nodemailer = require("nodemailer");
 const fs = require("fs");
 const ejs = require("ejs");
+const path = require("path");
+const pdf = require("html-pdf");
 require("dotenv").config();
 const { Console, log } = require("console");
 const razorpay = require("razorpay");
@@ -711,6 +713,46 @@ const cancelOrder = async (req, res) => {
 //   res.render('cart')
 // }
 
+//============download invoice =============================
+const downloadInvoice = async (req,res)=>{
+  try {
+    const id = req.params.id;
+    const order = await Order.findById(id);
+    ejs.renderFile(
+      path.join(__dirname, "../views/user/", "invoice.ejs"),
+      {
+        order,
+      },
+      (err, data) => {
+        if (err) {
+          res.send(err.message);
+        } else {
+          let options = {
+            height: "11.25in",
+            width: "8.5in",
+            header: {
+              height: "20mm",
+            },
+            footer: {
+              height: "20mm",
+            },
+          };
+          pdf.create(data, options).toFile("invoice.pdf", function (err, data) {
+            if (err) {
+              res.send(err);
+            } else {
+              const pdfpath = path.join(__dirname, "../invoice.pdf");
+              res.sendFile(pdfpath);
+            }
+          });
+        }
+      }
+    );
+  }catch (error) {
+    console.log(error.message);
+  }
+}
+
 const loadshop = async (req, res) => {
   try {
   const products = await Product.find({ status: "active" });
@@ -721,6 +763,8 @@ const loadshop = async (req, res) => {
     console.log(err)
   }
 };
+
+
 
 module.exports = {
   insertUser,
@@ -745,4 +789,5 @@ module.exports = {
   filterCategory,
   cancelOrder,
   singleOrderDetails,
+  downloadInvoice,
 };

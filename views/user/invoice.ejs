@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Company Invoice</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Add your CSS stylesheets if any -->
+    <style>
+        /* Add your custom CSS styles here */
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1,
+        h2 {
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            text-align: left;
+        }
+
+        td {
+            text-align: left;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Invoice</h1>
+
+        <div class="invoice-details">
+            <h2>Order Details:</h2>
+            <p>Invoice ID: <%= order._id %>
+            </p>
+            <p>Purchase Date: <% const formattedDate=new Date(order.purchaseDate).toLocaleString(); %>
+               
+                    <%= formattedDate %>
+            </p>
+            <p>Status: <%= order.status %>
+            </p>
+            <p>
+                Payment Method: <%= order.paymentMethod %>
+            </p>
+            <!-- Add more order details as needed -->
+        </div>
+
+        <div class="invoice-address">
+            <h2>Address:</h2>
+            <p>
+                <%= order.addresses[0].address %>, <%= order.addresses[0].city %>, <%= order.addresses[0].state %>
+            </p>
+            <p>Phone: <%= order.addresses[0].phone %>
+            </p>
+            <p>Email: <%= order.addresses[0].email %>
+            </p>
+            <!-- Add more address details as needed -->
+        </div>
+
+        <div class="invoice-products">
+            <h2>Products:</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Count</th>
+                        <th>Total</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% order.items.forEach(function(product, index) { %>
+                        <tr>
+                            <td>
+                                <%= index + 1 %>
+                            </td>
+                            <td>
+                                <%= product.name %>
+                            </td>
+                            <td>
+                                <%= product.count %>
+                            </td>
+                            <td>$<%= product.total %>
+                            </td>
+                            <td>
+                                <%= order.paymentStatus %>
+                            </td>
+                        </tr>
+                        <% }); %>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="invoice-total">
+            <h2>Total Amount: $<%= order.totalAmount %>
+            </h2>
+            <!-- Add more summary details here if needed -->
+        </div>
+
+        <div class="invoice-footer">
+            <p>Thank you for your business!</p>
+            <!-- Add any additional information or actions here -->
+        </div>
+    </div>
+
+    <!-- Add your JavaScript files or scripts if any -->
+</body>
+
+</html>
