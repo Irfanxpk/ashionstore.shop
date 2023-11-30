@@ -624,6 +624,8 @@ const filter = async (req, res) => {
     const products = await Product.find({
       price: { $gte: minamount, $lte: maxamount },
     });
+
+    console.log(products);
     const isLoggedIn = (await req.session.user_id) ? true : false;
     const categories = await Catagory.find({ status: "active" });
     res.render("shop", { isLoggedIn, products , categories });
