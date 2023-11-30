@@ -153,7 +153,6 @@ const todaytotal = await Order.aggregate([
   },
 ]);
 
-console.log(todaytotal);
 
   if (Total.length == 0) {
     // Total[0].totalAmount = 0

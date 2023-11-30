@@ -35,6 +35,7 @@ const loadAddProduct = async (req, res) => {
 //==================add products===========================
 
 const addProduct = async (req, res) => {
+  console.log("on addProduct");
 //   const { name, description, price} = req.body;
 
 //   try {
@@ -64,6 +65,18 @@ try{
   console.log(req.files);
   data.images = req.files.map((file) => file.filename);
   const item=await data.save();
+  
+  for (const file of req.files) {
+fs.unlink(file.path, (err) => {
+        if (err) {
+          console.error('Error deleting file:', err);
+        } else {
+          console.log('Original file deleted:', file.path);
+        }
+      });
+
+  }
+
   console.log(item);
   if(item){
   res.redirect('/admin/product');

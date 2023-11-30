@@ -60,9 +60,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({
   storage: storage,
-  limits: {
-    fileSize: 50 * 1024 * 1024
-  },
+  
   fileFilter: function (req, file, cb) {
     if (file.mimetype.startsWith('image/')) {
       cb(null, true);
@@ -93,19 +91,9 @@ const resizeAndSave = async (req, res, next) => {
       await sharp(file.path)
         .resize({ width: 270, height: 360 })
         .toFile(outputPath);
-
-      processedImages.push(outputPath); // Store the processed image paths
+    processedImages.push(outputPath); // Store the processed image paths
       
-      fs.unlink(file.path, (err) => {
-        if (err) {
-          console.error('Error deleting file:', err);
-        } else {
-          console.log('Original file deleted:', file.path);
-        }
-      });
     }
-    
-    // Update the request object with the processed image paths if needed
     req.processedImages = processedImages;
    
     next();
