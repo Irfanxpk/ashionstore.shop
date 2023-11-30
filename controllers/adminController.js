@@ -113,23 +113,48 @@ const loadDash = async (req, res) => {
 
 
 const today = new Date();
-today.setHours(0, 0, 0, 0); // Set hours, minutes, seconds, and milliseconds to 0 for comparison
+const startOfToday = new Date(
+  today.getFullYear(),
+  today.getMonth(),
+  today.getDate()
+);
+const endOfToday = new Date(
+  today.getFullYear(),
+  today.getMonth(),
+  today.getDate() + 1
+);
 
-const tomorrow = new Date(today);
-tomorrow.setDate(today.getDate() + 1); // Get the date for tomorrow to filter today's orders
+const todaytotal = await Order.aggregate([
+  {
+    $match: {
+      Date: {
+        $gte: startOfToday,
+        $lt: endOfToday,
+      },
+    },
+  },
+  {
+    $group: {
+      _id: null,
+      totalAmount: { $sum: "$totalAmount" },
+    },
+  },
+]);
 
-
+console.log(todaytotal);
 
   if (Total.length == 0) {
     // Total[0].totalAmount = 0
 
     res.render("index", {user , ordractve});
-  }else {
-  
-  res.render("index", { user, ordractve, Total : Total[0].totalAmount});
-  console.log(Total[0].totalAmount);
+  }else if (todaytotal.length == 0) {
 
-};
+    res.render("index", { user, ordractve, Total : Total[0].totalAmount ,today : 0 });
+  }else{
+   
+
+  res.render("index", { user, ordractve, Total : Total[0].totalAmount , today: todaytotal[0].totalAmount});
+  }
 
 } catch (error) {
   console.log(error.message);

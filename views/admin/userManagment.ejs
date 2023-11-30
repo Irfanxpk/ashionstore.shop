@@ -1,0 +1,201 @@
+<%- include("../partials/adminHeader") %>
+
+
+    <!-- Content Start -->
+    <div class="content">
+        <!-- Navbar Start -->
+        <nav class="navbar navbar-expand bg-secondary navbar-dark sticky-top px-4 py-0">
+            <a href="index.html" class="navbar-brand d-flex d-lg-none me-4">
+                <h2 class="text-primary mb-0"><i class="fa fa-user-edit"></i></h2>
+            </a>
+            <a href="#" class="sidebar-toggler flex-shrink-0">
+                <i class="fa fa-bars"></i>
+            </a>
+            <form class="d-none d-md-flex ms-4">
+                <input class="form-control bg-dark border-0" type="search" placeholder="Search">
+            </form>
+            <div class="navbar-nav align-items-center ms-auto">
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                        <i class="fa fa-envelope me-lg-2"></i>
+                        <span class="d-none d-lg-inline-flex">Message</span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
+                        <a href="#" class="dropdown-item">
+                            <div class="d-flex align-items-center">
+                                <img class="rounded-circle" src="/admin/img/user.jpg" alt=""
+                                    style="width: 40px; height: 40px;">
+                                <div class="ms-2">
+                                    <h6 class="fw-normal mb-0">Jhon send you a message</h6>
+                                    <small>15 minutes ago</small>
+                                </div>
+                            </div>
+                        </a>
+                        <hr class="dropdown-divider">
+                        <a href="#" class="dropdown-item">
+                            <div class="d-flex align-items-center">
+                                <img class="rounded-circle" src="/admin/img/user.jpg" alt=""
+                                    style="width: 40px; height: 40px;">
+                                <div class="ms-2">
+                                    <h6 class="fw-normal mb-0">Jhon send you a message</h6>
+                                    <small>15 minutes ago</small>
+                                </div>
+                            </div>
+                        </a>
+                        <hr class="dropdown-divider">
+                        <a href="#" class="dropdown-item">
+                            <div class="d-flex align-items-center">
+                                <img class="rounded-circle" src="/admin/img/user.jpg" alt=""
+                                    style="width: 40px; height: 40px;">
+                                <div class="ms-2">
+                                    <h6 class="fw-normal mb-0">Jhon send you a message</h6>
+                                    <small>15 minutes ago</small>
+                                </div>
+                            </div>
+                        </a>
+                        <hr class="dropdown-divider">
+                        <a href="#" class="dropdown-item text-center">See all message</a>
+                    </div>
+                </div>
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                        <i class="fa fa-bell me-lg-2"></i>
+                        <span class="d-none d-lg-inline-flex">Notificatin</span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
+                        <a href="#" class="dropdown-item">
+                            <h6 class="fw-normal mb-0">Profile updated</h6>
+                            <small>15 minutes ago</small>
+                        </a>
+                        <hr class="dropdown-divider">
+                        <a href="#" class="dropdown-item">
+                            <h6 class="fw-normal mb-0">New user added</h6>
+                            <small>15 minutes ago</small>
+                        </a>
+                        <hr class="dropdown-divider">
+                        <a href="#" class="dropdown-item">
+                            <h6 class="fw-normal mb-0">Password changed</h6>
+                            <small>15 minutes ago</small>
+                        </a>
+                        <hr class="dropdown-divider">
+                        <a href="#" class="dropdown-item text-center">See all notifications</a>
+                    </div>
+                </div>
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                        <img class="rounded-circle me-lg-2" src="/admin/img/user.jpg" alt=""
+                            style="width: 40px; height: 40px;">
+                        <span class="d-none d-lg-inline-flex">irfan</span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
+                        <a href="#" class="dropdown-item">My Profile</a>
+                        <a href="#" class="dropdown-item">Settings</a>
+                        <a href="#" class="dropdown-item">Log Out</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <!-- Navbar End -->
+
+
+        <!-- Blank Start -->
+        <div class="container-fluid pt-4 px-4">
+            <div class="row vh-100 bg-secondary rounded mx-0">
+                <div class="container-fluid pt-4 px-4">
+                    <div class="bg-secondary text-center rounded p-4">
+                        <div class="d-flex align-items-center justify-content-between mb-4">
+                            <h6 class="mb-0">Category Management</h6>
+                            <a href="/admin/addCategory">Add Category</a>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table text-start align-middle table-bordered table-hover mb-0">
+                                <thead>
+                                    <tr class="text-white">
+                                        <th scope="col">No</th> <!-- Add a new column for the number -->
+                                        <th scope="col">Category Name</th>
+                                        <th scope="col">Description</th>
+                                        <th scope="col">Status</th>
+                                        <th scope="col">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% category.forEach((category, index)=> { %>
+                                        <tr>
+                                            <td>
+                                                <%= index + 1 %>
+                                            </td>
+                                            <td>
+                                                <%= category.name %>
+                                            </td>
+                                            <td>
+                                                <%= category.description %>
+                                            </td>
+                                            <td>
+                                                <%= category.status %>
+                                            </td>
+                                            <td>
+                                                <a class="btn btn-sm btn-primary"
+                                                    href="/admin/edit/<%= category._id %>">Edit</a>
+                                                <a class="btn btn-sm btn-danger"
+                                                    href="/admin/categories/<%= category._id %>/remove">Remove</a>
+                                                <% if (category.status==='active' ) { %>
+                                                    <a class="btn btn-sm btn-warning"
+                                                        href="/admin/categories/<%= category._id %>/block">Block</a>
+                                                    <% } else { %>
+                                                        <a class="btn btn-sm btn-success"
+                                                            href="/admin/categories/<%= category._id %>/unblock">Unblock</a>
+                                                        <% } %>
+                                            </td>
+                                        </tr>
+                                        <% }); %>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!-- Blank End -->
+
+
+        <!-- Footer Start -->
+        <div class="container-fluid pt-4 px-4">
+            <div class="bg-secondary rounded-top p-4">
+                <div class="row">
+                    <div class="col-12 col-sm-6 text-center text-sm-start">
+                        &copy; <a href="#">Ashion.com</a>, All Right Reserved.
+                    </div>
+                    <div class="col-12 col-sm-6 text-center text-sm-end">
+                        <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
+                        Designed By <a href="https://github.com/Irfanxpk">irfan Pk</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Footer End -->
+    </div>
+    <!-- Content End -->
+
+
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+    </div>
+
+    <!-- JavaScript Libraries -->
+    <script src="https://kit.fontawesome.com/744b7c765b.js" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/admin/lib/chart/chart.min.js"></script>
+    <script src="/admin/lib/easing/easing.min.js"></script>
+    <script src="/admin/lib/waypoints/waypoints.min.js"></script>
+    <script src="/admin/lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="/admin/lib/tempusdominus/js/moment.min.js"></script>
+    <script src="/admin/lib/tempusdominus/js/moment-timezone.min.js"></script>
+    <script src="/admin/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+
+    <!-- Template Javascript -->
+    <script src="/admin/js/main.js"></script>
+    </body>
+
+    </html>
