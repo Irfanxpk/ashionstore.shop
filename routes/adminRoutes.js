@@ -138,6 +138,7 @@ adminRoute.post('/Dash', adminController.adminLogin);
 adminRoute.get('/index',auth.isLogin, adminController.loadDash);
 adminRoute.get('/logout',adminController.adminLogout)
 adminRoute.post('/block/:userId', adminController.blockUser);
+adminRoute.get("/UserManage",adminController.UserManage);
 adminRoute.post('/unblock/:userId', adminController.unblockUser);
 adminRoute.get('/category', adminController.loadCategory);
 adminRoute.get('/addCategory', adminController.loadAddCat);

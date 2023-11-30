@@ -99,80 +99,71 @@
 
 
         <!-- Blank Start -->
-        <div class="container-fluid pt-4 px-4">
-            <div class="row vh-100 bg-secondary rounded mx-0">
-                <div class="container-fluid pt-4 px-4">
-                    <div class="bg-secondary text-center rounded p-4">
-                        <div class="d-flex align-items-center justify-content-between mb-4">
-                            <h6 class="mb-0">Category Management</h6>
-                            <a href="/admin/addCategory">Add Category</a>
-                        </div>
-                        <div class="table-responsive">
-                            <table class="table text-start align-middle table-bordered table-hover mb-0">
-                                <thead>
-                                    <tr class="text-white">
-                                        <th scope="col">No</th> <!-- Add a new column for the number -->
-                                        <th scope="col">Category Name</th>
-                                        <th scope="col">Description</th>
-                                        <th scope="col">Status</th>
-                                        <th scope="col">Actions</th>
+            <div class="container-fluid pt-4 px-4">
+                <div class="bg-secondary text-center rounded p-4">
+                    <div class="d-flex align-items-center justify-content-between mb-4">
+                        <h6 class="mb-0">User Management</h6>
+                        <a href="#">Show All</a>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table text-start align-middle table-bordered table-hover mb-0">
+                            <thead>
+                                <tr class="text-white">
+                                    <th scope="col"><input class="form-check-input" type="checkbox"></th>
+                                    <th scope="col">Username</th>
+                                    <th scope="col">Email</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% user.forEach(user=> { %>
+                                    <tr>
+                                        <td><input class="form-check-input" type="checkbox"></td>
+                                        <td>
+                                            <%= user.firstName %>
+                                        </td>
+                                        <td>
+                                            <%= user.email %>
+                                        </td>
+                                        <td>
+                                            <%= user.status %>
+                                        </td>
+                                        <td>
+                                            <% if (user.status==='active' ) { %>
+                                                <form action="/admin/block/<%= user._id %>" method="post">
+                                                    <button type="submit" class="btn btn-sm btn-danger">Block</button>
+                                                </form>
+                                                <% } else { %>
+                                                    <form action="/admin/unblock/<%= user._id %>" method="post">
+                                                        <button type="submit" class="btn btn-sm btn-success">Unblock</button>
+                                                    </form>
+                                                    <% } %>
+                                        </td>
                                     </tr>
-                                </thead>
-                                <tbody>
-                                    <% category.forEach((category, index)=> { %>
-                                        <tr>
-                                            <td>
-                                                <%= index + 1 %>
-                                            </td>
-                                            <td>
-                                                <%= category.name %>
-                                            </td>
-                                            <td>
-                                                <%= category.description %>
-                                            </td>
-                                            <td>
-                                                <%= category.status %>
-                                            </td>
-                                            <td>
-                                                <a class="btn btn-sm btn-primary"
-                                                    href="/admin/edit/<%= category._id %>">Edit</a>
-                                                <a class="btn btn-sm btn-danger"
-                                                    href="/admin/categories/<%= category._id %>/remove">Remove</a>
-                                                <% if (category.status==='active' ) { %>
-                                                    <a class="btn btn-sm btn-warning"
-                                                        href="/admin/categories/<%= category._id %>/block">Block</a>
-                                                    <% } else { %>
-                                                        <a class="btn btn-sm btn-success"
-                                                            href="/admin/categories/<%= category._id %>/unblock">Unblock</a>
-                                                        <% } %>
-                                            </td>
-                                        </tr>
-                                        <% }); %>
-                                </tbody>
-                            </table>
-                        </div>
+                                    <% }); %>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-
             </div>
-        </div>
         <!-- Blank End -->
 
 
         <!-- Footer Start -->
-        <div class="container-fluid pt-4 px-4">
+        <!-- <div class="container-fluid pt-4 px-4">
             <div class="bg-secondary rounded-top p-4">
                 <div class="row">
                     <div class="col-12 col-sm-6 text-center text-sm-start">
                         &copy; <a href="#">Ashion.com</a>, All Right Reserved.
                     </div>
-                    <div class="col-12 col-sm-6 text-center text-sm-end">
+                    <div class="col-12 col-sm-6 text-center text-sm-end"> -->
                         <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
-                        Designed By <a href="https://github.com/Irfanxpk">irfan Pk</a>
+                        <!-- Designed By <a href="https://github.com/Irfanxpk">irfan Pk</a>
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
         <!-- Footer End -->
     </div>
     <!-- Content End -->

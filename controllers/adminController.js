@@ -70,12 +70,24 @@ const adminLogin = async (req, res) => {
   }
 };
 
+
+
+const UserManage = async (req, res) => {
+  try {
+    const user = await User.find()
+    res.render("userManagment", { user });
+  } catch (error) {
+    console.log(error.message);
+  }
+}
+
+
 //=================Block User==================
 const blockUser = async (req, res) => {
   try {
     const userId = req.params.userId; // Extract the user's ID from the request
     await User.findByIdAndUpdate(userId, { status: 'blocked' });
-    res.redirect('/admin/index'); 
+    res.redirect("/admin/UserManage"); 
   } catch (error) {
     res.status(500).send('Error blocking user');
   }
@@ -86,7 +98,7 @@ const unblockUser = async (req, res) => {
   try {
     const userId = req.params.userId; // Extract the user's ID from the request
     await User.findByIdAndUpdate(userId, { status: 'active' });
-    res.redirect("/admin/index"); 
+    res.redirect("/admin/UserManage"); 
   } catch (error) {
     res.status(500).send('Error unblocking user');
   }
@@ -453,6 +465,7 @@ module.exports = {
   loadAdmin,
   loadError,
   adminLogin,
+  UserManage,
   blockUser,
   unblockUser,
   loadDash,
