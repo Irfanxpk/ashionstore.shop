@@ -3,7 +3,7 @@ const router = express.Router();
 const userController = require("../controllers/userController")
 const auth = require("../middlewares/userAuth");
 const cartController = require("../controllers/cartController")
-
+const orderController = require("../controllers/orderController")
 const addressController = require("../controllers/addressController")
 
 router.get('/',auth.isLogout,userController.home)
@@ -37,19 +37,19 @@ router.get('/editAddress/:id',addressController.editAddress)
 router.post("/EditAddress/:id", addressController.updateAddress);
 router.get('/deleteAddress/:id',addressController.deleteAddress);
 
-
-router.post('/placeorder',userController.placeOrder)
-router.post("/create-order", userController.createOrder);
-router.post("/verify-payment", userController.verifypayment);
-router.get('/orderSuccess',userController.orderSuccess)
+//===order Routes================================
+router.post('/placeorder',orderController.placeOrder)
+router.post("/create-order", orderController.createOrder);
+router.post("/verify-payment", orderController.verifypayment);
+router.get('/orderSuccess',orderController.orderSuccess)
+router.post("/cancelOrder/:id", orderController.cancelOrder);
+router.get("/orderDetails/:id", orderController.singleOrderDetails);
+router.get("/invoice/:id", orderController.downloadInvoice);
 
 
 router.get("/search" , userController.search);
 router.post('/filter',userController.filter)
 router.get("/filter-category/:category", userController.filterCategory);
-router.post("/cancelOrder/:id", userController.cancelOrder);
-router.get("/orderDetails/:id", userController.singleOrderDetails);
-router.get("/invoice/:id", userController.downloadInvoice);
 // router.get("/orderDetails/:id", userController.orderDetails);
 // router.post('/Register',userController.createUser)
 
