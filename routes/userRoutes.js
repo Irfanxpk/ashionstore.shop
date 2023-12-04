@@ -37,6 +37,7 @@ router.get('/editAddress/:id',addressController.editAddress)
 router.post("/EditAddress/:id", addressController.updateAddress);
 router.get('/deleteAddress/:id',addressController.deleteAddress);
 
+
 //===order Routes================================
 router.post('/placeorder',orderController.placeOrder)
 router.post("/create-order", orderController.createOrder);
