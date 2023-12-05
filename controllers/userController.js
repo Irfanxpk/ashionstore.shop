@@ -474,5 +474,4 @@ module.exports = {
   search,
   filter,
   filterCategory,
-  singleOrderDetails,
 };
