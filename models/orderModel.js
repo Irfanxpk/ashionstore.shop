@@ -5,7 +5,8 @@ const orderdetails = mongoose.Schema({
     type: String,
     required: true,
   },
-  addresses: [
+  addresses: 
+  // [
     {
       location: {
         type: String,
@@ -27,7 +28,7 @@ const orderdetails = mongoose.Schema({
         type: String,
       },
     },
-  ],
+  // ],
   items: [
     {
       productid: {

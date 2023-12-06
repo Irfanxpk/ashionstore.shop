@@ -141,13 +141,13 @@
         
             <address>
                 <strong>
-                    <%= order.addresses[0].name %>
+                    <%= order.addresses.name %>
                 </strong><br />
-                <%= order.addresses[0].address %><br />
-                    <%= order.addresses[0].city %>, <%= order.addresses[0].state %>
-                            <%= order.addresses[0].zip %><br />
+                <%= order.addresses.address %><br />
+                    <%= order.addresses.city %>, <%= order.addresses.state %>
+                            <%= order.addresses.zip %><br />
                                 <abbr title="Phone">Phone</abbr>
-                                <%= order.addresses[0].phone %>
+                                <%= order.addresses.phone %>
             </address>
         </td>
           <td>₹<%= order.totalAmount %>.00</td>
