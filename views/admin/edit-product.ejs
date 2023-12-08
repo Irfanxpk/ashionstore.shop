@@ -157,9 +157,10 @@
                     <div id="existingImages" class="d-flex flex-wrap">
                         <% product.images.forEach(function(image, index) { %>
                             <div class="mr-2 mb-2">
+                                <div class="image" onclick="editImage('<%= image %>', '<%= index %>')">
                                 <img src="/uploads/product_resized/<%= image %>" alt="Product Image" class="img-thumbnail"
-                                    style="width: 80px; height: 110px;" id="imagePreview<%= index %>">
-                
+                                style="width: 80px; height: 110px;" id="imagePreview<%= index %>">
+                                    </div>
                                 <!-- <button type="button" class="btn btn-primary btn-sm" onclick="editImage('<%= image %>', '<%= index %>')" >Crop</button> -->
                                 <br>
                                 <div class="btn-group">
@@ -399,39 +400,78 @@
                     });
                 }
                 
-                function cropImage(imageName, index) {
-    const imageElement = document.getElementById(`imagePreview${index}`);
-    if (cropper) {
-        const canvas = cropper.getCroppedCanvas();
-        const croppedImage = canvas.toDataURL('image/jpeg');
+//                 function cropImage(imageName, index) {
+//     const imageElement = document.getElementById(`imagePreview${index}`);
+//     if (cropper) {
+//         const canvas = cropper.getCroppedCanvas();
+//         const croppedImage = canvas.toDataURL('image/jpeg');
 
-        console.log(croppedImage, imageName , index);
-        // Send the cropped image data to the server using fetch
-        fetch('/admin/uploadCroppedImage', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            // body: JSON.stringify({ imageName, croppedImage }),
-            body: croppedImage,
-        })
-        .then(response => {
-            if (response.ok) {
-                // On successful response (assuming your server responds with a success status)
-                // Update the original image source after the server confirmation
-                imageElement.src = croppedImage;
-                Swal.close(); // Close the SweetAlert modal after cropping
-            } else {
-                // Handle errors or unsuccessful response here
-                console.error('Failed to upload cropped image');
-            }
-        })
-        .catch(error => {
-            // Handle fetch errors here
-            console.error('Error while uploading cropped image:', error);
-        });
+//         console.log(croppedImage, imageName , index);
+//         // Send the cropped image data to the server using fetch
+//         fetch('/admin/uploadCroppedImage', {
+//             method: 'POST',
+//             headers: {
+//                 'Content-Type': 'application/json',
+//             },
+//             body: JSON.stringify({ imageName, croppedImage }),
+//             // body: croppedImage,
+//         })
+//         .then(response => {
+//             if (response.ok) {
+//                 // On successful response (assuming your server responds with a success status)
+//                 // Update the original image source after the server confirmation
+//                 imageElement.src = croppedImage;
+//                 Swal.close(); // Close the SweetAlert modal after cropping
+//             } else {
+//                 // Handle errors or unsuccessful response here
+//                 console.error('Failed to upload cropped image');
+//             }
+//         })
+//         .catch(error => {
+//             // Handle fetch errors here
+//             console.error('Error while uploading cropped image:', error);
+//         });
+//     }
+// }
+
+    function cropImage(imageName, index) {
+        const imageElement = document.getElementById(`imagePreview${index}`);
+        if (cropper) {
+            const canvas = cropper.getCroppedCanvas();
+            canvas.toBlob(blob => {
+                const formData = new FormData();
+                formData.append('imageName', imageName);
+                formData.append('Images', blob, 'image.jpg'); // Adjust filename and extension if needed
+
+                fetch('/admin/uploadCroppedImage', {
+                    method: 'POST',
+                    body: formData,
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            return response.blob(); // Parse the response body as a blob
+                        }
+                        throw new Error('Network response was not ok.');
+                    })
+                    .then(blob => {
+                        // Create a URL for the blob object
+                        const newImageSrc = URL.createObjectURL(blob);
+
+                        // Update the original image source after the server confirmation
+                        imageElement.src = newImageSrc;
+
+                        // Close the SweetAlert modal after cropping (if applicable)
+                        Swal.close();
+                    })
+                    .catch(error => {
+                        // Handle fetch errors or unsuccessful response here
+                        console.error('Error while uploading cropped image:', error);
+                        // Optionally display an error message to the user
+                    });
+            }, 'image/jpeg'); // Specify image format if needed (image/png, image/jpeg, etc.)
+        }
     }
-}
+
 
                 
 

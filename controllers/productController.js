@@ -232,8 +232,24 @@ if(product){
 
 
 //==============================Cropimage======================
+const sharp = require("sharp");
 const cropimage = async (req, res) => {
   try {
+
+    const outputDir = "public/uploads/product_resized"; // Directory for processed images
+    const outputPath = path.join(outputDir, req.file.filename);
+
+    // Create the output directory if it doesn't exist
+
+    if (!fs.existsSync(outputDir)) {
+      fs.mkdirSync(outputDir, { recursive: true });
+    }
+
+    await sharp(req.file.path)
+      .resize({ width: 270, height: 360 })
+      .toFile(outputPath);
+   
+
     console.log("hello")
    console.log(req.files)
     
