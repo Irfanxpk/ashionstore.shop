@@ -50,7 +50,7 @@
                         <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
                             <a href="#" class="dropdown-item">
                                 <div class="d-flex align-items-center">
-                                    <img class="rounded-circle" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
+                                    <img class="rounded-circle" src="/admin/img/user.jpg" alt="" style="width: 40px; height: 40px;">
                                     <div class="ms-2">
                                         <h6 class="fw-normal mb-0">Jhon send you a message</h6>
                                         <small>15 minutes ago</small>
@@ -60,7 +60,7 @@
                             <hr class="dropdown-divider">
                             <a href="#" class="dropdown-item">
                                 <div class="d-flex align-items-center">
-                                    <img class="rounded-circle" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
+                                    <img class="rounded-circle" src="/admin/img/user.jpg" alt="" style="width: 40px; height: 40px;">
                                     <div class="ms-2">
                                         <h6 class="fw-normal mb-0">Jhon send you a message</h6>
                                         <small>15 minutes ago</small>
@@ -70,7 +70,7 @@
                             <hr class="dropdown-divider">
                             <a href="#" class="dropdown-item">
                                 <div class="d-flex align-items-center">
-                                    <img class="rounded-circle" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
+                                    <img class="rounded-circle" src="/admin/img/user.jpg" alt="" style="width: 40px; height: 40px;">
                                     <div class="ms-2">
                                         <h6 class="fw-normal mb-0">Jhon send you a message</h6>
                                         <small>15 minutes ago</small>
@@ -107,7 +107,7 @@
                     </div>
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                            <img class="rounded-circle me-lg-2" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
+                            <img class="rounded-circle me-lg-2" src="/admin/img/user.jpg" alt="" style="width: 40px; height: 40px;">
                             <span class="d-none d-lg-inline-flex">John Doe</span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
@@ -365,7 +365,7 @@
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h5 class="modal-title">Crop Image</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                   
                                 </div>
                                 <div class="modal-body">
                                     <div class="text-center">
@@ -400,39 +400,7 @@
                     });
                 }
                 
-//                 function cropImage(imageName, index) {
-//     const imageElement = document.getElementById(`imagePreview${index}`);
-//     if (cropper) {
-//         const canvas = cropper.getCroppedCanvas();
-//         const croppedImage = canvas.toDataURL('image/jpeg');
 
-//         console.log(croppedImage, imageName , index);
-//         // Send the cropped image data to the server using fetch
-//         fetch('/admin/uploadCroppedImage', {
-//             method: 'POST',
-//             headers: {
-//                 'Content-Type': 'application/json',
-//             },
-//             body: JSON.stringify({ imageName, croppedImage }),
-//             // body: croppedImage,
-//         })
-//         .then(response => {
-//             if (response.ok) {
-//                 // On successful response (assuming your server responds with a success status)
-//                 // Update the original image source after the server confirmation
-//                 imageElement.src = croppedImage;
-//                 Swal.close(); // Close the SweetAlert modal after cropping
-//             } else {
-//                 // Handle errors or unsuccessful response here
-//                 console.error('Failed to upload cropped image');
-//             }
-//         })
-//         .catch(error => {
-//             // Handle fetch errors here
-//             console.error('Error while uploading cropped image:', error);
-//         });
-//     }
-// }
 
     function cropImage(imageName, index ,id) {
         const imageElement = document.getElementById(`imagePreview${index}`);
@@ -451,6 +419,7 @@
                 })
                     .then(response => {
                         if (response.ok) {
+                             $("#imgDiv").load(`/admin/edit-product/${id} #imgDiv`);
                             return response.blob(); // Parse the response body as a blob
                         }
                         throw new Error('Network response was not ok.');
@@ -484,11 +453,7 @@
 
 
 
-            <!-- Input for new images -->
-            <!-- <div class="mb-3 pt-4">
-                <label for="newImages" class="form-label">Upload Additional Product Images:</label>
-                <input class="form-control" type="file" id="newImages" name="newImages" accept="image/*" multiple>
-            </div> -->
+           
 
 
                     <div class="m-n2">
@@ -502,22 +467,7 @@
             <!-- Blank End -->
 
          
-            <!-- Footer Start -->
-            <!-- <div class="container-fluid pt-4 px-4">
-                <div class="bg-secondary rounded-top p-4">
-                    <div class="row">
-                        <div class="col-12 col-sm-6 text-center text-sm-start">
-                            &copy; <a href="#">Your Site Name</a>, All Right Reserved. 
-                        </div>
-                        <div class="col-12 col-sm-6 text-center text-sm-end"> -->
-                            <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
-                            <!-- Designed By <a href="https://htmlcodex.com">HTML Codex</a>
-                            <br>Distributed By: <a href="https://themewagon.com" target="_blank">ThemeWagon</a>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
-            <!-- Footer End -->
+      
         </div>
         <!-- Content End -->
 

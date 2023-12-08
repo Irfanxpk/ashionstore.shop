@@ -197,6 +197,10 @@
                         <tbody>
                             <% cartdata.forEach(item => { %>
                                 <% item.items.forEach(productItem => { %>
+
+                                    <script>
+                                        console.log(` ${productItem}`)
+                                    </script>
                                 <tr>
                                     <td class="cart__product__item">
                                     <img src="/uploads/product_resized/<%= productItem.productid.images[0] %>" alt="" class="cartImg" width="80" height="100">

@@ -41,9 +41,17 @@ const loadCart = async (req, res) => {
     const cartdata = await Cart
     .find({ userid: id })
     .populate("items.productid");
+      // cartdata.forEach(item => { 
     
-    console.log(cartdata);
+      //   item.items.forEach(productItem => {
+      //     console.log(productItem , productItem.productid);
+      //     productItem.productid
+      //   });
+
+      // });
+          // console.log(cartdata);
     // if (cartdata.items.length > 0) {
+
         console.log(data[0].items.length);
         if (data) {
           res.render("cart", {
@@ -56,6 +64,7 @@ const loadCart = async (req, res) => {
             // express,
             // standard,
           });
+          
         // }
       } else {
         console.log("Your cart is empty.");
