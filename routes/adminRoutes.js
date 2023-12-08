@@ -93,7 +93,15 @@ const resizeAndSave = async (req, res, next) => {
         .resize({ width: 270, height: 360 })
         .toFile(outputPath);
     processedImages.push(outputPath); // Store the processed image paths
-      
+    
+    await fs.unlink(file.path, (err) => {
+      if (err) {
+        console.error("Error deleting file:", err);
+      } else {
+        console.log("Original file deleted:", file.path);
+      }
+    });
+
     }
     req.processedImages = processedImages;
    
