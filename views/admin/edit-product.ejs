@@ -157,7 +157,7 @@
                     <div id="existingImages" class="d-flex flex-wrap">
                         <% product.images.forEach(function(image, index) { %>
                             <div class="mr-2 mb-2">
-                                <div class="image" onclick="editImage('<%= image %>', '<%= index %>')">
+                                <div class="image" onclick="editImage('<%= image %>', '<%= index %>' , '<%= product._id %>')">
                                 <img src="/uploads/product_resized/<%= image %>" alt="Product Image" class="img-thumbnail"
                                 style="width: 80px; height: 110px;" id="imagePreview<%= index %>">
                                     </div>
@@ -358,7 +358,7 @@
             
 <script>
 
-                function editImage(imageName, index) {
+                function editImage(imageName, index ,id) {
                     const imageElement = document.getElementById(`imagePreview${index}`);
                     const cropperModalContent = `
                         <div class="modal-dialog">
@@ -374,7 +374,7 @@
                                 </div>
                                 <div class="modal-footer">
                                    
-                                    <button type="button" class="btn btn-primary" onclick="cropImage('${imageName}', '${index}')">Crop</button>
+                                    <button type="button" class="btn btn-primary" onclick="cropImage('${imageName}', '${index}' , '${id}')">Crop</button>
                                 </div>
                             </div>
                         </div>`;
@@ -434,12 +434,14 @@
 //     }
 // }
 
-    function cropImage(imageName, index) {
+    function cropImage(imageName, index ,id) {
         const imageElement = document.getElementById(`imagePreview${index}`);
         if (cropper) {
             const canvas = cropper.getCroppedCanvas();
             canvas.toBlob(blob => {
                 const formData = new FormData();
+                formData.append('id', id)
+                formData.append('index', index);
                 formData.append('imageName', imageName);
                 formData.append('images', blob, 'croppedimage.jpg'); // Adjust filename and extension if needed
 
