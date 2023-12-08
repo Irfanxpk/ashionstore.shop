@@ -237,6 +237,38 @@ const cropimage = async (req, res) => {
   try {
      console.log("hello")
 
+     
+
+     
+       const outputDir = "public/uploads/product_resized"; // Directory for processed images
+       const outputPath = path.join(outputDir, req.file.filename);
+
+       await fs.unlink(outputPath, (err) => {
+         if (err) {
+           console.error("Error deleting file:", err);
+         } else {
+           console.log("Original file deleted:", req.file.path);
+         }
+       });
+       // Create the output directory if it doesn't exist
+       if (!fs.existsSync(outputDir)) {
+         fs.mkdirSync(outputDir, { recursive: true });
+       }
+
+       await sharp(req.file.path)
+         .resize({ width: 270, height: 360 })
+         .toFile(outputPath);
+
+
+       await fs.unlink(req.file.path, (err) => {
+          if (err) {
+            console.error("Error deleting file:", err);
+          } else {
+            console.log("Original file deleted:", req.file.path);
+          }
+        });
+     
+
    console.log(req.files)
     
    res.status(200).send('Image uploaded successfully.');

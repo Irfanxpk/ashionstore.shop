@@ -441,7 +441,7 @@
             canvas.toBlob(blob => {
                 const formData = new FormData();
                 formData.append('imageName', imageName);
-                formData.append('Images', blob, 'image.jpg'); // Adjust filename and extension if needed
+                formData.append('images', blob, 'croppedimage.jpg'); // Adjust filename and extension if needed
 
                 fetch('/admin/uploadCroppedImage', {
                     method: 'POST',
