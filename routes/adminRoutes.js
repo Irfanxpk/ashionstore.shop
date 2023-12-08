@@ -62,12 +62,14 @@ const upload = multer({
   storage: storage,
   
   fileFilter: function (req, file, cb) {
+    console.log("multer")
     if (file.mimetype.startsWith('image/')) {
       cb(null, true);
     } else {
       cb('Only image files are allowed!', false);
     }
   }
+  
 });
 
 // Middleware to process uploaded images using Sharp after Multer
@@ -143,7 +145,7 @@ adminRoute.get('/edit-product/:id', productController.loadEditProduct);
 adminRoute.post("/updateimg", upload.array('images',1),resizeAndSave , productController.updateimg);
 adminRoute.post("/deleteimg" , productController.deleteimg);
 adminRoute.post("/uploadimg", upload.array('images',1),resizeAndSave , productController.uploadimg);
-adminRoute.post('/uploadCroppedImage', upload.single('images'), resizeAndSave, productController.cropimage);
+adminRoute.post('/uploadCroppedImage', upload.single('images'), productController.cropimage);
 adminRoute.post('/edit-product/:id',productController.editProduct);
 adminRoute.get('/delete-product/:id', productController.deleteProduct);
 adminRoute.get('/listProduct/:id', productController.listProduct);
