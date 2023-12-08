@@ -6,16 +6,18 @@ const productSchema = new mongoose.Schema({
   name: String,
   description: String,
   price: Number,
-  stock: { 
+  stock: {
     type: Number,
-     default: 0 
-    },
+    default: 0,
+  },
   status: {
     type: String,
     enum: ["active", "blocked"],
     default: "active",
   },
-  category: String,
+  category: {
+    type: mongoose.Schema.Types.ObjectId
+  },
   images: Array, // Store image URLs
 });
 
