@@ -235,15 +235,16 @@ if(product){
 const sharp = require("sharp");
 const cropimage = async (req, res) => {
   try {
-     console.log("hello")
+     console.log(req.body.imageName);
 
      
 
      
        const outputDir = "public/uploads/product_resized"; // Directory for processed images
        const outputPath = path.join(outputDir, req.file.filename);
+       const old = path.join(outputDir, req.body.imageName);
 
-       await fs.unlink(outputPath, (err) => {
+       await fs.unlink(old, (err) => {
          if (err) {
            console.error("Error deleting file:", err);
          } else {
