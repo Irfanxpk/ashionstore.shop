@@ -7,6 +7,8 @@ const multer = require('multer');
 const Order = require('../models/orderModel');
 let pdf = require("html-pdf");
 const ejs = require("ejs");
+const fs = require("fs");
+const ExcelJS = require("exceljs");
 const path = require("path");
 //================loading errors =============================
 const loadError = async (req, res) => {
@@ -459,6 +461,17 @@ const SalesReport = async (req, res) => {
     console.log(error.message);
   }
 }
+
+const salesExel = async (req, res) => {
+  try {
+    const orderdata = await Order.find({})
+    
+  
+  }
+  
+  catch (err) {
+
+  }};
 
 module.exports = {
   loadAdmin,
