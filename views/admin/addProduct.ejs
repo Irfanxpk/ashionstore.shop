@@ -158,20 +158,30 @@
    
 <!-- Checkbox with the name "productOffer" -->
 <input type="checkbox" id="showOptions" name="productOffer" class="mb-3">
-<label for="showOptions">Show Options</label>
+<label for="showOptions">Give Offer</label>
 
 <!-- Select dropdown initially hidden -->
 <select class="form-select mb-3" aria-label="Default select example" name="productOffer" required id="optionsSelect"
     style="display: none;">
     <!-- Options will be generated dynamically using JavaScript -->
 </select>
-<div id="dateTimePickers" style="display: none;">
-    <label for="validFrom">Valid From:</label>
-    <input type="text" id="validFrom" name="validFrom" class="datepicker" id="floatingInput>
 
-    <label for="validUntil">Valid Until:</label>
-    <input type="text" id="validUntil" name="validUntil" class="datepicker">
+<div  id="dateTimePickers" style="display: none;" class="mb-3">
+    <div id="datetimepicker1" class="input-append date">
+        <label for="validFrom">Valid From:</label>
+        <input id="validFrom" data-format="dd/MM/yyyy hh:mm:ss" type="date"></input>
+        <span class="add-on">
+            <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+        </span> &nbsp;&nbsp;
+
+        <label for="validUntil">Valid Until:</label>
+        <input id="validUntil" data-format="dd/MM/yyyy hh:mm:ss" type="date"></input>
+        <span class="add-on">
+            <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+        </span>
+    </div>
 </div>
+
 
 
     <select class="form-select mb-3" aria-label="Default select example" name="selectedCategory" required>
@@ -200,6 +210,23 @@
     </div>
 </form>
 
+    <script>
+        $(document).ready(function () {
+                $("#datetimepicker1").datetimepicker({
+                    format: "DD/MM/YYYY HH:mm:ss", // Date and time format
+                    icons: {
+                        time: "icon-time", // Time icon
+                        date: "icon-calendar", // Date icon
+                        up: "icon-chevron-up", // Up icon
+                        down: "icon-chevron-down", // Down icon
+                        previous: "icon-chevron-left", // Previous month icon
+                        next: "icon-chevron-right", // Next month icon
+                        today: "icon-bolt", // Today's icon
+                        clear: "icon-trash", // Clear icon
+                    },
+                });
+            });
+    </script>
 
                 </div>
             </div>
@@ -249,6 +276,7 @@
        
                 const checkbox = document.getElementById('showOptions');
                 const selectElement = document.getElementById('optionsSelect');
+                const dateTimePickers = document.getElementById('dateTimePickers');
 
                 
                 function toggleSelectVisibility() {
@@ -271,23 +299,12 @@
               
                 toggleSelectVisibility();
 
-                 
+            
+
 
     </script>
     <!-- <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"> -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     
-    <!-- Include Bootstrap Datepicker library -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css"
-        rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
-
-    <!-- Include Bootstrap Timepicker library -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-timepicker/0.5.2/css/bootstrap-timepicker.min.css"
-        rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-timepicker/0.5.2/js/bootstrap-timepicker.min.js"></script>
 
     <script src="https://kit.fontawesome.com/744b7c765b.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
