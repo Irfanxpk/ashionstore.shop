@@ -1,352 +1,452 @@
- <%- include("../partials/adminHeader") %>
- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
- 
-<style>
-    .image-box {
-        width: 80px;
-        height: 100px;
-        border: 1px dashed #ccc;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-size: 14px;
-        color: #888;
-        cursor: pointer;
-        position: relative;
-        overflow: hidden;
-    }
+<%- include("../partials/adminHeader") %>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    /* Hide the input element */
-    .image-box input[type='file'] {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        opacity: 0;
-        cursor: pointer;
-    }
-</style>
+    <style>
+        .image-box {
+            width: 80px;
+            height: 100px;
+            border: 1px dashed #ccc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 14px;
+            color: #888;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
 
-        <!-- Content Start -->
-        <div class="content">
-            <!-- Navbar Start -->
-            <nav class="navbar navbar-expand bg-secondary navbar-dark sticky-top px-4 py-0">
-                <a href="index.html" class="navbar-brand d-flex d-lg-none me-4">
-                    <h2 class="text-primary mb-0"><i class="fa fa-user-edit"></i></h2>
-                </a>
-                <a href="#" class="sidebar-toggler flex-shrink-0">
-                    <i class="fa fa-bars"></i>
-                </a>
-                <form class="d-none d-md-flex ms-4">
-                    <input class="form-control bg-dark border-0" type="search" placeholder="Search">
-                </form>
-                <div class="navbar-nav align-items-center ms-auto">
-                    <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                            <i class="fa fa-envelope me-lg-2"></i>
-                            <span class="d-none d-lg-inline-flex">Message</span>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
-                            <a href="#" class="dropdown-item">
-                                <div class="d-flex align-items-center">
-                                    <img class="rounded-circle" src="/admin/img/user.jpg" alt="" style="width: 40px; height: 40px;">
-                                    <div class="ms-2">
-                                        <h6 class="fw-normal mb-0">Jhon send you a message</h6>
-                                        <small>15 minutes ago</small>
-                                    </div>
+        /* Hide the input element */
+        .image-box input[type='file'] {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+    </style>
+
+    <!-- Content Start -->
+    <div class="content">
+        <!-- Navbar Start -->
+        <nav class="navbar navbar-expand bg-secondary navbar-dark sticky-top px-4 py-0">
+            <a href="index.html" class="navbar-brand d-flex d-lg-none me-4">
+                <h2 class="text-primary mb-0"><i class="fa fa-user-edit"></i></h2>
+            </a>
+            <a href="#" class="sidebar-toggler flex-shrink-0">
+                <i class="fa fa-bars"></i>
+            </a>
+            <form class="d-none d-md-flex ms-4">
+                <input class="form-control bg-dark border-0" type="search" placeholder="Search">
+            </form>
+            <div class="navbar-nav align-items-center ms-auto">
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                        <i class="fa fa-envelope me-lg-2"></i>
+                        <span class="d-none d-lg-inline-flex">Message</span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
+                        <a href="#" class="dropdown-item">
+                            <div class="d-flex align-items-center">
+                                <img class="rounded-circle" src="/admin/img/user.jpg" alt=""
+                                    style="width: 40px; height: 40px;">
+                                <div class="ms-2">
+                                    <h6 class="fw-normal mb-0">Jhon send you a message</h6>
+                                    <small>15 minutes ago</small>
                                 </div>
-                            </a>
-                            <hr class="dropdown-divider">
-                            <a href="#" class="dropdown-item">
-                                <div class="d-flex align-items-center">
-                                    <img class="rounded-circle" src="/admin/img/user.jpg" alt="" style="width: 40px; height: 40px;">
-                                    <div class="ms-2">
-                                        <h6 class="fw-normal mb-0">Jhon send you a message</h6>
-                                        <small>15 minutes ago</small>
-                                    </div>
-                                </div>
-                            </a>
-                            <hr class="dropdown-divider">
-                            <a href="#" class="dropdown-item">
-                                <div class="d-flex align-items-center">
-                                    <img class="rounded-circle" src="/admin/img/user.jpg" alt="" style="width: 40px; height: 40px;">
-                                    <div class="ms-2">
-                                        <h6 class="fw-normal mb-0">Jhon send you a message</h6>
-                                        <small>15 minutes ago</small>
-                                    </div>
-                                </div>
-                            </a>
-                            <hr class="dropdown-divider">
-                            <a href="#" class="dropdown-item text-center">See all message</a>
-                        </div>
-                    </div>
-                    <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                            <i class="fa fa-bell me-lg-2"></i>
-                            <span class="d-none d-lg-inline-flex">Notificatin</span>
+                            </div>
                         </a>
-                        <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
-                            <a href="#" class="dropdown-item">
-                                <h6 class="fw-normal mb-0">Profile updated</h6>
-                                <small>15 minutes ago</small>
-                            </a>
-                            <hr class="dropdown-divider">
-                            <a href="#" class="dropdown-item">
-                                <h6 class="fw-normal mb-0">New user added</h6>
-                                <small>15 minutes ago</small>
-                            </a>
-                            <hr class="dropdown-divider">
-                            <a href="#" class="dropdown-item">
-                                <h6 class="fw-normal mb-0">Password changed</h6>
-                                <small>15 minutes ago</small>
-                            </a>
-                            <hr class="dropdown-divider">
-                            <a href="#" class="dropdown-item text-center">See all notifications</a>
-                        </div>
-                    </div>
-                    <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                            <img class="rounded-circle me-lg-2" src="/admin/img/user.jpg" alt="" style="width: 40px; height: 40px;">
-                            <span class="d-none d-lg-inline-flex">John Doe</span>
+                        <hr class="dropdown-divider">
+                        <a href="#" class="dropdown-item">
+                            <div class="d-flex align-items-center">
+                                <img class="rounded-circle" src="/admin/img/user.jpg" alt=""
+                                    style="width: 40px; height: 40px;">
+                                <div class="ms-2">
+                                    <h6 class="fw-normal mb-0">Jhon send you a message</h6>
+                                    <small>15 minutes ago</small>
+                                </div>
+                            </div>
                         </a>
-                        <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
-                            <a href="#" class="dropdown-item">My Profile</a>
-                            <a href="#" class="dropdown-item">Settings</a>
-                            <a href="#" class="dropdown-item">Log Out</a>
-                        </div>
+                        <hr class="dropdown-divider">
+                        <a href="#" class="dropdown-item">
+                            <div class="d-flex align-items-center">
+                                <img class="rounded-circle" src="/admin/img/user.jpg" alt=""
+                                    style="width: 40px; height: 40px;">
+                                <div class="ms-2">
+                                    <h6 class="fw-normal mb-0">Jhon send you a message</h6>
+                                    <small>15 minutes ago</small>
+                                </div>
+                            </div>
+                        </a>
+                        <hr class="dropdown-divider">
+                        <a href="#" class="dropdown-item text-center">See all message</a>
                     </div>
                 </div>
-            </nav>
-            <!-- Navbar End -->
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                        <i class="fa fa-bell me-lg-2"></i>
+                        <span class="d-none d-lg-inline-flex">Notificatin</span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
+                        <a href="#" class="dropdown-item">
+                            <h6 class="fw-normal mb-0">Profile updated</h6>
+                            <small>15 minutes ago</small>
+                        </a>
+                        <hr class="dropdown-divider">
+                        <a href="#" class="dropdown-item">
+                            <h6 class="fw-normal mb-0">New user added</h6>
+                            <small>15 minutes ago</small>
+                        </a>
+                        <hr class="dropdown-divider">
+                        <a href="#" class="dropdown-item">
+                            <h6 class="fw-normal mb-0">Password changed</h6>
+                            <small>15 minutes ago</small>
+                        </a>
+                        <hr class="dropdown-divider">
+                        <a href="#" class="dropdown-item text-center">See all notifications</a>
+                    </div>
+                </div>
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                        <img class="rounded-circle me-lg-2" src="/admin/img/user.jpg" alt=""
+                            style="width: 40px; height: 40px;">
+                        <span class="d-none d-lg-inline-flex">John Doe</span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
+                        <a href="#" class="dropdown-item">My Profile</a>
+                        <a href="#" class="dropdown-item">Settings</a>
+                        <a href="#" class="dropdown-item">Log Out</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <!-- Navbar End -->
 
-            <div class="container-fluid pt-4 px-4">
-                <div class="row vh-100 bg-secondary rounded mx-0 pt-3">
-                   <form action="/admin/edit-Product/<%= product._id %>" method="post">  
-                    
+        <div class="container-fluid pt-4 px-4">
+            <div class="row vh-100 bg-secondary rounded mx-0 pt-3">
+                <form action="/admin/edit-Product/<%= product._id %>" method="post">
+
                     <div class="form-floating mb-3 ">
-                        <input type="productName" class="form-control" id="floatingInput"
-                        placeholder="name@example.com" name="name" value="<%= product.name %>">
+                        <input type="productName" class="form-control" id="floatingInput" placeholder="name@example.com"
+                            name="name" value="<%= product.name %>">
                         <label for="floatingInput">Name</label>
-                    </div>   
+                    </div>
                     <div class="form-floating mb-3 ">
-                        <input type="productName" class="form-control" id="floatingInput"
-                        placeholder="name@example.com" name="stock" value="<%= product.stock %>">
+                        <input type="productName" class="form-control" id="floatingInput" placeholder="name@example.com"
+                            name="stock" value="<%= product.stock %>">
                         <label for="floatingInput">Stock</label>
-                    </div> 
+                    </div>
                     <div class="input-group mb-3">
                         <span class="input-group-text">₹</span>
-                        <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)" name="price" placeholder="<%= product.price %>">
+                        <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)" name="price"
+                            placeholder="<%= product.price %>">
                         <span class="input-group-text">.00</span>
                     </div>
-                
+
+                    <input type="checkbox" id="showOptions" name="productOffer" class="mb-3" <%= ( product.offers && product.offers.length> 0) ? 'checked' : '' %>>
+                    <label for="showOptions">Give Offer</label>
+
+                    <!-- Select dropdown initially hidden -->
+                    <select class="form-select mb-3" aria-label="Default select example" name="productDiscount" required
+                        id="optionsSelect"
+                        style="display : <% = ( product.offers && product.offers.length > 0 ) ? 'block' : 'none' %>">
+                        <% if (product.offers && product.offers.length> 0) { %>
+                            <% product.offers.forEach(offer=> { %>
+                                <option value="<%= offer.discount %>">
+                                    <%= offer.discount %>%
+                                </option>
+                                <% }); %>
+                                    <% } else { %>
+                                        <!-- Options will be generated dynamically using JavaScript -->
+                                        <% } %>
+                    </select>
+
+                    <div id="dateTimePickers"
+                        style="display: <%= (product.offers && product.offers.length > 0) ? 'block' : 'none' %>;"
+                        class="mb-3">
+                        <% if (product.offers && product.offers.length> 0) { %>
+                            <div id="datetimepicker1" class="input-append date">
+                                <label for="validFrom">Valid From:</label>
+                                <input id="validFrom" data-format="dd/MM/yyyy hh:mm:ss" type="date" name="validFrom"
+                                    value="<%= product.offers[0].validFrom.toISOString().split('T')[0] %>"></input>
+                                <span class="add-on">
+                                    <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+                                </span> &nbsp;&nbsp;
+
+                                <label for="validUntil">Valid Until:</label>
+                                <input id="validUntil" data-format="dd/MM/yyyy hh:mm:ss" type="date" name="validUntil"
+                                    value="<%= product.offers[0].validUntil.toISOString().split('T')[0] %>"></input>
+                                <span class="add-on">
+                                    <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+                                </span>
+                            </div>
+                            <% } %>
+                    </div>
+
+
+
+
                     <div class="form-floating">
                         <textarea class="form-control" name="description" placeholder="Leave a comment here"
                             id="floatingTextarea" style="height: 150px;"></textarea>
-                        <label for="floatingTextarea"><%= product.description %></label>
+                        <label for="floatingTextarea">
+                            <%= product.description %>
+                        </label>
                     </div>
-<!--                 
+                    <!--                 
                     <div class="mb-3 pt-4" >
                         <label for="formFileMultiple" class="form-label">Upload Product Images</label>
                         <input class="form-control bg-dark" type="file"  name="images" accept="image/*" multiple>
                     </div>
                  -->
-                 
-                 <div class="mb-3 pt-4" id="imgDiv">
-                    <label for="existingImages" class="form-label">Existing Product Images:</label>
-                    <div id="existingImages" class="d-flex flex-wrap">
-                        <% product.images.forEach(function(image, index) { %>
-                            <div class="mr-2 mb-2">
-                                <div class="image" onclick="editImage('<%= image %>', '<%= index %>' , '<%= product._id %>')">
-                                <img src="/uploads/product_resized/<%= image %>" alt="Product Image" class="img-thumbnail"
-                                style="width: 80px; height: 110px;" id="imagePreview<%= index %>">
+
+                    <div class="mb-3 pt-4" id="imgDiv">
+                        <label for="existingImages" class="form-label">Existing Product Images:</label>
+                        <div id="existingImages" class="d-flex flex-wrap">
+                            <% product.images.forEach(function(image, index) { %>
+                                <div class="mr-2 mb-2">
+                                    <div class="image"
+                                        onclick="editImage('<%= image %>', '<%= index %>' , '<%= product._id %>')">
+                                        <img src="/uploads/product_resized/<%= image %>" alt="Product Image"
+                                            class="img-thumbnail" style="width: 80px; height: 110px;"
+                                            id="imagePreview<%= index %>">
                                     </div>
-                                <!-- <button type="button" class="btn btn-primary btn-sm" onclick="editImage('<%= image %>', '<%= index %>')" >Crop</button> -->
-                                <br>
-                                <div class="btn-group">
-                                <button type="button" class="btn btn-danger btn-sm" onclick="selectImage('<%= image %>', '<%= index %>' , '<%= product._id %>')"> Update</button>
-                                <button type="button" class="btn btn-danger btn-sm" onclick="deleteImage('<%= image %>', '<%= index %>' , '<%= product._id %>')">Delete</button>
+                                    <!-- <button type="button" class="btn btn-primary btn-sm" onclick="editImage('<%= image %>', '<%= index %>')" >Crop</button> -->
+                                    <br>
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-danger btn-sm"
+                                            onclick="selectImage('<%= image %>', '<%= index %>' , '<%= product._id %>')">
+                                            Update</button>
+                                        <button type="button" class="btn btn-danger btn-sm"
+                                            onclick="deleteImage('<%= image %>', '<%= index %>' , '<%= product._id %>')">Delete</button>
                                     </div>
-                            </div> &nbsp;&nbsp;
-                        <% }) %>
+                                </div> &nbsp;&nbsp;
+                                <% }) %>
+                        </div>
+                        <div class="image-box">
+                            <input id="fileInput" type="file" accept="image/*" />
+                            <input value="<%= product._id %>" name="id" id="id" type="text" hidden />
+                            <span>Add Image</span>
+                        </div>
+
                     </div>
-                    <div class="image-box">
-                        <input id="fileInput" type="file" accept="image/*" />
-                        <input value="<%= product._id %>" name="id" id="id" type="text"  hidden/>
-                        <span>Add Image</span>
-                    </div>
-                    
-                </div>
-                
 
 
-                <script>
-                    document.getElementById('fileInput').addEventListener('change', function (event) {
-                        const file = event.target.files[0];
-                        console.log(file)
-                        if (file) {
-                            uploadImage(file);
-                        }
-                    });
 
-                    function uploadImage(file) {
-
-                        const id = document.getElementById('id').value;
-                        const formData = new FormData();
-                        formData.append('images', file);
-                        formData.append('id', id);
-
-                        console.log(formData);
-
-                        fetch('/admin/uploadimg', {
-                            method: 'POST',
-                            body: formData
-                        })
-                            .then(response => response.json())
-                            .then(data => {
-                                console.log('Upload successful:', data);
-                                location.reload();
-                                // Handle the response from the server if needed
-                            })
-                            .catch(error => {
-                                 console.error('Error uploading:', error);
-                                // Handle errors that occur during the fetch request
-                            });
-                    }
-                </script>
-
-
-                <script>
-                    function selectImage(img , index , id) {
-                        const input = document.createElement('input');
-                        input.type = 'file';
-                        input.accept = 'image/*';
-                        input.multiple = true;
-
-                        input.onchange = function (e) {
-                            const files = e.target.files;
-
-                            if (files.length === 0) {
-                                // Show SweetAlert error if no images are selected
-                                Swal.fire({
-                                    icon: 'error',
-                                    title: 'Oops...',
-                                    text: 'Please select at least one image!',
-                                });
-                            } else {
-                                // Show SweetAlert confirmation dialog before upload
-                                Swal.fire({
-                                    title: 'Confirm Upload',
-                                    text: 'Are you sure you want to upload these images?',
-                                    icon: 'info',
-                                    showCancelButton: true,
-                                    confirmButtonColor: '#3085d6',
-                                    cancelButtonColor: '#d33',
-                                    confirmButtonText: 'Upload'
-                                }).then((result) => {
-                                    if (result.isConfirmed) {
-                                        // If confirmed, proceed with uploading the images
-                                     
-                                        uploadImages(files , img , index , id);
-                                    }
-                                });
+                    <script>
+                        document.getElementById('fileInput').addEventListener('change', function (event) {
+                            const file = event.target.files[0];
+                            console.log(file)
+                            if (file) {
+                                uploadImage(file);
                             }
-                        };
+                        });
 
-                        input.click();
-                    }
+                        function uploadImage(file) {
 
-                    function uploadImages(files , img, index , id) {
-                        const formData = new FormData();
+                            const id = document.getElementById('id').value;
+                            const formData = new FormData();
+                            formData.append('images', file);
+                            formData.append('id', id);
 
-                        for (let i = 0; i < files.length; i++) {
-                            formData.append('images', files[i]);
+                            console.log(formData);
+
+                            fetch('/admin/uploadimg', {
+                                method: 'POST',
+                                body: formData
+                            })
+                                .then(response => response.json())
+                                .then(data => {
+                                    console.log('Upload successful:', data);
+                                    location.reload();
+                                    // Handle the response from the server if needed
+                                })
+                                .catch(error => {
+                                    console.error('Error uploading:', error);
+                                    // Handle errors that occur during the fetch request
+                                });
                         }
-                        
+                    </script>
+
+
+                    <script>
+                        function selectImage(img, index, id) {
+                            const input = document.createElement('input');
+                            input.type = 'file';
+                            input.accept = 'image/*';
+                            input.multiple = true;
+
+                            input.onchange = function (e) {
+                                const files = e.target.files;
+
+                                if (files.length === 0) {
+                                    // Show SweetAlert error if no images are selected
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Oops...',
+                                        text: 'Please select at least one image!',
+                                    });
+                                } else {
+                                    // Show SweetAlert confirmation dialog before upload
+                                    Swal.fire({
+                                        title: 'Confirm Upload',
+                                        text: 'Are you sure you want to upload these images?',
+                                        icon: 'info',
+                                        showCancelButton: true,
+                                        confirmButtonColor: '#3085d6',
+                                        cancelButtonColor: '#d33',
+                                        confirmButtonText: 'Upload'
+                                    }).then((result) => {
+                                        if (result.isConfirmed) {
+                                            // If confirmed, proceed with uploading the images
+
+                                            uploadImages(files, img, index, id);
+                                        }
+                                    });
+                                }
+                            };
+
+                            input.click();
+                        }
+
+                        function uploadImages(files, img, index, id) {
+                            const formData = new FormData();
+
+                            for (let i = 0; i < files.length; i++) {
+                                formData.append('images', files[i]);
+                            }
+
                             //formData.append('images', files[0]);
 
-                             
+
                             formData.append('img', img);
-                        formData.append('index', index);
-                        formData.append('id' , id)
-                        // console.log([...formData.entries()])
+                            formData.append('index', index);
+                            formData.append('id', id)
+                            // console.log([...formData.entries()])
 
-                        fetch('/admin/updateimg', {
-                            method: 'POST',
-                            body: formData
-                        })
-                            .then(response => response.json())
-                            .then(data => {
-                                console.log('Upload successful:', data);
-                                $("#imgDiv").load(`/admin/edit-product/${id} #imgDiv`);
+                            fetch('/admin/updateimg', {
+                                method: 'POST',
+                                body: formData
                             })
-                            .catch(error => {
-                                console.error('Error uploading:', error);
+                                .then(response => response.json())
+                                .then(data => {
+                                    console.log('Upload successful:', data);
+                                    $("#imgDiv").load(`/admin/edit-product/${id} #imgDiv`);
+                                })
+                                .catch(error => {
+                                    console.error('Error uploading:', error);
+                                });
+                        }
+
+                        // Trigger file selection when SweetAlert button is clicked
+                        // Swal.fire({
+                        //     title: 'Select Image',
+                        //     text: 'Please select image(s)',
+                        //     icon: 'info',
+                        //     showCancelButton: true,
+                        //     confirmButtonColor: '#3085d6',
+                        //     cancelButtonColor: '#d33',
+                        //     confirmButtonText: 'Select'
+                        // }).then((result) => {
+                        //     if (result.isConfirmed) {
+                        //         selectImage();
+                        //     }
+                        // });
+
+
+                    </script>
+
+                    <script>
+                        $(document).ready(function () {
+                            $("#datetimepicker1").datetimepicker({
+                                format: "DD/MM/YYYY HH:mm:ss", // Date and time format
+                                icons: {
+                                    time: "icon-time", // Time icon
+                                    date: "icon-calendar", // Date icon
+                                    up: "icon-chevron-up", // Up icon
+                                    down: "icon-chevron-down", // Down icon
+                                    previous: "icon-chevron-left", // Previous month icon
+                                    next: "icon-chevron-right", // Next month icon
+                                    today: "icon-bolt", // Today's icon
+                                    clear: "icon-trash", // Clear icon
+                                },
                             });
-                    }
+                        });
+                    </script>
+                    <script>
 
-                    // Trigger file selection when SweetAlert button is clicked
-                    // Swal.fire({
-                    //     title: 'Select Image',
-                    //     text: 'Please select image(s)',
-                    //     icon: 'info',
-                    //     showCancelButton: true,
-                    //     confirmButtonColor: '#3085d6',
-                    //     cancelButtonColor: '#d33',
-                    //     confirmButtonText: 'Select'
-                    // }).then((result) => {
-                    //     if (result.isConfirmed) {
-                    //         selectImage();
-                    //     }
-                    // });
-
-                </script>
+                        const checkbox = document.getElementById('showOptions');
+                        const selectElement = document.getElementById('optionsSelect');
+                        const dateTimePickers = document.getElementById('dateTimePickers');
 
 
+                        function toggleSelectVisibility() {
+                            selectElement.style.display = checkbox.checked ? 'block' : 'none';
+                            selectElement.style.display = checkbox.checked ? 'block' : 'none';
+                            dateTimePickers.style.display = checkbox.checked ? 'block' : 'none';
+                        }
 
-<script >
 
-    function deleteImage(img, index , id) {
-        const data = {
-            img: img,
-            index: index,
-            id: id
-         }
-         Swal.fire({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                
-              fetch('/admin/deleteimg', {
-                    method: 'POST',
-                     headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(data)
-                })
-                    .then(response => response.json())
-                    .then(data => {
-                        console.log('Upload successful:', data);
-                        $("#imgDiv").load(`/admin/edit-product/${id} #imgDiv`);
-                    })
-                    .catch(error => {
-                        console.error('Error uploading:', error);
-                    });
+                        checkbox.addEventListener('change', toggleSelectVisibility);
 
-            }
-        })
-    }
-</script>
+
+                        for (let i = 5; i <= 75; i += 5) {
+                            const option = document.createElement('option');
+                            option.value = i;
+                            option.textContent = i + '%';
+                            selectElement.appendChild(option);
+                        }
+
+
+                        toggleSelectVisibility();
 
 
 
 
+                    </script>
+
+
+                    <script>
+
+                        function deleteImage(img, index, id) {
+                            const data = {
+                                img: img,
+                                index: index,
+                                id: id
+                            }
+                            Swal.fire({
+                                title: 'Are you sure?',
+                                text: "You won't be able to revert this!",
+                                icon: 'warning',
+                                showCancelButton: true,
+                                confirmButtonColor: '#3085d6',
+                                cancelButtonColor: '#d33',
+                                confirmButtonText: 'Yes, delete it!'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+
+                                    fetch('/admin/deleteimg', {
+                                        method: 'POST',
+                                        headers: {
+                                            'Content-Type': 'application/json'
+                                        },
+                                        body: JSON.stringify(data)
+                                    })
+                                        .then(response => response.json())
+                                        .then(data => {
+                                            console.log('Upload successful:', data);
+                                            $("#imgDiv").load(`/admin/edit-product/${id} #imgDiv`);
+                                        })
+                                        .catch(error => {
+                                            console.error('Error uploading:', error);
+                                        });
+
+                                }
+                            })
+                        }
+                    </script>
 
 
 
@@ -355,12 +455,16 @@
 
 
 
-            
-<script>
 
-                function editImage(imageName, index ,id) {
-                    const imageElement = document.getElementById(`imagePreview${index}`);
-                    const cropperModalContent = `
+
+
+
+
+                    <script>
+
+                        function editImage(imageName, index, id) {
+                            const imageElement = document.getElementById(`imagePreview${index}`);
+                            const cropperModalContent = `
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -378,102 +482,102 @@
                                 </div>
                             </div>
                         </div>`;
-                    
-                    Swal.fire({
-                        title: 'Crop Image',
-                        html: cropperModalContent,
-                        showCancelButton: true,
-                        showConfirmButton: false,
-                        didOpen: () => {
-                            const imageElement = document.getElementById('cropperImage');
-                            cropper = new Cropper(imageElement, {
-                                aspectRatio: 0.74, // Set your desired aspect ratio
-                                viewMode: 1, // Set the view mode for the Cropper.js instance
-                                cropBoxResizable: false,
+
+                            Swal.fire({
+                                title: 'Crop Image',
+                                html: cropperModalContent,
+                                showCancelButton: true,
+                                showConfirmButton: false,
+                                didOpen: () => {
+                                    const imageElement = document.getElementById('cropperImage');
+                                    cropper = new Cropper(imageElement, {
+                                        aspectRatio: 0.74, // Set your desired aspect ratio
+                                        viewMode: 1, // Set the view mode for the Cropper.js instance
+                                        cropBoxResizable: false,
+                                    });
+                                },
+                                willClose: () => {
+                                    if (cropper) {
+                                        cropper.destroy();
+                                    }
+                                },
                             });
-                        },
-                        willClose: () => {
-                            if (cropper) {
-                                cropper.destroy();
-                            }
-                        },
-                    });
-                }
-                
-
-
-    function cropImage(imageName, index ,id) {
-        const imageElement = document.getElementById(`imagePreview${index}`);
-        if (cropper) {
-            const canvas = cropper.getCroppedCanvas();
-            canvas.toBlob(blob => {
-                const formData = new FormData();
-                formData.append('id', id)
-                formData.append('index', index);
-                formData.append('imageName', imageName);
-                formData.append('images', blob, 'croppedimage.jpg'); // Adjust filename and extension if needed
-
-                fetch('/admin/uploadCroppedImage', {
-                    method: 'POST',
-                    body: formData,
-                })
-                    .then(response => {
-                        if (response.ok) {
-                             $("#imgDiv").load(`/admin/edit-product/${id} #imgDiv`);
-                            return response.blob(); // Parse the response body as a blob
                         }
-                        throw new Error('Network response was not ok.');
-                    })
-                    .then(blob => {
-                        // Create a URL for the blob object
-                        const newImageSrc = URL.createObjectURL(blob);
-
-                        // Update the original image source after the server confirmation
-                        imageElement.src = newImageSrc;
-
-                        // Close the SweetAlert modal after cropping (if applicable)
-                        Swal.close();
-                    })
-                    .catch(error => {
-                        // Handle fetch errors or unsuccessful response here
-                        console.error('Error while uploading cropped image:', error);
-                        // Optionally display an error message to the user
-                    });
-            }, 'image/jpeg'); // Specify image format if needed (image/png, image/jpeg, etc.)
-        }
-    }
-
-
-                
-
-</script>
 
 
 
+                        function cropImage(imageName, index, id) {
+                            const imageElement = document.getElementById(`imagePreview${index}`);
+                            if (cropper) {
+                                const canvas = cropper.getCroppedCanvas();
+                                canvas.toBlob(blob => {
+                                    const formData = new FormData();
+                                    formData.append('id', id)
+                                    formData.append('index', index);
+                                    formData.append('imageName', imageName);
+                                    formData.append('images', blob, 'croppedimage.jpg'); // Adjust filename and extension if needed
+
+                                    fetch('/admin/uploadCroppedImage', {
+                                        method: 'POST',
+                                        body: formData,
+                                    })
+                                        .then(response => {
+                                            if (response.ok) {
+                                                $("#imgDiv").load(`/admin/edit-product/${id} #imgDiv`);
+                                                return response.blob(); // Parse the response body as a blob
+                                            }
+                                            throw new Error('Network response was not ok.');
+                                        })
+                                        .then(blob => {
+                                            // Create a URL for the blob object
+                                            const newImageSrc = URL.createObjectURL(blob);
+
+                                            // Update the original image source after the server confirmation
+                                            imageElement.src = newImageSrc;
+
+                                            // Close the SweetAlert modal after cropping (if applicable)
+                                            Swal.close();
+                                        })
+                                        .catch(error => {
+                                            // Handle fetch errors or unsuccessful response here
+                                            console.error('Error while uploading cropped image:', error);
+                                            // Optionally display an error message to the user
+                                        });
+                                }, 'image/jpeg'); // Specify image format if needed (image/png, image/jpeg, etc.)
+                            }
+                        }
 
 
 
-           
+
+                    </script>
+
+
+
+
+
+
+
 
 
                     <div class="m-n2">
                         <button class="btn btn-primary w-50 m-4  " type="submit">Update</button>
                     </div>
-                
-                </form> 
-                
-                </div>
+
+                </form>
+
             </div>
-            <!-- Blank End -->
-
-         
-      
         </div>
-        <!-- Content End -->
+        <!-- Blank End -->
 
 
-        <!-- Back to Top -->
-        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+
+    </div>
+    <!-- Content End -->
+
+
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
     </div>
     <!-- JavaScript Libraries -->
     <script src="https://kit.fontawesome.com/744b7c765b.js" crossorigin="anonymous"></script>
@@ -489,6 +593,6 @@
 
     <!-- Template Javascript -->
     <script src="/admin/js/main.js"></script>
-</body>
+    </body>
 
-</html>
+    </html>
