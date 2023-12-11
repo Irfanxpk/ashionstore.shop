@@ -8,7 +8,7 @@
                     <div class="breadcrumb__links">
                         <a href="/  "><i class="fa fa-home"></i> Home</a>
                         <a href="#">Products </a>
-                        <span>Essential structured blazer</span>
+                        <span><%= product.name %></span>
                     </div>
                 </div>
             </div>
@@ -40,12 +40,19 @@
                 </div>
                 <div class="col-lg-6">
                     <div class="product__details__text">
-                        <h3><%= product.name %> <span>Brand:Allen Solly </span></h3>
+                        <h3><%= product.name %> <span></span></h3>
                         <div class="rating">                  
                                             <!-- <%= product.brand %> -->
                             <!-- Display your product's rating here -->
                         </div>
-                        <div class="product__details__price">$ <%= product.price %> <span>$ <%= product.price %></span></div>
+                         <% if (product.offers && product.offers.length> 0) { %>
+                  <div class="product__details__price">$ <%= product.price - (product.price * (product.offers[0].discount / 100)) %>
+                      <span>$ <%= product.price %></span>
+                  </div>
+                  <% } else { %>
+                    <div class="product__details__price">$ <%= product.price %>
+                    </div>
+                    <% } %>
                         <p><%= product.description %></p>
                         <div class="product__details__button">
                             <div class="quantity">
@@ -64,7 +71,7 @@
                             <% } %>
                             <ul>
                                 <li><a href="#"><span class="icon_heart_alt"></span></a></li>
-                                <li><a href="#"><span class="icon_adjust-horiz"></span></a></li>
+                                <!-- <li><a href="#"><span class="icon_adjust-horiz"></span></a></li> -->
                             </ul>
                         </div>
                         <div class="product__details__widget">
@@ -92,8 +99,8 @@
                                 </li>
                                 <!-- colour and balce ddetails -->
                                 
-                                    <span>Promotions:</span>
-                                    <p>Free shipping</p>
+                                    <!-- <span>Promotions:</span> -->
+                                    <h4>Free shipping</h4>
                                 </li>
                             </ul>
                         </div>

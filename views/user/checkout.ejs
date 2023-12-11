@@ -512,7 +512,7 @@ Credit / Debit Card
                         <% cartdata.forEach(item => { %>
                             <% item.items.forEach(productItem => { %>
                             <li>
-                                <%= productItem.productid.name %><span>$  <%= (productItem.productid.price * productItem.count).toFixed(2) %></span>
+                                <%= productItem.productid.name %><span>$  <%= totalsum.toFixed(2) %></span>
                             </li>
                         <% }) %>
                         <% }) %>

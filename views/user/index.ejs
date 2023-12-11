@@ -97,7 +97,9 @@
             <div class="product__item">
               <div class="product__item__pic set-bg" data-setbg="uploads/product_resized/<%= product.images[0] %>">
               
-                <div class="label">Sale</div>
+                <% if (product.offers && product.offers.length> 0) { %>
+                  <div class="label sale"> <%= product.offers[0].discount %>% off</div>
+                  <% } %>
                 
                 <ul class="product__hover">
                   <li>
@@ -122,8 +124,20 @@
                     <i class="fa fa-star"></i>
                   <% } %> -->
                 </div>
-                <div class="product__price">$ <%= product.price %></div>
+
+                <% if (product.offers && product.offers.length> 0) { %>
+                  <div class="product__price">$ <%= product.price - (product.price * (product.offers[0].discount / 100)) %>
+                      <span>$ <%= product.price %></span>
+                  </div>
+                  <% } else { %>
+                    <div class="product__price">$ <%= product.price %>
+                    </div>
+                    <% } %>
+
+              
+              
               </div>
+
             </div>
           </div>
           <% }); %>

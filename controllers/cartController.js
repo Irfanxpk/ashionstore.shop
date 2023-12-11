@@ -15,10 +15,9 @@ const loadCart = async (req, res) => {
     const id = req.session.user_id;
     const data = await Cart.find({ userid: id });
     const total = await Cart.findOne({ userid: id }).populate("items.total");
-    console.log(total);
+    // console.log(total);
     
-    const standard = 49;
-    const express = 99;
+    
     console.log("ex")
     
     let datatotal
@@ -28,7 +27,7 @@ const loadCart = async (req, res) => {
       return item.total * item.count;
     });
   // }
-    console.log("da");
+    console.log(datatotal);
     
     let totalsum = 0;
     if (datatotal.length > 0) {
@@ -41,18 +40,8 @@ const loadCart = async (req, res) => {
     const cartdata = await Cart
     .find({ userid: id })
     .populate("items.productid");
-      // cartdata.forEach(item => { 
+
     
-      //   item.items.forEach(productItem => {
-      //     console.log(productItem , productItem.productid);
-      //     productItem.productid
-      //   });
-
-      // });
-          // console.log(cartdata);
-    // if (cartdata.items.length > 0) {
-
-        console.log(data[0].items.length);
         if (data) {
           res.render("cart", {
             isLoggedIn: true,
@@ -61,11 +50,10 @@ const loadCart = async (req, res) => {
             data,
             id,
             totalsum,
-            // express,
-            // standard,
+            datatotal,
+            total,
           });
           
-        // }
       } else {
         console.log("Your cart is empty.");
       }
@@ -105,9 +93,19 @@ const addtocart = async (req, res) => {
             productid: data._id,
             name: data.name,
             count: 1,
-            total: data.price,
             img: data.images[0],
           };
+
+          let totalPrice = data.price;
+             if (data.offers && data.offers.length > 0) {
+               const discountPrice =
+                 data.price -
+                 data.price * (data.offers[0].discount / 100);
+               totalPrice = discountPrice;
+                cartitems.total = totalPrice
+              }else{
+                cartitems.total = totalPrice
+              }
 
           await Cart.findOneAndUpdate(
             { userid: id },

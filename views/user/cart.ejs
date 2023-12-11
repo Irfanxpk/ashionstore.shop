@@ -196,7 +196,7 @@
                         <% if(cartdata . length > 0) { %>
                         <tbody>
                             <% cartdata.forEach(item => { %>
-                                <% item.items.forEach(productItem => { %>
+                                <% item.items.forEach((productItem , index )=> { %>
 
                                     <script>
                                         console.log(` ${productItem}`)
@@ -209,7 +209,7 @@
                                         <!-- Add your product rating logic here -->
                                     </div>
                                     </td>
-                                    <td class="cart__price" id="cart_price">$ <%= productItem.productid.price.toFixed(2) %></td>
+                                    <td class="cart__price" id="cart_price">$ <%= parseInt(total.items[index].total, 10) %></td>
                                     <td class="cart__quantity">
                                         <div class="pro-qty">
                                             <% if (productItem.count > 1){ %>
@@ -221,11 +221,17 @@
                                             <span class="inc qtybtn" onclick="productquantity('<%= productItem.productid._id %>',1)">+</span>
                                     </div>
                                     </td>
-                                    <td class="cart__total" id="cart_total">$ <%= (productItem.productid.price * productItem.count).toFixed(2) %></td>
+                                    <td class="cart__total" id="cart_total">$ <%= parseInt(datatotal[index],10) %></td>
                                     <td class="cart__close" ><span class="icon_close" id="delete-product" onclick="prddlt()" data-productid="<%= productItem.productid._id %>"></span></td>
                                 </tr>
                                 <% }) %>
                             <% }) %>
+                            <% } else {%>
+
+                            <tr>
+                                <td colspan="5">No products in cart</td>
+                            </tr>
+
                             <% } %>
                             </tbody>
 

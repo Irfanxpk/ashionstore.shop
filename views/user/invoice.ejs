@@ -75,11 +75,11 @@
         <div class="invoice-address">
             <h2>Address:</h2>
             <p>
-                <%= order.addresses[0].address %>, <%= order.addresses[0].city %>, <%= order.addresses[0].state %>
+                <%= order.addresses.address %>, <%= order.addresses.city %>, <%= order.addresses.state %>
             </p>
-            <p>Phone: <%= order.addresses[0].phone %>
+            <p>Phone: <%= order.addresses.phone %>
             </p>
-            <p>Email: <%= order.addresses[0].email %>
+            <p>Email: <%= order.addresses.email %>
             </p>
             <!-- Add more address details as needed -->
         </div>
