@@ -154,6 +154,26 @@
                placeholder="name@example.com" required>
         <label for="floatingInput">Product Stock</label>
     </div>
+
+   
+<!-- Checkbox with the name "productOffer" -->
+<input type="checkbox" id="showOptions" name="productOffer" class="mb-3">
+<label for="showOptions">Show Options</label>
+
+<!-- Select dropdown initially hidden -->
+<select class="form-select mb-3" aria-label="Default select example" name="productOffer" required id="optionsSelect"
+    style="display: none;">
+    <!-- Options will be generated dynamically using JavaScript -->
+</select>
+<div id="dateTimePickers" style="display: none;">
+    <label for="validFrom">Valid From:</label>
+    <input type="text" id="validFrom" name="validFrom" class="datepicker" id="floatingInput>
+
+    <label for="validUntil">Valid Until:</label>
+    <input type="text" id="validUntil" name="validUntil" class="datepicker">
+</div>
+
+
     <select class="form-select mb-3" aria-label="Default select example" name="selectedCategory" required>
         <option selected>Select Category</option>
         <% category.forEach(category => { %>
@@ -223,6 +243,51 @@
         });
     });
 </script>  -->
+
+
+    <script>
+       
+                const checkbox = document.getElementById('showOptions');
+                const selectElement = document.getElementById('optionsSelect');
+
+                
+                function toggleSelectVisibility() {
+                    selectElement.style.display = checkbox.checked ? 'block' : 'none';
+                    selectElement.style.display = checkbox.checked ? 'block' : 'none';
+                    dateTimePickers.style.display = checkbox.checked ? 'block' : 'none';
+                }
+
+               
+                checkbox.addEventListener('change', toggleSelectVisibility);
+
+               
+                for (let i = 5; i <= 75; i += 5) {
+                    const option = document.createElement('option');
+                    option.value = i; 
+                    option.textContent = i + '%'; 
+                    selectElement.appendChild(option); 
+                }
+
+              
+                toggleSelectVisibility();
+
+                 
+
+    </script>
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"> -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    
+    <!-- Include Bootstrap Datepicker library -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css"
+        rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+
+    <!-- Include Bootstrap Timepicker library -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-timepicker/0.5.2/css/bootstrap-timepicker.min.css"
+        rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-timepicker/0.5.2/js/bootstrap-timepicker.min.js"></script>
 
     <script src="https://kit.fontawesome.com/744b7c765b.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
