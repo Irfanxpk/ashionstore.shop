@@ -462,16 +462,47 @@ const SalesReport = async (req, res) => {
   }
 }
 
-const salesExel = async (req, res) => {
-  try {
-    const orderdata = await Order.find({})
+const exel = async (req, res) => {
+   try {
+    // Fetch orders from the database
+    console.log("exel");
+    const orders = await Order.find().lean(); // Retrieve orders as plain JavaScript objects
     
-  
-  }
-  
-  catch (err) {
+    // Create a workbook and worksheet
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet('Sales Report');
 
-  }};
+    // Adding headers to the worksheet
+    worksheet.addRow(['Order ID', 'User ID', 'Purchase Date', 'Total Amount', 'Status', 'Payment Method', 'Shipping Method']);
+
+     console.log("exel");
+    // Loop through the orders and add data to the worksheet
+    orders.forEach(order => {
+      worksheet.addRow([
+        order._id.toString(), // Assuming _id is an ObjectId
+        order.user_Id,
+        new Date(order.purchaseDate).toLocaleString(), // Assuming purchaseDate is a Date
+        order.totalAmount,
+        order.status,
+        order.paymentMethod,
+        order.shippingMethod
+      ]);
+    });
+
+     console.log("exel");
+    // Generate the Excel file
+    const fileName = 'sales_report.xlsx';
+    res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    res.setHeader('Content-Disposition', `attachment; filename=${fileName}`);
+    await workbook.xlsx.write(res);
+
+    // Send the response
+    res.end();
+  } catch (error) {
+    console.error('Error generating Excel file:', error);
+    res.status(500).send('Error generating Excel file');
+  }
+};
 
 module.exports = {
   loadAdmin,
@@ -495,4 +526,5 @@ module.exports = {
   sales,
   filterByDate,
   SalesReport,
+  exel,
 };
