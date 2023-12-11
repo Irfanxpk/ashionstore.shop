@@ -10,6 +10,8 @@ const ejs = require("ejs");
 const fs = require("fs");
 const ExcelJS = require("exceljs");
 const path = require("path");
+const archiver = require("archiver");
+
 //================loading errors =============================
 const loadError = async (req, res) => {
   try {
@@ -423,86 +425,178 @@ const filterByDate = async (req, res) => {
 }
 
 //===============Sales Report================
+// const SalesReport = async (req, res) => {
+//   try {
+//   const orderdata = await Order.find({})
+//   ejs.renderFile(
+//     path.join(__dirname, "../views/admin/", "report-template.ejs"),
+//     {
+//       orderdata,
+//     },
+//     (err, data) => {
+//       if (err) {
+//         res.send(err);
+//       } else {
+//         let options = {
+//           height: "11.25in",
+//           width: "8.5in",
+//           header: {
+//             height: "20mm",
+//           },
+//           footer: {
+//             height: "20mm",
+//           },
+//         };
+//         pdf.create(data, options).toFile("report.pdf", function (err, data) {
+//           if (err) {
+//             res.send(err);
+//           } else {
+//             const pdfpath = path.join(__dirname, "../report.pdf");
+//             res.sendFile(pdfpath);
+//           }
+//         });
+//       }
+//     }
+//   );
+
+//   } catch (error) {
+//     console.log(error.message);
+//   }
+// }
+
+// const exel = async (req, res) => {
+//    try {
+//     // Fetch orders from the database
+//     console.log("exel");
+//     const orders = await Order.find().lean(); // Retrieve orders as plain JavaScript objects
+    
+//     // Create a workbook and worksheet
+//     const workbook = new ExcelJS.Workbook();
+//     const worksheet = workbook.addWorksheet('Sales Report');
+
+//     // Adding headers to the worksheet
+//     worksheet.addRow(['Order ID', 'User ID', 'Purchase Date', 'Total Amount', 'Status', 'Payment Method', 'Shipping Method']);
+
+//      console.log("exel");
+//     // Loop through the orders and add data to the worksheet
+//     orders.forEach(order => {
+//       worksheet.addRow([
+//         order._id.toString(), // Assuming _id is an ObjectId
+//         order.user_Id,
+//         new Date(order.purchaseDate).toLocaleString(), // Assuming purchaseDate is a Date
+//         order.totalAmount,
+//         order.status,
+//         order.paymentMethod,
+//         order.shippingMethod
+//       ]);
+//     });
+
+//      console.log("exel");
+//     // Generate the Excel file
+//     const fileName = 'sales_report.xlsx';
+//     res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+//     res.setHeader('Content-Disposition', `attachment; filename=${fileName}`);
+//     await workbook.xlsx.write(res);
+
+//     // Send the response
+//     res.end();
+//   } catch (error) {
+//     console.error('Error generating Excel file:', error);
+//     res.status(500).send('Error generating Excel file');
+//   }
+// };
+
+
+
+
 const SalesReport = async (req, res) => {
   try {
-  const orderdata = await Order.find({})
-  ejs.renderFile(
-    path.join(__dirname, "../views/admin/", "report-template.ejs"),
-    {
-      orderdata,
-    },
-    (err, data) => {
-      if (err) {
-        res.send(err);
-      } else {
-        let options = {
-          height: "11.25in",
-          width: "8.5in",
-          header: {
-            height: "20mm",
-          },
-          footer: {
-            height: "20mm",
-          },
-        };
-        pdf.create(data, options).toFile("report.pdf", function (err, data) {
+    const orderdata = await Order.find({});
+    let pdfPath, excelPath;
+
+    // Generating PDF
+    const pdfPromise = new Promise((resolve, reject) => {
+      ejs.renderFile(
+        path.join(__dirname, "../views/admin/", "report-template.ejs"),
+        { orderdata },
+        (err, data) => {
           if (err) {
-            res.send(err);
+            reject(err);
           } else {
-            const pdfpath = path.join(__dirname, "../report.pdf");
-            res.sendFile(pdfpath);
+            let options = {
+              height: "11.25in",
+              width: "8.5in",
+              header: { height: "20mm" },
+              footer: { height: "20mm" },
+            };
+            pdf
+              .create(data, options)
+              .toFile("report.pdf", function (err, data) {
+                if (err) {
+                  reject(err);
+                } else {
+                  pdfPath = path.join(__dirname, "../report.pdf");
+                  resolve();
+                }
+              });
           }
-        });
-      }
-    }
-  );
-
-  } catch (error) {
-    console.log(error.message);
-  }
-}
-
-const exel = async (req, res) => {
-   try {
-    // Fetch orders from the database
-    console.log("exel");
-    const orders = await Order.find().lean(); // Retrieve orders as plain JavaScript objects
-    
-    // Create a workbook and worksheet
-    const workbook = new ExcelJS.Workbook();
-    const worksheet = workbook.addWorksheet('Sales Report');
-
-    // Adding headers to the worksheet
-    worksheet.addRow(['Order ID', 'User ID', 'Purchase Date', 'Total Amount', 'Status', 'Payment Method', 'Shipping Method']);
-
-     console.log("exel");
-    // Loop through the orders and add data to the worksheet
-    orders.forEach(order => {
-      worksheet.addRow([
-        order._id.toString(), // Assuming _id is an ObjectId
-        order.user_Id,
-        new Date(order.purchaseDate).toLocaleString(), // Assuming purchaseDate is a Date
-        order.totalAmount,
-        order.status,
-        order.paymentMethod,
-        order.shippingMethod
-      ]);
+        }
+      );
     });
 
-     console.log("exel");
-    // Generate the Excel file
-    const fileName = 'sales_report.xlsx';
-    res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-    res.setHeader('Content-Disposition', `attachment; filename=${fileName}`);
-    await workbook.xlsx.write(res);
+    // Generating Excel
+    const excelPromise = new Promise(async (resolve, reject) => {
+      try {
+        const orders = await Order.find().lean();
+        const workbook = new ExcelJS.Workbook();
+        const worksheet = workbook.addWorksheet("Sales Report");
+        worksheet.addRow([
+          "Order ID",
+          "User ID",
+          "Purchase Date",
+          "Total Amount",
+          "Status",
+          "Payment Method",
+          "Shipping Method",
+        ]);
 
-    // Send the response
-    res.end();
+        orders.forEach((order) => {
+          worksheet.addRow([
+            order._id.toString(),
+            order.user_Id,
+            new Date(order.purchaseDate).toLocaleString(),
+            order.totalAmount,
+            order.status,
+            order.paymentMethod,
+            order.shippingMethod,
+          ]);
+        });
+
+        excelPath = path.join(__dirname, "../sales_report.xlsx");
+        await workbook.xlsx.writeFile(excelPath);
+        resolve();
+      } catch (error) {
+        reject(error);
+      }
+    });
+
+   
+    await Promise.all([pdfPromise, excelPromise]);
+
+   
+    const zip = archiver("zip");
+    res.attachment("sales_reports.zip"); 
+
+    zip.file(pdfPath, { name: "report.pdf" }); 
+    zip.file(excelPath, { name: "sales_report.xlsx" }); 
+    zip.pipe(res);
+    zip.finalize();
   } catch (error) {
-    console.error('Error generating Excel file:', error);
-    res.status(500).send('Error generating Excel file');
+    console.error("Error generating ZIP file:", error);
+    res.status(500).send("Error generating ZIP file");
   }
 };
+
 
 module.exports = {
   loadAdmin,
@@ -526,5 +620,5 @@ module.exports = {
   sales,
   filterByDate,
   SalesReport,
-  exel,
+ 
 };
