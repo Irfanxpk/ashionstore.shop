@@ -32,22 +32,10 @@ const loadAddProduct = async (req, res) => {
 //==================add products===========================
 
 const addProduct = async (req, res) => {
-  console.log("on addProduct");
-  //   const { name, description, price} = req.body;
-
-  //   try {
-  //     const product = new Product({ name, description, price });
-  //     const check = await Product.find({ name:product.name});
-  //     if(check!=false) {
-  //       res.render("addProduct",{message:"Product already exist"})
-  //     }else{
-  //     await product.save();
-  //     res.redirect('/admin/product');
-  //     }
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
+    
   try {
+    console.log("on addProduct");
+    const { productOffer, validFrom, validUntil, productDiscount } = req.body;
     const data = new Product({
       name: req.body.name,
       description: req.body.description,
@@ -57,9 +45,17 @@ const addProduct = async (req, res) => {
       //   image:req.files.image,
       // status:0
     });
-    console.log(req.body);
-    console.log(req.files);
     data.images = req.files.map((file) => file.filename);
+
+    if (productOffer) {
+      data.offers = {
+        offerType: "product",
+        discount: productDiscount,
+        validFrom: new Date(validFrom),
+        validUntil: new Date(validUntil),
+      };
+    }
+
     const item = await data.save();
 
     for (const file of req.files) {

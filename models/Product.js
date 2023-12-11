@@ -28,7 +28,7 @@ const productSchema = new mongoose.Schema({
       enum: ["product", "category"], // Offer types
     },
 
-    discountValue: Number,
+    discount: Number,
     validFrom: Date,
     validUntil: Date,
   }]
