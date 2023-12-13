@@ -86,7 +86,7 @@ const resizeAndSave = async (req, res, next) => {
 
       // Create the output directory if it doesn't exist
       if (!fs.existsSync(outputDir)) {
-        fs.mkdirSync(outputDir, { recursive: true });
+        fs.mkdirSync(outputDir, { recursive: true });   
       }
 
       await sharp(file.path)
