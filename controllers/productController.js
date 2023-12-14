@@ -68,6 +68,8 @@ const addProduct = async (req, res) => {
       });
     }
 
+    
+
     console.log(item);
     if (item) {
       res.redirect("/admin/product");
