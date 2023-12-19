@@ -53,12 +53,16 @@ app.get('*',(req,res)=>{
 
 
 //=============================================database connecting
-mongoose.connect('mongodb://localhost:27017/project',).then(() => {
+mongoose
+  .connect(
+    "mongodb+srv://pkirfanx:6wg7v5wjLNwZw58P@cluster0.rqdal7l.mongodb.net/cluster0?retryWrites=true&w=majority"
+  )
+  .then(() => {
     console.log("Mongodb connected");
-})
-.catch(() => {
+  })
+  .catch(() => {
     console.log("Failed to connect");
-    });
+  });
 
 
 
