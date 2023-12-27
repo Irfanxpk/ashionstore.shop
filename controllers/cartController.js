@@ -97,14 +97,31 @@ const addtocart = async (req, res) => {
           };
 
           let totalPrice = data.price;
-             if (data.offers && data.offers.length > 0) {
+             if (data.productOffer.discount > 0 && data.categoryOffer.discount == 0) {
                const discountPrice =
                  data.price -
-                 data.price * (data.offers[0].discount / 100);
+                 data.price * (data.productOffer.discount / 100);
                totalPrice = discountPrice;
-                cartitems.total = totalPrice
-              }else{
-                cartitems.total = totalPrice
+               cartitems.total = totalPrice;
+             } else if (data.productOffer.discount == 0 && data.categoryOffer.discount > 0)  {
+               const discountPrice =
+                 data.price -
+                 data.price * (data.categoryOffer.discount / 100);
+               totalPrice = discountPrice;
+               cartitems.total = totalPrice;
+             } else if (data.productOffer.discount > 0 && data.categoryOffer.discount > 0) {
+              
+              let discount = data.productOffer.discount > data.categoryOffer.discount ? data.productOffer.discount : data.categoryOffer.discount;
+               const discountPrice = data.price - data.price * (discount / 100);
+               totalPrice = discountPrice;
+               cartitems.total = totalPrice;
+
+              
+
+             }else{
+
+               cartitems.total = totalPrice;
+             
               }
 
           await Cart.findOneAndUpdate(

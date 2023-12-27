@@ -125,14 +125,38 @@
                   <% } %> -->
                 </div>
 
-                <% if (product.offers && product.offers.length> 0) { %>
+                <!-- <% if (product.offers && product.offers.length> 0) { %>
                   <div class="product__price">$ <%= product.price - (product.price * (product.offers[0].discount / 100)) %>
                       <span>$ <%= product.price %></span>
                   </div>
                   <% } else { %>
                     <div class="product__price">$ <%= product.price %>
                     </div>
-                    <% } %>
+                    <% } %> -->
+
+                    <% if (product.productOffer && !product.categoryOffer) { %>
+                      <div class="product__price">$ <%= product.price - (product.price * (product.productOffer.discount / 100)) %>
+                          <span>$ <%= product.price %></span>
+                      </div>
+                      <% } else if (!product.productOffer && product.categoryOffer) { %>
+                        <div class="product__price">$ <%= product.price - (product.price * (product.categoryOffer.discount / 100)) %>
+                            <span>$ <%= product.price %></span>
+                        </div>
+                        <% } else if (product.productOffer && product.categoryOffer) { %>
+                          <% if (product.productOffer.discount> product.categoryOffer.discount) { %>
+                            <div class="product__price">$ <%= product.price - (product.price * (product.productOffer.discount / 100)) %>
+                                <span>$ <%= product.price %></span>
+                            </div>
+                            <% } else { %>
+                              <div class="product__price">$ <%= product.price - (product.price * (product.categoryOffer.discount / 100)) %>
+                                  <span>$ <%= product.price %></span>
+                              </div>
+                              <% } %>
+                                <% } else { %>
+                                  <div class="product__price">$ <%= product.price %>
+                                  </div>
+                                  <% } %>
+
 
               
               

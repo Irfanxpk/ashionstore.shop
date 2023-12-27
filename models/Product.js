@@ -33,7 +33,7 @@ const productSchema = new mongoose.Schema({
   //   validUntil: Date,
   // }],
 
-  
+
 
   // Product Offer Fields
   productOffer: {
@@ -43,7 +43,6 @@ const productSchema = new mongoose.Schema({
     },
     validFrom: Date,
     validUntil: Date,
-    // productId: Remove this line if not needed
   },
 
   // Category Offer Fields
@@ -54,7 +53,6 @@ const productSchema = new mongoose.Schema({
     },
     validFrom: Date,
     validUntil: Date,
-    // categoryId: Remove this line if not needed
   }
 
 });
