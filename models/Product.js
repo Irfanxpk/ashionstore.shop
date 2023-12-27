@@ -22,16 +22,41 @@ const productSchema = new mongoose.Schema({
   },
   images: Array, // Store image URLs
 
-  offers: [{
-    offerType: {
-      type: String,
-      enum: ["product", "category"], // Offer types
-    },
+  // offers: [{
+  //   offerType: {
+  //     type: String,
+  //     enum: ["product", "category"], // Offer types
+  //   },
 
-    discount: Number,
+  //   discount: Number,
+  //   validFrom: Date,
+  //   validUntil: Date,
+  // }],
+
+  
+
+  // Product Offer Fields
+  productOffer: {
+    discount: {
+      type: Number,
+      default: 0,
+    },
     validFrom: Date,
     validUntil: Date,
-  }]
+    // productId: Remove this line if not needed
+  },
+
+  // Category Offer Fields
+  categoryOffer: {
+    discount: {
+      type: Number,
+      default: 0,
+    },
+    validFrom: Date,
+    validUntil: Date,
+    // categoryId: Remove this line if not needed
+  }
+
 });
 
 const Product = mongoose.model('Product', productSchema);

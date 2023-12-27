@@ -48,8 +48,7 @@ const addProduct = async (req, res) => {
     data.images = req.files.map((file) => file.filename);
 
     if (productOffer) {
-      data.offers = {
-        offerType: "product",
+      data.productOffer = {
         discount: productDiscount,
         validFrom: new Date(validFrom),
         validUntil: new Date(validUntil),

@@ -40,6 +40,7 @@ app.use(session({
 // app.use(noCache());
 app.use("/", userRoutes);
 app.use('/admin',adminRoutes);
+
 app.get('*',(req,res)=>{
     res.status(404).render('404')
 })
