@@ -97,9 +97,28 @@
             <div class="product__item">
               <div class="product__item__pic set-bg" data-setbg="uploads/product_resized/<%= product.images[0] %>">
               
-                <% if (product.offers && product.offers.length> 0) { %>
-                  <div class="label sale"> <%= product.offers[0].discount %>% off</div>
-                  <% } %>
+              <% if (product.productOffer && product.categoryOffer) { %>
+                <% if (product.productOffer.discount> 0 || product.categoryOffer.discount > 0) { %>
+                  <% if (product.productOffer.discount> product.categoryOffer.discount) { %>
+                    <div class="label sale">
+                      <%= product.productOffer.discount %>% off
+                    </div>
+                    <% } else { %>
+                      <div class="label sale">
+                        <%= product.categoryOffer.discount %>% off
+                      </div>
+                      <% } %>
+                        <% } %>
+                          <% } else if (product.productOffer && product.productOffer.discount> 0) { %>
+                            <div class="label sale">
+                              <%= product.productOffer.discount %>% off
+                            </div>
+                            <% } else if (product.categoryOffer && product.categoryOffer.discount> 0) { %>
+                              <div class="label sale">
+                                <%= product.categoryOffer.discount %>% off
+                              </div>
+                              <% } %>
+
                 
                 <ul class="product__hover">
                   <li>

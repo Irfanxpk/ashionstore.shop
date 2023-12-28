@@ -61,7 +61,7 @@ const sendVerifyMail = async (email, otp) => {
       requireTLS: true,
       auth: {
         user: "pkirfanx@gmail.com",
-        pass: "eyxj jcyr ytpy rmmp",
+        pass: "wtxt yjsb qaxu hdxx",
       },
     });
 

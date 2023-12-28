@@ -127,6 +127,9 @@
                                             <% } else { %>
                                                 <a class="btn btn-sm btn-success" href="/admin/unlistproduct/<%= product._id %>">List</a>
                                             <% } %>
+
+                                            <a class="btn btn-sm btn-info" onclick="poffers('<%= product._id %>')">Offer</a>
+
                                         </td>
                                     </tr>
                                 <% }); %>
@@ -137,6 +140,21 @@
             </div>
             </div>
             </div>
+
+
+            <script>
+                function poffers(id){
+
+                    fetch('/admin/productoffers/'), {
+                        method: 'POST',
+                       headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(id)
+                    }
+                }
+            </script>
+
             <!-- Blank End -->
 
          <!-- <script>
