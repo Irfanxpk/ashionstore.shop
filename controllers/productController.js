@@ -328,8 +328,23 @@ const productoffers = async (req, res) => {
 
     console.log(product);
 
-    res.json(product);
+    res.render('offer' , {product})
   
+  } catch (error) {
+    console.log(error.message);
+  }
+}
+
+const productoffersedit = async (req, res) => {
+  try {
+    const product = await Product.findById(req.params.id);
+    const { discount, validFrom, validUntil } = req.body;
+    product.productOffer.discount = discount;
+    product.productOffer.validFrom = validFrom;
+    product.productOffer.validUntil = validUntil;
+    await product.save();
+    console.log(req.body, req.params.id);
+    res.redirect('/admin/product');
   } catch (error) {
     console.log(error.message);
   }
@@ -352,4 +367,5 @@ module.exports = {
   deleteimg,
   uploadimg,
   productoffers,
+  productoffersedit,
 };

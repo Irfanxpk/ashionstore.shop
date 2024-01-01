@@ -102,34 +102,71 @@
         <!-- <div class="container-fluid pt-6 px-6"> -->
         <div class="row  mx-0">
             <div class="container-fluid pt-4 px-4">
-                <div class="bg-secondary text-center rounded-top p-4">
-                    <div class="d-flex  mb-4">
-                        <h6 class="mb-0">Add Category</h6>
-                    </div>
-                    <form action="/admin/addCategory" method="post">
-                        <div class="mb-4">
-                            <label class="form-label">Catagory Name</label>
-                            <input type="text" class="form-control" name="name">
-                        </div>
-                        <div class="mb-4">
-                            <label class="form-label">Description</label>
-                            <input type="text" class="form-control" name="description">
-                        </div>
-                        <button type="submit" class="btn btn-primary">Add</button>
-                        <div class="text-center">
-                            <% if(typeof message !=='undefined' ){ %>
-                                <span id="er2" style="color: rgb(241, 7, 7); text-align: center">
-                                    <%= message %>
-                                </span>
+<div class="bg-secondary text-center rounded-top p-4">
+    <div class="d-flex mb-4">
+        <h6 class="mb-0">Edit Offer</h6>
+    </div>
+    <form action="/admin/productoffers/<%= product._id %>" method="post">
+        <!-- Discount Field -->
+        <div class="mb-4">
+            <label class="form-label">Discount</label>
+            <select class="form-select" name="discount">
+                <% for (let i=0; i <=75; i +=5) { %>
+                    <% if (product.productOffer && product.productOffer.discount===i) { %>
+                        <option value="<%= i %>" selected>
+                            <%= i %>%
+                        </option>
+                        <% } else { %>
+                            <option value="<%= i %>">
+                                <%= i %>%
+                            </option>
+                            <% } %>
                                 <% } %>
-                        </div>
-                    </form>
-                </div>
+            </select>
+        </div>
+        <!-- Add other fields here -->
+        <div id="dateTimePickers"  class="mb-3">
+            <div id="datetimepicker1" class="input-append date">
+                <label for="validFrom">Valid From:</label>
+                <input id="validFrom" data-format="dd/MM/yyyy hh:mm:ss" type="date" name="validFrom" value="<%= product.productOffer.validFrom %>" ></input>
+                <span class="add-on">
+                    <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+                </span> &nbsp;&nbsp;
+        
+                <label for="validUntil">Valid Until:</label>
+                <input id="validUntil" data-format="dd/MM/yyyy hh:mm:ss" type="date" name="validUntil" value="<%= product.productOffer.validUntil %>"></input>
+                <span class="add-on">
+                    <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+                </span>
             </div>
         </div>
 
 
-        <div class="container-fluid pt-4 px-4 " style="height: 200px;">
+
+      
+
+
+
+        <!-- Add other offer fields here -->
+
+        <button type="submit" class="btn btn-primary">Edit</button>
+        <div class="text-center">
+            <% if (typeof message !=='undefined' ) { %>
+                <span id="er2" style="color: rgb(241, 7, 7); text-align: center">
+                    <%= message %>
+                </span>
+                <% } %>
+        </div>
+    </form>
+</div>
+
+
+
+            </div>
+        </div>
+
+
+        <!-- <div class="container-fluid pt-4 px-4 " style="height: 200px;">
             <div class="bg-secondary rounded-top p-4 " style="position: relative; top: 12rem; ">
                 <div class="row">
                     <div class="col-12 col-sm-6 text-center text-sm-start">
@@ -142,12 +179,34 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
 
 
     </div>
     </div>
     <!-- Blank End -->
+
+
+<!-- <script>
+    $(document).ready(function () {
+        $("#datetimepicker1").datetimepicker({
+            format: "DD/MM/YYYY HH:mm:ss", // Date and time format
+            icons: {
+                time: "icon-time", // Time icon
+                date: "icon-calendar", // Date icon
+                up: "icon-chevron-up", // Up icon
+                down: "icon-chevron-down", // Down icon
+                previous: "icon-chevron-left", // Previous month icon
+                next: "icon-chevron-right", // Next month icon
+                today: "icon-bolt", // Today's icon
+                clear: "icon-trash", // Clear icon
+            },
+        });
+    });
+</script> -->
+
+
+
 
 
     <!-- Footer Start -->

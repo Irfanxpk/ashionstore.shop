@@ -128,7 +128,7 @@
                                                 <a class="btn btn-sm btn-success" href="/admin/unlistproduct/<%= product._id %>">List</a>
                                             <% } %>
 
-                                            <a class="btn btn-sm btn-info" onclick="poffers('<%= product._id %>')">Offer</a>
+                                            <a class="btn btn-sm btn-info" href="/admin/productoffers/<%= product._id %>">Offer</a>
 
                                         </td>
                                     </tr>
@@ -142,7 +142,7 @@
             </div>
 
 
-            <script>
+            <!-- <script>
                 function poffers(id){
                     console.log(id);
                     let data =
@@ -173,7 +173,7 @@
                         }
                     })
                 }
-            </script>
+            </script> -->
 
             <!-- Blank End -->
 

@@ -145,6 +145,7 @@ adminRoute.post('/edit/:id', adminController.updateCategory);
 adminRoute.get('/categories/:categoryId/remove', adminController.categoryRemove);
 adminRoute.get('/categories/:categoryId/block', adminController.categoryBlock)
 adminRoute.get('/categories/:categoryId/unblock', adminController.categoryUnblock)
+adminRoute.get('/categories/:categoryId/offer', adminController.categoryOffer)
 adminRoute.get('/product',productController.loadProduct)
 adminRoute.get('/addProduct',productController.loadAddProduct);
 adminRoute.post('/addProduct', upload.array('images',6), resizeAndSave, productController.addProduct);
@@ -157,7 +158,8 @@ adminRoute.post('/edit-product/:id',productController.editProduct);
 adminRoute.get('/delete-product/:id', productController.deleteProduct);
 adminRoute.get('/listProduct/:id', productController.listProduct);
 adminRoute.get('/unlistProduct/:id', productController.unlistproduct)
-adminRoute.post("/productoffers/:id", productController.productoffers);
+adminRoute.get("/productoffers/:id", productController.productoffers);
+adminRoute.post("/productoffers/:id", productController.productoffersedit);
 adminRoute.get("/orders", adminController.orders);
 adminRoute.post("/changeOrderStatus/:id", adminController.changeOrderStatus);
 adminRoute.get('/sales', adminController.sales)

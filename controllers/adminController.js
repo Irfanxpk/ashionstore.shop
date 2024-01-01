@@ -327,6 +327,19 @@ const categoryUnblock = async (req, res) => {
   }
 };
 
+const categoryOffer = async (req, res) => {
+
+  try {
+    const categoryId = req.params.categoryId;
+    const category = await Category.findById(categoryId);
+    if (!category) {
+      return res.status(404).send('Category not found');
+    }}
+    catch (error) {
+      console.log(error.message)
+    }
+}
+
 const orders = async (req, res)=>{
 
   try {
@@ -614,6 +627,7 @@ module.exports = {
   categoryRemove,
   categoryBlock,
   categoryUnblock,
+  categoryOffer,
   adminLogout,
   orders,
   changeOrderStatus,

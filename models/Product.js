@@ -3,7 +3,6 @@
 const mongoose = require('mongoose');
 
 const productSchema = new mongoose.Schema({
-  
   name: String,
   description: String,
   price: Number,
@@ -17,8 +16,8 @@ const productSchema = new mongoose.Schema({
     default: "active",
   },
   category: {
-    type: mongoose.Schema.Types.ObjectId ,
-    ref : 'Category'
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Category",
   },
   images: Array, // Store image URLs
 
@@ -33,16 +32,14 @@ const productSchema = new mongoose.Schema({
   //   validUntil: Date,
   // }],
 
-
-
   // Product Offer Fields
   productOffer: {
     discount: {
       type: Number,
       default: 0,
     },
-    validFrom: Date,
-    validUntil: Date,
+    validFrom: String,
+    validUntil: String,
   },
 
   // Category Offer Fields
@@ -53,8 +50,7 @@ const productSchema = new mongoose.Schema({
     },
     validFrom: Date,
     validUntil: Date,
-  }
-
+  },
 });
 
 const Product = mongoose.model('Product', productSchema);
