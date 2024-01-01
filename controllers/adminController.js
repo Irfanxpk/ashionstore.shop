@@ -334,11 +334,51 @@ const categoryOffer = async (req, res) => {
     const category = await Category.findById(categoryId);
     if (!category) {
       return res.status(404).send('Category not found');
-    }}
+    }else if (category){
+
+     res.render('categoryOffer', { category });
+    }
+  
+  
+  }
     catch (error) {
       console.log(error.message)
     }
 }
+
+const categoryOfferEdit = async (req, res) => { 
+  try {
+    const categoryId = req.params.categoryId;
+    const category = await Category.findById(categoryId);
+    if (!category) {
+      return res.status(404).send('Category not found');
+    }else if (category){
+      
+      category.offer = {
+        discount: req.body.discount,
+        validFrom: req.body.validFrom,
+        validUntil: req.body.validUntil
+      }
+     await category.save();
+
+     const categoryOffer = category.offer;
+
+     if (categoryOffer){
+       console.log(categoryOffer)
+      await Product.updateMany({ category: categoryId }, {categoryOffer});
+      res.redirect('/admin/category');
+     }else{
+      res.redirect('/admin/category');
+     }
+
+     
+    }
+}  catch (error) {
+  console.log(error.message)
+}
+}
+
+
 
 const orders = async (req, res)=>{
 
@@ -634,5 +674,5 @@ module.exports = {
   sales,
   filterByDate,
   SalesReport,
- 
+  categoryOfferEdit,
 };

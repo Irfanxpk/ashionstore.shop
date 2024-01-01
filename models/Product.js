@@ -48,8 +48,8 @@ const productSchema = new mongoose.Schema({
       type: Number,
       default: 0,
     },
-    validFrom: Date,
-    validUntil: Date,
+    validFrom: String,
+    validUntil: String,
   },
 });
 

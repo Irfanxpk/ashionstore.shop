@@ -2,16 +2,23 @@ const mongoose = require('mongoose');
 
 const categorySchema = new mongoose.Schema({
   name: String,
-  description:String,
+  description: String,
   status: {
     type: String,
-    enum: ['active', 'blocked'],
-    default: 'active', // Set the default status to "active"
-    
+    enum: ["active", "blocked"],
+    default: "active", // Set the default status to "active"
   },
-  
-  isDeleted :{type : 'boolean', default: false} ,
-  
+
+  offer: {
+    discount: {
+      type: Number,
+      default: 0,
+    },
+    validFrom: String,
+    validUntil: String,
+  },
+
+  isDeleted: { type: "boolean", default: false },
 });   
 
 const Category = mongoose.model('Category', categorySchema);
