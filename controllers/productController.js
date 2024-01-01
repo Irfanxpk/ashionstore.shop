@@ -321,6 +321,22 @@ const stockupdate = async (req, res) => {
   }
 };
 
+const productoffers = async (req, res) => {
+  try {
+    console.log( req.params.id );  
+    const product = await Product.findById(req.params.id);
+
+    console.log(product);
+
+    res.json(product);
+  
+  } catch (error) {
+    console.log(error.message);
+  }
+}
+
+
+
 module.exports = {
   loadProduct,
   loadAddProduct,
@@ -335,4 +351,5 @@ module.exports = {
   updateimg,
   deleteimg,
   uploadimg,
+  productoffers,
 };

@@ -157,6 +157,7 @@ adminRoute.post('/edit-product/:id',productController.editProduct);
 adminRoute.get('/delete-product/:id', productController.deleteProduct);
 adminRoute.get('/listProduct/:id', productController.listProduct);
 adminRoute.get('/unlistProduct/:id', productController.unlistproduct)
+adminRoute.post("/productoffers/:id", productController.productoffers);
 adminRoute.get("/orders", adminController.orders);
 adminRoute.post("/changeOrderStatus/:id", adminController.changeOrderStatus);
 adminRoute.get('/sales', adminController.sales)
