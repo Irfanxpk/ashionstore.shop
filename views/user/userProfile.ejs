@@ -173,6 +173,82 @@
     border-radius: 30px;
   }
 </style>
+
+  <style>
+    
+  
+    .wallet {
+      border: 1px solid #ddd;
+      padding: 20px;
+      width: 100%;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+  
+    .transaction-history {
+      margin-top: 20px;
+    }
+  
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+  
+    th,
+    td {
+      padding: 8px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+  
+    th {
+      background-color: #f2f2f2;
+    }
+  
+    tr:hover {
+      background-color: #ddd;
+    }
+  
+    @media (max-width: 767px) {
+  
+      .transaction-history th:nth-child(3),
+      .transaction-history td:nth-child(3) {
+        display: none;
+      }
+    }
+
+
+
+
+
+    .referral-code {
+			background-color: #007bff;
+			border-radius: 5px;
+			color: #fff;
+			padding: 10px 20px;
+			text-transform: uppercase;
+			font-size: 1.2em;
+			margin-bottom: 20px;
+			cursor: pointer;
+			transition: background-color 0.3s ease;
+		}
+		.referral-code:hover {
+			background-color: #0056b3;
+		}
+		.copy-message {
+			background-color: #d1e7fd;
+			border-radius: 5px;
+			padding: 10px 20px;
+			font-size: 1.2em;
+			margin-top: 20px;
+			display: none;
+		}
+		.show-message {
+			display: block;
+		}
+
+
+  </style>
 <link rel="stylesheet" href="/css/userprofile.css" />
 <%- include("../partials/header") %>
 
@@ -223,7 +299,7 @@
         role="tab"
         aria-controls="notifications"
         aria-selected="false"
-        >Notifications</a
+        >Wallet</a
       >
     </li>
   </ul>
@@ -694,71 +770,7 @@
                       }
                     </script>
 
-                    <!-- <div class="bg-white card mb-4 order-list shadow-sm">
-<div class="gold-members p-4">
-<a href="#">
-</a>
-<div class="media">
-<a href="#">
-<img class="mr-4" src="https://bootdey.com/img/Content/avatar/avatar3.png" alt="Generic placeholder image">
-</a>
-<div class="media-body">
-<a href="#">
-<span class="float-right text-info">Delivered on Mon, Nov 12, 7:18 PM <i class="icofont-check-circled text-success"></i></span>
-</a>
-<h6 class="mb-2">
-<a href="#"></a>
-<a href="#" class="text-black">Jimmy's Famous American Tavern</a>
-</h6>
-<p class="text-gray mb-1"><i class="icofont-location-arrow"></i> 1733 Ocean Ave, Santa Monica, CA 90401, USA
-</p>
-<p class="text-gray mb-3"><i class="icofont-list"></i> ORDER #25102589748 <i class="icofont-clock-time ml-2"></i> Mon, Nov 12, 6:26 PM</p>
-<p class="text-dark">Veg Masala Roll x 5, Veg Burger x 1, Veg Penne Pasta in Red Sauce x 1
-</p>
-<hr>
-<div class="float-right">
-<a class="btn btn-sm btn-outline-primary" href="#"><i class="icofont-headphone-alt"></i> HELP</a>
-<a class="btn btn-sm btn-primary" href="#"><i class="icofont-refresh"></i> REORDER</a>
-</div>
-<p class="mb-0 text-black text-primary pt-2"><span class="text-black font-weight-bold"> Total Paid:</span> $500
-</p>
-</div>
-</div>
-</div>
-</div> -->
 
-                    <!-- <div class="bg-white card  order-list shadow-sm">
-<div class="gold-members p-4">
-<a href="#">
-</a>
-<div class="media">
-<a href="#">
-<img class="mr-4" src="https://bootdey.com/img/Content/avatar/avatar4.png" alt="Generic placeholder image">
-</a>
-<div class="media-body">
-<a href="#">
-<span class="float-right text-info">Delivered on Mon, Nov 12, 7:18 PM <i class="icofont-check-circled text-success"></i></span>
-</a>
-<h6 class="mb-2">
-<a href="#"></a>
-<a href="#" class="text-black">The Famous Restaurant</a>
-</h6>
-<p class="text-gray mb-1"><i class="icofont-location-arrow"></i> 953 S Main St, Centerville, OH 45459, USA
-</p>
-<p class="text-gray mb-3"><i class="icofont-list"></i> ORDER #25102589748 <i class="icofont-clock-time ml-2"></i> Mon, Nov 12, 6:26 PM</p>
-<p class="text-dark">Veg Masala Roll x 5, Veg Penne Pasta in Red Sauce x 1
-</p>
-<hr>
-<div class="float-right">
-<a class="btn btn-sm btn-outline-primary" href="#"><i class="icofont-headphone-alt"></i> HELP</a>
-<a class="btn btn-sm btn-primary" href="#"><i class="icofont-refresh"></i> REORDER</a>
-</div>
-<p class="mb-0 text-black text-primary pt-2"><span class="text-black font-weight-bold"> Total Paid:</span> $420
-</p>
-</div>
-</div>
-</div>
-</div> -->
 
  
                   </div>
@@ -778,6 +790,72 @@
       <!-- Notifications Tab Content -->
       <div class="row">
         <!-- Add your Notifications tab content here -->
+
+
+
+        
+
+
+<div class="wallet">
+  <h2>Wallet Balance:</h2>
+  <div style="margin-left: 10%; width: fit-content;" >
+  <h2 class="mt-2" style="color: green;">$1000</h2>
+  <!-- <form class="mt-2" > -->
+    <!-- <label for="amount">Add Amount:</label> -->
+    <!-- <input  type="number" id="amount" name="amount" min="0" step="0.01"> -->
+    <button class="btn btn-primary" type="submit" onclick="addAmount()">Add Amount</button>
+  <!-- </form>  -->
+  
+</div>
+
+  <div class="transaction-history">
+    <h3>Transaction History</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Description</th>
+          <th>Amount</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>2022-03-01</td>
+          <td>Online Shopping</td>
+          <td>$100</td>
+        </tr>
+        <tr>
+          <td>2022-03-05</td>
+          <td>Bill Payment</td>
+          <td>$50</td>
+        </tr>
+        <tr>
+          <td>2022-03-10</td>
+          <td>Refund</td>
+          <td>$50</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+ <div style="height: 250px; width: 350px; border: #000; border-radius: 3px;" class="mt-4 p-3">
+  <h5>Refer a Friend and Get 20% Off</h5>
+  <p>Share your unique referral code with your friends and family to get 20% off your next purchase.</p>
+  <div class="referral-code" id="referral-code">
+    <span id="code">YOUR-REFERRAL-CODE-HERE</span>
+    <button id="copy-btn" data-clipboard-target="#code">Copy Code</button>
+  </div>
+  <p class="copy-message" id="copy-message">Code copied to clipboard!</p>
+</div>
+
+
+</div>
+
+
+
+
+
+
+
       </div>
     </div>
   </div>
@@ -1037,5 +1115,76 @@
   function reloadAddressContent() {
     //   $('#reloadaddress').load('/userprofile #reloadaddress');
     location.reload();
+  }
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.8/clipboard.min.js"></script>
+<script>
+  const copyBtn = new ClipboardJS('#copy-btn');
+  const copyMessage = document.getElementById('copy-message');
+
+  copyBtn.on('success', () => {
+    copyMessage.classList.add('show-message');
+    setTimeout(() => {
+      copyMessage.classList.remove('show-message');
+    }, 2000);
+  });
+</script>
+
+<script>
+  function addAmount() {
+    Swal.fire({
+      title: "Enter the amount",
+      input: "number",
+      inputAttributes: {
+        autocapitalize: "off"
+      },
+      showCancelButton: true,
+      confirmButtonText: "Add",
+      cancelButtonText: "Cancel",
+      showLoaderOnConfirm: true,
+      preConfirm: (amount) => {
+        return fetch("/api/addAmount", {
+          method: "POST",
+          body: JSON.stringify({ amount }),
+          headers: {
+            "Content-Type": "application/json"
+          }
+        })
+          .then(response => {
+            if (!response.ok) {
+              throw new Error(response.statusText);
+            }
+            return response.json();
+          })
+          .catch(error => {
+            Swal.showValidationMessage(`Request failed: ${error}`);
+          });
+      },
+      allowOutsideClick: () => !Swal.isLoading()
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const razorpayOptions = {
+          key: "YOUR_RAZORPAY_API_KEY",
+          amount: result.value.amount,
+          currency: "INR",
+          name: "Your Company Name",
+          description: "Wallet Recharge",
+          handler: function (response) {
+            alert("Payment successful!");
+          },
+          prefill: {
+            email: "user@example.com",
+            contact: "1234567890",
+          },
+          theme: {
+            color: "#F37254"
+          }
+        };
+
+        const razorpayInstance = new Razorpay(razorpayOptions);
+        razorpayInstance.open();
+      }
+    });
   }
 </script>
