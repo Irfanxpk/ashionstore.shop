@@ -47,6 +47,8 @@ router.post("/cancelOrder/:id", orderController.cancelOrder);
 router.get("/orderDetails/:id", orderController.singleOrderDetails);
 router.get("/invoice/:id", orderController.downloadInvoice);
 
+//===========Wallet Routes======================
+router.post("/addAmount" , userController.addAmount);
 
 router.get("/search" , userController.search);
 router.post('/filter',userController.filter)

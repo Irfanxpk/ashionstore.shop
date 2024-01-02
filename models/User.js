@@ -38,6 +38,9 @@ const userSchema = new mongoose.Schema({
     enum: ["active", "blocked"],
     default: "active", // Set the default status to "active"
   },
+  refferralCode: {
+    type: String,
+  },
   addresses: [
     {
       location: {

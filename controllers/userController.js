@@ -161,6 +161,7 @@ const updateUser = async (req, res) => {
 //==========================loding login page============================================
 const login = async (req, res) => {
   try {
+    generateRefferalCode("irfan");
   if (req.session.name) {
     const isLoggedIn = true;
     const products = await Product.find();
@@ -224,6 +225,16 @@ const SignUp = (req, res) => {
   }
 };
 
+
+function generateRefferalCode (name){
+  const discount = 20
+  const formattedName = name.toUpperCase().replace(/\s/g, "");
+  const randomString = Math.random().toString(36).substring(2, 6);
+  const referralCode = `${formattedName}${discount}${randomString}`;
+  // return referralCode;
+  console.log(referralCode);
+};
+
 //=============================INSERTING USER REGISTERED DATA=============================
 
 const insertUser = async (req, res) => {
@@ -250,6 +261,8 @@ const insertUser = async (req, res) => {
         password: secPassword,
       });
       // Save the user to the database
+
+      user.refferralCode = await generateRefferalCode(req.body.firstName);
 
       const status = await User.insertMany([user]);
       const email = req.body.email;
@@ -456,6 +469,23 @@ const loadshop = async (req, res) => {
 };
 
 
+const addAmount = async (req, res) => {
+  try {
+     console.log("asdfasdfs" ,req.body)
+     const { amount } = req.body;
+
+     // Perform validation on the amount
+     if (!amount || isNaN(amount)) {
+       return res.status(400).json({ error: "Invalid amount entered" });
+     }
+
+      res.json({ amount });
+
+  } catch (error) {
+    console.log(error.message);
+  }
+}
+
 
 module.exports = {
   insertUser,
@@ -474,4 +504,5 @@ module.exports = {
   search,
   filter,
   filterCategory,
+  addAmount,
 };
