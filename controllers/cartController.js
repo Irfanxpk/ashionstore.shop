@@ -305,23 +305,25 @@ const loadChekout = async (req, res) => {
 };
 
 const verifyDiscount = async (req, res) => {
-   try {
+   
       const code = req.query.code;
-      const id = req.session.user_id; 
-      
-      console.log(code);
-      if (code) {}
-      const user = User.findOne({ refferralCode: code });
-if (!user) {
-  res.json({ success: false });
-} else {
-  req.session.offer = 15;
-  res.json({ success: true });
-}
 
-   } catch (error) {
-     console.log(error.message);
-   }
+  // Find the user by referral code
+  try {
+    const user = await User.findOne({ refferralCode: code });
+
+    if (user) {
+      // User with the referral code exists
+      res.status(200).json({ valid: true });
+    } else {
+      // User with the referral code does not exist
+      res.status(200).json({ valid: false });
+    }
+
+  } catch (err) {
+    // Handle any errors
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
 }
 
 

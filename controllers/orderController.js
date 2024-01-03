@@ -252,13 +252,21 @@ const createOrder = async (req, res) => {
         return x + y;
       });
     }
-    console.log(totalsum , req.sesion.offer);
+
+    // const discount = totalsum * 0.15;
+    //    chek = totalsum - discount;
+    //   console.log(Math.floor(chek))
+    //   console.log(chek , req.session.offer);
+
+    // console.log(totalsum , req.sesion.offer);
+    let chec = 0
     if(req.session.offer == 15){
       // totalsum = totalsum - (totalsum * 15) / 100;
       const discount = totalsum * 0.15;
-      totalsum = totalsum - discount;
-      Math.floor(totalsum);
-      
+      chec = totalsum - discount;
+      const totalsum =  Math.floor(chec);
+      console.log(totalsum )
+
     }
     console.log(totalsum);
 

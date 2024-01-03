@@ -504,7 +504,7 @@ Credit / Debit Card
 
 
 </li>
-<button onclick="verifyDiscount()" style="display: block;" id="dic">I have Discount Code</button>
+<!-- <button onclick="verifyDiscount()" style="display: block;" id="dic">I have Discount Code</button> -->
 
 <li class="">
     <div class="col-xl-12">
@@ -747,51 +747,45 @@ function verifyPayment(payment, order , formData , val) {
     
   </script>
 
-  <script>
+<script>
     function verifyDiscount() {
-            Swal.fire({
-                title: 'Enter Discount Code',
-                input: 'text',
-                inputAttributes: {
-                    autocapitalize: 'off'
-                },
-                showCancelButton: true,
-                confirmButtonText: 'Verify',
-                showLoaderOnConfirm: true,
-                preConfirm: (code) => {
-                    // Here you can perform verification with your backend
-                    return fetch(`/verify-discount?code=${code}`) // Replace this with your backend endpoint
-                        .then(response => {
-                            if (!response.ok) {
-                                throw new Error(response.statusText);
-                            }
+        Swal.fire({
+            title: 'Enter Discount Code',
+            input: 'text',
+            inputAttributes: {
+                autocapitalize: 'off'
+            },
+            showCancelButton: true,
+            confirmButtonText: 'Verify',
+            showLoaderOnConfirm: true,
+            preConfirm: (code) => {
+                return fetch(`/verify-discount?code=${code}`)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(response.statusText);
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (data.valid) {
                             document.getElementById("dic").style.display = "none";
-
-                            
-                            return response.json();
-
-                        })
-                        .catch(error => {
-                            Swal.showValidationMessage(`Request failed: ${error}`);
-                        });
-                },
-                allowOutsideClick: () => !Swal.isLoading()
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    const discountInfo = result.value;
-                    Swal.fire({
-                        title: 'Discount Code Verified!',
-                        html: `Congratulations! You Got 15% discount on your these purchase.`,
-                        icon: 'success'
+                            Swal.fire({
+                                title: 'Discount Code Verified!',
+                                html: 'Congratulations! You Got 15% discount on your purchase.',
+                                icon: 'success'
+                            });
+                        } else {
+                            Swal.showValidationMessage('Invalid discount code.');
+                        }
+                    })
+                    .catch(error => {
+                        Swal.showValidationMessage(`Request failed: ${error}`);
                     });
-
-                    
-                     
-                }
-            });
-        }
-
-  </script>
+            },
+            allowOutsideClick: () => !Swal.isLoading()
+        });
+    }
+</script>
 
 
 

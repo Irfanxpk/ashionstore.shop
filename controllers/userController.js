@@ -101,6 +101,10 @@ const securePassword = async (password) => {
 //===========================LODING LANDING PAGE=========================================
 const home = async (req, res) => {
   try {
+
+   
+
+
    const isLoggedIn = (await req.session.user_id) ? true : false;
   const products = await Product.findMany({ status: "active" });
 
@@ -458,6 +462,9 @@ const filterCategory = async (req, res) => {
 
 const loadshop = async (req, res) => {
   try {
+
+
+    
   const products = await Product.find({ status: "active" });
   const isLoggedIn = (await req.session.user_id) ? true : false;
   const categories = await Catagory.find({status: "active"});

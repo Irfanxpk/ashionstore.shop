@@ -332,7 +332,7 @@
         >Orderes</a
       >
     </li>
-    <li class="nav-item" role="presentation">
+    <!-- <li class="nav-item" role="presentation">
       <a
         class="nav-link"
         id="notifications-tab"
@@ -343,7 +343,7 @@
         aria-selected="false"
         >Wallet</a
       >
-    </li>
+    </li> -->
   </ul>
   <div class="tab-content" id="myTabsContent">
     <div
@@ -355,7 +355,7 @@
       <!-- Profile Tab Content -->
       <div class="row">
         <div class="row">
-          <div class="col-xl-4">
+          <!-- <div class="col-xl-4">
             <div class="card mb-4 mb-xl-0">
               <div class="card-header">Profile Picture</div>
               <div class="card-body text-center">
@@ -374,7 +374,36 @@
                 </button>
               </div>
             </div>
+          </div> -->
+          <div class="col-xl-4">
+          <div class="osahan-account-page-left shadow-sm bg-white h-100">
+            <div class="border-bottom p-4">
+              <div class="osahan-user text-center">
+                <div class="osahan-user-media">
+                  <img class="mb-3 rounded-pill shadow-sm mt-1" src="/img/7309681.jpg"
+                    alt="gurdeep singh osahan" />
+                  <div class="osahan-user-media-body">
+                    <h6 class="mb-2">
+                      <%= userData.firstName %>
+                    </h6>
+                    <p class="mb-1">+91 <%= userData.phone %>
+                    </p>
+                    <p>
+                      <%= userData.email %>
+                    </p>
+                    <!-- <p class="mb-0 text-black font-weight-bold"><a class="text-primary mr-3" data-toggle="modal" data-target="#edit-profile-modal" href="#"><i class="icofont-ui-edit"></i> EDIT</a></p> -->
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- <ul class="nav nav-tabs flex-column border-0 pt-4 pl-4 pb-4" id="myTab" role="tablist">
+                              <li class="nav-item">
+                                  <a class="nav-link" id="addresses-tab" data-toggle="tab" href="#addresses" role="tab" aria-controls="addresses" aria-selected="false"><i class="icofont-location-pin"></i> Addresses</a>
+                              </li>
+                          </ul> -->
           </div>
+          </div>
+
 
           <div class="col-xl-8">
             <div class="card mb-4">
@@ -542,7 +571,7 @@
                 <div class="osahan-user-media">
                   <img
                     class="mb-3 rounded-pill shadow-sm mt-1"
-                    src="http://bootdey.com/img/Content/avatar/avatar1.png"
+                    src="/img/7309681.jpg"
                     alt="gurdeep singh osahan"
                   />
                   <div class="osahan-user-media-body">
@@ -646,7 +675,7 @@
                     <div class="osahan-user-media">
                       <img
                         class="mb-3 rounded-pill shadow-sm mt-1"
-                        src="http://bootdey.com/img/Content/avatar/avatar1.png"
+                        src="/img/7309681.jpg"
                         alt="gurdeep singh osahan"
                       />
                       <div class="osahan-user-media-body">
@@ -830,49 +859,7 @@
       aria-labelledby="notifications-tab"
     >
       <!-- Notifications Tab Content -->
-      <div class="row">
-        <!-- Add your Notifications tab content here -->
-
-
-
-        
-<div class="wallet">
-<div class="coupon-container">
-  <div class="coupon-card">
-    <h3>Coupon 1</h3>
-    <p>Discount: 10%</p>
-    <p>Code: ABC123</p>
-  </div>
-  <div class="coupon-card">
-    <h3>Coupon 2</h3>
-    <p>Discount: $20 off</p>
-    <p>Code: XYZ456</p>
-  </div>
-  <!-- Add more coupon cards as needed -->
-</div>
-</div>
-
-<div class="wallet">
- <div >
-  <h5>Refer a Friend and Get 20% Off</h5>
-  <p>Share your unique referral code with your friends and family to get 20% off your next purchase.</p>
-  <div class="referral-code" id="referral-code">
-    <span id="code">YOUR-REFERRAL-CODE-HERE</span>
-    <button id="copy-btn" class="btn btn-success" data-clipboard-target="#code">Copy Code</button>
-  </div>
-  <!-- <p class="copy-message" id="copy-message">Code copied to clipboard!</p> -->
-</div>
-
-</div>
-
-
-
-
-
-
-
-
-      </div>
+      
     </div>
   </div>
 </div>
