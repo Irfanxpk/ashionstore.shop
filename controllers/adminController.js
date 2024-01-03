@@ -501,7 +501,7 @@ const orders = async (req, res)=>{
 
   try {
 const orders = await Order.find()
-res.render('orders',{orders})
+res.render('Orders',{orders})
   } catch (error){
     console.error(error);
   }
