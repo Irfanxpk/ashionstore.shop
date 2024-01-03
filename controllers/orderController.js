@@ -97,7 +97,6 @@ const placeOrder = async (req, res) => {
       addressid = await savedAddress.addresses[
         savedAddress.addresses.length - 1
       ]._id;
-      console.log(addressid);
     } else if (val == 0) {
       console.log("not Saving");
 
@@ -159,6 +158,11 @@ const placeOrder = async (req, res) => {
       totalsum = datatotal.reduce((x, y) => {
         return x + y;
       });
+
+      if(req.session.offer == 15){
+        totalsum = totalsum - (totalsum * 15) / 100
+        req.session.offer = null
+      }
 
       const datas = new Order({
         user_Id: id,
@@ -247,6 +251,14 @@ const createOrder = async (req, res) => {
       totalsum = datatotal.reduce((x, y) => {
         return x + y;
       });
+    }
+    console.log(totalsum , req.sesion.offer);
+    if(req.session.offer == 15){
+      // totalsum = totalsum - (totalsum * 15) / 100;
+      const discount = totalsum * 0.15;
+      totalsum = totalsum - discount;
+      Math.floor(totalsum);
+      
     }
     console.log(totalsum);
 

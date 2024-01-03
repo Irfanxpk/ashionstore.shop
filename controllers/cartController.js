@@ -304,6 +304,26 @@ const loadChekout = async (req, res) => {
   }
 };
 
+const verifyDiscount = async (req, res) => {
+   try {
+      const code = req.query.code;
+      const id = req.session.user_id; 
+      
+      console.log(code);
+      if (code) {}
+      const user = User.findOne({ refferralCode: code });
+if (!user) {
+  res.json({ success: false });
+} else {
+  req.session.offer = 15;
+  res.json({ success: true });
+}
+
+   } catch (error) {
+     console.log(error.message);
+   }
+}
+
 
 module.exports = {
   addtocart,
@@ -311,4 +331,5 @@ module.exports = {
   ProductCount,
   deleteCartItems,
   loadChekout,
+  verifyDiscount,
 };

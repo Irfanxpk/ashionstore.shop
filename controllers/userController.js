@@ -161,7 +161,6 @@ const updateUser = async (req, res) => {
 //==========================loding login page============================================
 const login = async (req, res) => {
   try {
-    generateRefferalCode("irfan");
   if (req.session.name) {
     const isLoggedIn = true;
     const products = await Product.find();
@@ -188,6 +187,7 @@ const loginvalid = async (req, res) => {
           if (logemail.verified == true) {
             req.session.name = logemail.firstName;
             req.session.user_id = logemail._id;
+            req.session.offer = null;
             const isLoggedIn = true;
             const products = await Product.find();
             res.render("index", { isLoggedIn, products });
@@ -227,12 +227,12 @@ const SignUp = (req, res) => {
 
 
 function generateRefferalCode (name){
-  const discount = 20
-  const formattedName = name.toUpperCase().replace(/\s/g, "");
-  const randomString = Math.random().toString(36).substring(2, 6);
-  const referralCode = `${formattedName}${discount}${randomString}`;
-  // return referralCode;
-  console.log(referralCode);
+  const discount = 20;
+   const percentageOfName = name.slice(0, Math.floor(name.length / 2)); // Taking the first half of the name
+   const formattedName = percentageOfName.toUpperCase().replace(/\s/g, "");
+   const randomString = Math.random().toString(36).substring(2, 6);
+   const referralCode = `${formattedName}${discount}${randomString}`;
+   return referralCode;
 };
 
 //=============================INSERTING USER REGISTERED DATA=============================
@@ -259,10 +259,9 @@ const insertUser = async (req, res) => {
         phone: req.body.phone,
         gender: req.body.gender,
         password: secPassword,
+        refferralCode: await generateRefferalCode(req.body.firstName),
       });
       // Save the user to the database
-
-      user.refferralCode = await generateRefferalCode(req.body.firstName);
 
       const status = await User.insertMany([user]);
       const email = req.body.email;
@@ -311,7 +310,7 @@ const validotp = async (req, res) => {
         if (verified1) {
           const user = await User.findOne({ email: email2 });
          req.session.user_id = user._id
-
+          req.session.offer = null;
          console.log(req.session.user_id);
 
           res.redirect("/");

@@ -108,6 +108,127 @@ const unblockUser = async (req, res) => {
   }
 }
 
+const donutChartData = async (req, res) => {
+  try {
+    const orderDonutChartData = await Order.aggregate([
+      {
+        $group: {
+          _id: "$status", // Group by status
+          count: { $sum: 1 }, // Count documents for each status
+        },
+      },
+    ]);
+
+    // Format the data as needed for the frontend
+    const labels = orderDonutChartData.map((item) => item._id);
+    const values = orderDonutChartData.map((item) => item.count);
+    const colors = ["#FF6384", "#36A2EB", "#FFCE56"]; // Define colors as needed
+
+    res.json({ labels, values, colors });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+const barChartData = async (req, res) => {
+  try {
+    const paymentBarChartData = await Order.aggregate([
+      {
+        $match: {
+          paymentStatus: "Paid", // Filter for paid orders
+        },
+      },
+      {
+        $facet: {
+          CODPayments: [
+            {
+              $match: { paymentMethod:"COD"},
+            },
+            {
+              $group: {
+                _id: { $month: "$Date" }, // Extract month from the Date field
+                totalAmount: { $sum: "$totalAmount" }, // Calculate total amount for COD payments in each month
+              },
+            },
+          ],
+          OnlinePayments: [
+            {
+              $match: { paymentMethod:"Online"},
+            },
+            {
+              $group: {
+                _id: { $month: "$Date" }, // Extract month from the Date field
+                totalAmount: { $sum: "$totalAmount" }, // Calculate total amount for online payments in each month
+              },
+            },
+          ],
+        },
+      },
+    ]);
+
+    console.log(paymentBarChartData);
+    // Format the data for the frontend
+    const monthNames = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ];
+
+    const CODData = paymentBarChartData[0].CODPayments.map((item) => ({
+      month: monthNames[item._id - 1],
+      COD: item.totalAmount || 0,
+    }));
+
+    const OnlineData = paymentBarChartData[0].OnlinePayments.map((item) => ({
+      month: monthNames[item._id - 1],
+      Online: item.totalAmount || 0,
+    }));
+
+    const combinedData = monthNames.map((month) => {
+      const COD = CODData.find((data) => data.month === month)?.COD || 0;
+      const Online =
+        OnlineData.find((data) => data.month === month)?.Online || 0;
+      return { month, COD, Online };
+    });
+
+    // Prepare data for labels and datasets
+    const labels = monthNames;
+    const datasets = [
+      {
+        label: "Cash on Delivery",
+        data: combinedData.map((item) => item.COD),
+        backgroundColor: "rgba(255, 99, 132, 0.5)",
+        borderColor: "rgba(255, 99, 132, 1)",
+        borderWidth: 1,
+      },
+      {
+        label: "Online Payment",
+        data: combinedData.map((item) => item.Online),
+        backgroundColor: "rgba(54, 162, 235, 0.5)",
+        borderColor: "rgba(54, 162, 235, 1)",
+        borderWidth: 1,
+      },
+    ];
+
+    res.json({ labels, datasets });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+
+
+
+
 //==================load dash==================
 const loadDash = async (req, res) => {
  
@@ -675,4 +796,6 @@ module.exports = {
   filterByDate,
   SalesReport,
   categoryOfferEdit,
+  donutChartData,
+  barChartData,
 };

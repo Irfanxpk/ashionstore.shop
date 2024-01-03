@@ -145,42 +145,82 @@
             <!-- Sales Chart Start -->
          
         
-        <div class="container-fluid pt-4 px-4">
-            <div class="row g-4">
-                <div class="col-sm-12 col-xl-6">
-                    <div class="bg-secondary text-center rounded p-4">
-                        <div class="d-flex align-items-center justify-content-between mb-4">
-                            <canvas id="paymentDonutChart" width="100" height="100"></canvas>
-                            <h6 class="mb-0">Sales Chart</h6>
-                            <a href="">Show All</a>
-                        </div>
-                        <canvas id="Sales-Graph"></canvas>
+    <div class="container-fluid pt-4 px-4">
+        <div class="row g-4">
+            <div class="col-sm-12 col-xl-6">
+                <div class="bg-secondary text-center rounded p-4">
+                    <div class="d-flex align-items-center justify-content-between mb-4">
+                        <h6 class="mb-0">Order Status</h6>
+                        <a href="#">Show All</a>
                     </div>
+                    <canvas id="orderDonutChart" width="100" height="100"></canvas>
+                </div>
+            </div>
+            <div class="col-sm-12 col-xl-6">
+                <div class="bg-secondary text-center rounded p-4">
+                    <div class="d-flex align-items-center justify-content-between mb-4">
+                        <h6 class="mb-0">Payments</h6>
+                        <a href="#">Show All</a>
+                    </div>
+                    <canvas id="paymentBarChart" width="100" height="100"></canvas>
                 </div>
             </div>
         </div>
+    </div>
+
+
         
-        <script>
-            window.addEventListener('load', (event) => {
-                const paymentData = {
-                    labels: ["Credit Card", "Cash", "Online Payment"],
-                    datasets: [{
-                        data: [3000, 1500, 2000], // Sample payment amounts for each type
-                        backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"] // Colors for segments
-                    }]
-                };
-
-                const ctx = document.getElementById("paymentDonutChart").getContext("2d");
-
-                new Chart(ctx, {
-                    type: 'doughnut',
-                    data: paymentData,
-                    options: {
-                        // Additional options like title, tooltips, etc., can be added here
-                    }
+    <script>
+        window.addEventListener('load', () => {
+            // Fetch data for orderDonutChart
+            fetch('/admin/donutChartData') // Adjust the endpoint according to your backend
+                .then(response => response.json())
+                .then(data => {
+                    const orderDonutChart = new Chart(document.getElementById("orderDonutChart").getContext("2d"), {
+                        type: 'doughnut',
+                        data: {
+                            labels: data.labels,
+                            datasets: [{
+                                data: data.values,
+                                backgroundColor: data.colors
+                            }]
+                        },
+                        options: {
+                            // Additional options for the doughnut chart
+                        }
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching orderDonutChart data:', error);
                 });
-            });
-        </script>
+
+            // Fetch data for paymentBarChart
+            fetch('/admin/barChartData') // Adjust the endpoint according to your backend
+                .then(response => response.json())
+                .then(data => {
+
+                    console.log(data)
+                    const paymentBarChart = new Chart(document.getElementById("paymentBarChart").getContext("2d"), {
+                        type: 'bar',
+                        data: {
+                            labels: data.labels,
+                            datasets: data.datasets
+                        },
+                        options: {
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            }
+                            // Additional options for the bar chart
+                        }
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching paymentBarChart data:', error);
+                });
+        });
+    </script>
 
             
 

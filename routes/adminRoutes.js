@@ -132,6 +132,8 @@ adminRoute.use('/uploads', express.static('public/uploads'));
 // adminRoute.post('/adminLogin', auth.isLogout, adminController.adminLogin)
 adminRoute.get('/',auth.isLogout, adminController.loadAdmin);
 adminRoute.post('/Dash', adminController.adminLogin);
+adminRoute.get("/donutChartData", adminController.donutChartData);
+adminRoute.get("/barChartData", adminController.barChartData);
 adminRoute.get('/index',auth.isLogin, adminController.loadDash);
 adminRoute.get('/logout',adminController.adminLogout)
 adminRoute.post('/block/:userId', adminController.blockUser);

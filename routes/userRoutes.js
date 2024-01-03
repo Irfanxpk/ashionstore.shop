@@ -21,6 +21,7 @@ router.get('/addtoCart/:id',cartController.addtocart);
 router.post('/updateProductQuantity',cartController.ProductCount);
 router.post('/deleteCartItems',cartController.deleteCartItems);
 router.get('/checkout',cartController.loadChekout);
+router.get("/verify-discount",cartController.verifyDiscount);
 
 
 router.get('/shop',userController.loadshop);

@@ -248,6 +248,48 @@
 		}
 
 
+/* Coupon card styles */
+.coupon-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+.coupon-card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 200px;
+    text-align: center;
+}
+
+.coupon-card h3 {
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.coupon-card p {
+    margin: 5px 0;
+    color: #555;
+}
+
+.copy-btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    background-color: #3498db;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.copy-btn:hover {
+    background-color: #2980b9;
+}
+
+
   </style>
 <link rel="stylesheet" href="/css/userprofile.css" />
 <%- include("../partials/header") %>
@@ -795,7 +837,19 @@
 
         
 <div class="wallet">
-
+<div class="coupon-container">
+  <div class="coupon-card">
+    <h3>Coupon 1</h3>
+    <p>Discount: 10%</p>
+    <p>Code: ABC123</p>
+  </div>
+  <div class="coupon-card">
+    <h3>Coupon 2</h3>
+    <p>Discount: $20 off</p>
+    <p>Code: XYZ456</p>
+  </div>
+  <!-- Add more coupon cards as needed -->
+</div>
 </div>
 
 <div class="wallet">
