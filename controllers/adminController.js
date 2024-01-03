@@ -133,16 +133,12 @@ const donutChartData = async (req, res) => {
 const barChartData = async (req, res) => {
   try {
     const paymentBarChartData = await Order.aggregate([
-      {
-        $match: {
-          paymentStatus: "Paid", // Filter for paid orders
-        },
-      },
+     
       {
         $facet: {
           CODPayments: [
             {
-              $match: { paymentMethod:"COD"},
+              $match: { paymentMethod: "COD" },
             },
             {
               $group: {
@@ -153,7 +149,7 @@ const barChartData = async (req, res) => {
           ],
           OnlinePayments: [
             {
-              $match: { paymentMethod:"Online"},
+              $match: { paymentMethod: "Online" },
             },
             {
               $group: {
@@ -161,7 +157,7 @@ const barChartData = async (req, res) => {
                 totalAmount: { $sum: "$totalAmount" }, // Calculate total amount for online payments in each month
               },
             },
-          ],
+          ]
         },
       },
     ]);
