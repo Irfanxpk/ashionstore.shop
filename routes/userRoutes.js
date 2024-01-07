@@ -15,7 +15,7 @@ router.post('/register',userController.insertUser)
 router.get("/verify-otp", userController.validotp);
 router.post("/resend-otp", userController.resendOtp);
 router.get('/logout',userController.Logout);
-router.get('/product/:id',userController.productPage);
+router.get("/product/:id", auth.isLogin,userController.productPage);
 router.get('/cart',cartController.loadCart);
 router.get('/addtoCart/:id',cartController.addtocart);
 router.post('/updateProductQuantity',cartController.ProductCount);

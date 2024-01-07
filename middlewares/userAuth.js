@@ -14,7 +14,7 @@ const isLogin = async (req,res,next)=>{
                 res.redirect('/')
             }
         }else{
-            res.redirect('/')
+            next();
         }
       
 
