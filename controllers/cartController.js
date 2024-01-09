@@ -59,6 +59,7 @@ const loadCart = async (req, res) => {
       }
   } catch (error) {
     console.log(error.message);
+    res.status(500).json({ message: "Error" });
   }
 };
 
@@ -145,6 +146,7 @@ const addtocart = async (req, res) => {
     }
   } catch (error) {
     console.log(error.message);
+    res.status(500).json({ message: "Error" });
   }
 };
 
@@ -232,6 +234,7 @@ const ProductCount = async (req, res) => {
     }
   } catch (error) {
     console.log(error.message);
+    res.status(500).json({ message: "Error" });
   }
 };
 
@@ -257,12 +260,14 @@ const deleteCartItems = async (req, res) => {
     }
   } catch (error) {
     console.log(error.message);
+    res.status(500).json({ message: "Error" });
   }
 };
 
 //===================loading checkouts =================
 const loadChekout = async (req, res) => {
   try {
+    if (req.session.user_id){
     const id = req.session.user_id;
     const data = await Cart.find({ userid: id });
     const total = await Cart.findOne({ userid: id }).populate("items.total");
@@ -299,8 +304,12 @@ const loadChekout = async (req, res) => {
     } else {
       console.log("Your cart is empty.");
     }
+  }else{
+    res.redirect('*')
+  }
   } catch (error) {
     console.log(error.message);
+    res.status(500).json({ message: "Error" });
   }
 };
 
@@ -321,7 +330,7 @@ const verifyDiscount = async (req, res) => {
     }
 
   } catch (err) {
-    // Handle any errors
+    console.log(err.message);
     res.status(500).json({ message: 'Internal Server Error' });
   }
 }

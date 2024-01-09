@@ -29,13 +29,7 @@ const verifypayment = async (req, res) => {
     const user_id = req.session.user_id;
     const paymentData = req.body;
     const cartData = await Cart.find({ userid: user_id });
-
-    console.log(
-      "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
-    );
-
     console.log(cartData);
-
     const hmac = crypto.createHmac("sha256", process.env.key_secret);
     hmac.update(
       paymentData.payment.razorpay_order_id +
@@ -45,28 +39,11 @@ const verifypayment = async (req, res) => {
     console.log(hmac);
     const hmacValue = hmac.digest("hex");
     if (hmacValue === paymentData.payment.razorpay_signature) {
-      //     const productIds = cartData.products.map((product) => product.productId);
-      // console.log("Product IDs:", productIds);
-      //       await product.findByIdAndUpdate(
-      //         { _id: productIds },
-      //         { $inc: { quantity: -count } })
-
-      // await Order.findByIdAndUpdate(
-      //   { _id: paymentData.order.receipt },
-      //   {
-      //     $set: {
-      //       paymentStatus: "placed",
-      //       paymentId: paymentData.payment.razorpay_payment_id,
-      //     },
-      //   }
-      // );
-
-      // await Cart.deleteOne({ userid: user_id });
-      console.log("XP 9");
       res.json({ placed: true });
     }
   } catch (error) {
     console.log(error.message);
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };
 const placeOrder = async (req, res) => {
@@ -124,7 +101,6 @@ const placeOrder = async (req, res) => {
     }
 
     const payment = formData.payMethod;
-    // console.log(addressid);
     const status = payment == "COD" ? "Pending" : "Paid";
 
     const addressdata =
@@ -207,6 +183,7 @@ const placeOrder = async (req, res) => {
     }
   } catch (error) {
     console.log(error.message);
+    res.status(500).json({ message: "Error" });
   }
 };
 
@@ -216,6 +193,7 @@ const orderSuccess = async (req, res) => {
     res.render("orderSuccess");
   } catch (error) {
     console.log(error.message);
+    res.status(500).json({ message: "Error" });
   }
 };
 
@@ -232,6 +210,7 @@ const singleOrderDetails = async (req, res) => {
     res.render("orderDetails", { order, isLoggedIn });
   } catch (error) {
     console.log(error.message);
+    res.status(500).json({ message: "internal server error" });
   }
 };
 
@@ -282,6 +261,7 @@ const createOrder = async (req, res) => {
     res.json(order);
   } catch (error) {
     res.status(500).send(error);
+    res.status(500).json({ message: "internal server error" });
   }
 };
 
@@ -362,6 +342,7 @@ const downloadInvoice = async (req, res) => {
     );
   } catch (error) {
     console.log(error.message);
+    res.status(500).json({ message: "internal server error" });
   }
 };
 

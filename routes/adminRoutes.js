@@ -168,6 +168,7 @@ adminRoute.post("/changeOrderStatus/:id", adminController.changeOrderStatus);
 adminRoute.get('/sales', adminController.sales)
 adminRoute.get("/salesdate", adminController.filterByDate);
 adminRoute.get('/SalesReport', adminController.SalesReport);
+adminRoute.get('/logout', adminController.logout);
 
 // adminRoute.get("/Sales/exel", adminController.exel);
 // adminRoute.patch("/products/stock/:id", productController.stockupdate);

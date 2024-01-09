@@ -15,6 +15,7 @@ const loadProduct = async (req, res) => {
     res.render("product", { product });
   } catch (error) {
     console.log(error.message);
+    res.status(500).json({ message: "internal server error" });
   }
 };
 
@@ -26,6 +27,7 @@ const loadAddProduct = async (req, res) => {
     res.render("addProduct", { category });
   } catch (error) {
     console.log(error.message);
+    res.status(500).json({ message: "internal server error" });
   }
 };
 
@@ -77,6 +79,7 @@ const addProduct = async (req, res) => {
     }
   } catch (error) {
     console.log(error.message);
+    res.status(500).json({ message: "internal server error" });
   }
 };
 
@@ -152,6 +155,7 @@ const deleteimg = async (req, res) => {
     }
   } catch (err) {
     console.log(err);
+    res.status(500).json({ message: "internal server error" });
   }
 };
 
@@ -175,6 +179,7 @@ const uploadimg = async (req, res) => {
     }
   } catch (err) {
     console.log(err);
+    res.status(500).json({ message: "internal server error" });
   }
 };
 
@@ -265,6 +270,7 @@ const deleteProduct = async (req, res) => {
     res.redirect("/admin/product");
   } catch (error) {
     console.error(error);
+    res.status(500).json({ message: "internal server error" });
   }
 };
 
@@ -279,7 +285,10 @@ const listProduct = async (req, res) => {
     await product.save();
 
     res.redirect("/admin/product");
-  } catch (error) {}
+  } catch (error) {
+    console.error( error);
+    res.status(500).json({ message: "internal server error" });
+  }
 };
 
 //====================Unlisted product =================
@@ -292,7 +301,10 @@ const unlistproduct = async (req, res) => {
     await product.save();
 
     res.redirect("/admin/product");
-  } catch (error) {}
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "internal server error" });
+  }
 };
 
 //================================Stock Update =============================
@@ -347,6 +359,7 @@ const productoffersedit = async (req, res) => {
     res.redirect('/admin/product');
   } catch (error) {
     console.log(error.message);
+    res.status(500).json({ message: "internal server error" });
   }
 }
 

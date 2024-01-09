@@ -5,10 +5,11 @@ const fs = require("fs");
 const ejs = require("ejs");
 const path = require("path");
 const pdf = require("html-pdf");
-require("dotenv").config();
+const dotenv = require("dotenv");
+dotenv.config();
 const { Console, log } = require("console");
 const razorpay = require("razorpay");
-const { key_id, key_secret } = process.env;
+const { key_id, key_secret , pass ,PASS } = process.env;
 const crypto = require("crypto");
 const Product = require("../models/Product");
 const Cart = require("../models/cartModel");
@@ -21,6 +22,7 @@ const Razorpay = new razorpay({
 
 let otp;
 let email2;
+let verifyotp = false;
 
 //============================genarating otp=========================================
 function generateOtp() {
@@ -39,6 +41,7 @@ const compare = async (loginPassword, hashedPassword) => {
   } catch (error) {
     console.log(error);
     return false;
+    
   }
 };
 
@@ -54,14 +57,15 @@ let nameResend;
 
 const sendVerifyMail = async (email, otp) => {
   try {
+    console.log(process.env.EMAIL , process.env.PASS);
     const transporter = nodemailer.createTransport({
       host: "smtp.gmail.com",
       port: 587,
       secure: false,
       requireTLS: true,
       auth: {
-        user: "pkirfanx@gmail.com",
-        pass: "wtxt yjsb qaxu hdxx",
+        user: process.env.EMAIL,
+        pass: process.env.pass,
       },
     });
 
@@ -69,10 +73,10 @@ const sendVerifyMail = async (email, otp) => {
       "views/user/emailSend.ejs",
       "utf8"
     );
-
+  
     const html4mailoption = ejs.render(emailTemplate, { otpsend: otp });
     const mailoptions = {
-      from: process.env.EMAIL,
+      from: "pkirfanx@gmail.com",
       to: email,
       subject: "Ashion.com Verification",
       html: html4mailoption,
@@ -82,6 +86,7 @@ const sendVerifyMail = async (email, otp) => {
     console.log("Email has been sent:", info.response);
   } catch (error) {
     console.error("Error sending email:", error.message);
+    
   }
 };
 
@@ -94,6 +99,8 @@ const securePassword = async (password) => {
   } catch (error) {
     // Handle the error by either throwing it or returning a rejected Promise
     console.error(error.message);
+    
+    res.status(500).json({ message: "internal server error" });
     throw error; // This throws the error so that it can be caught by the calling code
   }
 };
@@ -106,11 +113,12 @@ const home = async (req, res) => {
 
 
    const isLoggedIn = (await req.session.user_id) ? true : false;
-  const products = await Product.findMany({ status: "active" });
+  const products = await Product.find({ status: "active" });
 
   res.render("index", { isLoggedIn, products });
   } catch (error) {
     console.log(error.message);
+    res.status(500).json({ message: "internal server error" });
   }
 };
 
@@ -119,20 +127,21 @@ const home = async (req, res) => {
 const userinfo = async (req, res) => {
 
   try {
-    
+    if(req.session.user_id){
   const userData = await User.findOne({ _id: req.session.user_id });
-  // const addresses = await Address.find({ user: userData._id });
   const orders = await Order.find({ user_Id: userData._id });
   console.log(orders);
-  // console.log(addresses);
   await orders.sort(
     (a, b) => new Date(b.purchaseDate) - new Date(a.purchaseDate)
   );
   const isLoggedIn = (await req.session.user_id) ? true : false;
-  // res.render('userProfile',{userData ,addresses , isLoggedIn:true})
   res.render("userProfile", { isLoggedIn, userData, orders });
+    }else{
+      res.redirect('/login')
+    }
   }catch(err) {
     console.error(err);
+    res.status(500).json({ message: "internal server error" });
   }
 };
 
@@ -165,7 +174,7 @@ const updateUser = async (req, res) => {
 //==========================loding login page============================================
 const login = async (req, res) => {
   try {
-  if (req.session.name) {
+  if (req.session.user_id) {
     const isLoggedIn = true;
     const products = await Product.find();
     res.render("index", { isLoggedIn, products });
@@ -174,13 +183,13 @@ const login = async (req, res) => {
   }
 }catch(err){
   console.log(err);
+  res.status(500).json({ message: "internal server error" });
 }
 };
 
 //===========================User Authentication===================================
 const loginvalid = async (req, res) => {
   try {
-    console.log(process.env.EMAIL);
     const logemail = await User.findOne({ email: req.body.email });
     const loginPassword = req.body.Password;
     if (logemail) {
@@ -217,6 +226,7 @@ const loginvalid = async (req, res) => {
     }
   } catch (err) {
     console.log(err);
+    res.status(500).json({ message: "internal server error" });
   }
 };
 
@@ -226,6 +236,7 @@ const SignUp = (req, res) => {
   res.render("register");
   } catch (err) {
     console.log(err);
+    res.status(500).json({ message: "internal server error" });
   }
 };
 
@@ -275,6 +286,7 @@ const insertUser = async (req, res) => {
         generateOtp();
         console.log(otp);
         sendVerifyMail(email, otp);
+        verifyotp = true;
         // render to the otp page after these
         res.render("otpPage");
 
@@ -283,12 +295,14 @@ const insertUser = async (req, res) => {
     }
   } catch (error) {
     console.log(error);
+    res.status(500).json({ message: "internal server error" });
   }
 };
 
 //======================otp validation=================
 const validotp = async (req, res) => {
   try {
+    if(verifyotp == true) {
     const otpDigits = [];
 
     // Extract OTP digits from request query parameters
@@ -316,15 +330,13 @@ const validotp = async (req, res) => {
          req.session.user_id = user._id
           req.session.offer = null;
          console.log(req.session.user_id);
-
+          verifyotp = false;
           res.redirect("/");
           console.log(userOtp, otp);
         } else {
           res.render("otpPage");
         }
-        // } else {
-        //   console.log("enter valid otp"); // Move this line here
-        //   res.render("register");
+       
       } else {
         res.render("otpPage", { message: "Entered Otp Doesnt Match" });
       }
@@ -333,8 +345,12 @@ const validotp = async (req, res) => {
         message: "⌛ This Otp is Not Valid Request a new Otp",
       });
     }
+  } else {
+    res.redirect('/')
+  }
   } catch (error) {
     console.error(error); // Pass the 'error' variable to console.error()
+    res.status(500).json({ message: "internal server error" });
   }
 };
 
@@ -347,6 +363,7 @@ const resendOtp = async (req, res) => {
     res.status(200).json({ message: "OTP has been sent" });
   } catch (error) {
     console.log(error);
+    res.status(500).json({ message: "internal server error" });
   }
 };
 
@@ -359,6 +376,7 @@ const Logout = async (req, res) => {
     res.redirect("/");
   } catch (error) {
     console.log(error.message);
+    res.status(500).json({ message: "internal server error" });
   }
 };
 //=================ProdectPage================
@@ -383,6 +401,7 @@ const productPage = async (req, res) => {
     }
   } catch (error) {
     console.log(error.message);
+    res.status(500).json({ message: "internal server error" });
   }
 };
 
@@ -401,6 +420,7 @@ const search = async (req, res) => {
     res.render("shop", { products, isLoggedIn , categories});
   } catch (error) {
     console.log(error.message);
+    res.status(500).json({ message: "internal server error" });
   }
 };
 
@@ -426,6 +446,7 @@ const filter = async (req, res) => {
     res.render("shop", { isLoggedIn, products , categories });
   } catch (error) {
     console.log(error.message);
+    res.status(500).json({ message: "internal server error" });
   }
 };
 
@@ -442,22 +463,10 @@ const filterCategory = async (req, res) => {
     res.render("shop", { products , isLoggedIn, categories });
   } catch (error) {
     console.log(error.message);
+    res.status(500).json({ message: "internal server error" });
   }
 }
 
-
-
-
-
-//=========================cancelOrder======================
-
-
-//==========================Cart Page===========================
-// const loadcart = async (req,res)=>{
-//   res.render('cart')
-// }
-
-//============download invoice =============================
 
 
 const loadshop = async (req, res) => {
@@ -471,6 +480,7 @@ const loadshop = async (req, res) => {
   res.render("shop", { products, isLoggedIn , categories});
   }catch(err){
     console.log(err)
+    res.status(500).json({ message: "internal server error" });
   }
 };
 
@@ -489,6 +499,7 @@ const addAmount = async (req, res) => {
 
   } catch (error) {
     console.log(error.message);
+    res.status(500).json({ message: "internal server error" });
   }
 }
 
@@ -503,7 +514,6 @@ module.exports = {
   resendOtp,
   Logout,
   productPage,
-  // loadcart,
   loadshop,
   userinfo,
   updateUser,

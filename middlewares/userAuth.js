@@ -9,6 +9,7 @@ const isLogin = async (req,res,next)=>{
             if(blockedUser.status === 'active'){
                 next()
             }else{
+                
                 req.session.user_id = false;
                 req.session.name = false;
                 res.redirect('/')

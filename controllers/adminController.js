@@ -18,6 +18,7 @@ const loadError = async (req, res) => {
     res.status(404).render("404");
   } catch (error) {
     console.log(error.message);
+    res.status(500).json({ message: "Error" });
   }
 };
 
@@ -28,6 +29,7 @@ const loadAdmin = async (req, res) => {
     res.render("signin");
   } catch (error) {
     console.log(error.message);
+    res.status(500).json({ message: "Error while loading" });
   }
 };
 
@@ -38,6 +40,7 @@ const adminLogout = async (req, res) => {
     res.render("signin");
   } catch (error) {
     console.log(error.message);
+    res.status(500).json({ message: "Error while loading" });
   }
 }
 
@@ -71,6 +74,7 @@ const adminLogin = async (req, res) => {
     }
   } catch (error) {
     console.log(error.message);
+    res.status(500).json({ message: "Error while loading" });
   }
 };
 
@@ -82,6 +86,7 @@ const UserManage = async (req, res) => {
     res.render("userManagment", { user });
   } catch (error) {
     console.log(error.message);
+    res.status(500).json({ message: "Error while loading" });
   }
 }
 
@@ -93,6 +98,7 @@ const blockUser = async (req, res) => {
     await User.findByIdAndUpdate(userId, { status: 'blocked' });
     res.redirect("/admin/UserManage"); 
   } catch (error) {
+    console.log(error.message);
     res.status(500).send('Error blocking user');
   }
 };
@@ -104,6 +110,7 @@ const unblockUser = async (req, res) => {
     await User.findByIdAndUpdate(userId, { status: 'active' });
     res.redirect("/admin/UserManage"); 
   } catch (error) {
+    console.log(error.message);
     res.status(500).send('Error unblocking user');
   }
 }
@@ -126,6 +133,7 @@ const donutChartData = async (req, res) => {
 
     res.json({ labels, values, colors });
   } catch (err) {
+    console.log(err);
     res.status(500).json({ message: err.message });
   }
 };
@@ -290,6 +298,7 @@ const todaytotal = await Order.aggregate([
 
 } catch (error) {
   console.log(error.message);
+  res.status(500).json({ message: "Error while loading" });
 }
 }
 //================load product catogory================
@@ -299,7 +308,8 @@ const loadCategory = async (req, res) => {
   const category = await Category.find()
   res.render("category", {category});
   }catch (error) {
-  console.log(error.message)
+  console.log(error.message);
+  res.status(500).json({ message: "Error while loading" });
   }
 };
 
@@ -339,6 +349,7 @@ const loadEdit = async (req, res) => {
     res.render('editCategory', { category});
   } catch (error) {
     console.error(error);
+    res.status(500).json({ message: "Error while loading" });
   }
 };
 
@@ -380,6 +391,7 @@ const category = await Category.findById(req.params.id); // Find the category by
 
   } catch (error) {
     console.error(error);
+    res.status(500).json({ message: "Error while loading" });
   }
 };
 
@@ -396,6 +408,7 @@ const categoryRemove = async (req, res) => {
     res.redirect('/admin/category');
   } catch (error) {
     console.error(error);
+  res.status(500).json({ message: "Error while loading" });
   }}
 
 //==================Block or unblock Category================
@@ -419,6 +432,7 @@ const categoryBlock = async (req, res) => {
     res.redirect('/admin/category');
   } catch (error) {
     console.error(error);
+    res.status(500).json({ message: "Error while loading" });
   }
 };
 
@@ -441,6 +455,7 @@ const categoryUnblock = async (req, res) => {
     res.redirect('/admin/category');
   } catch (error) {
     console.error(error);
+    res.status(500).json({ message: "Error" });
   }
 };
 
@@ -460,6 +475,7 @@ const categoryOffer = async (req, res) => {
   }
     catch (error) {
       console.log(error.message)
+      res.status(500).json({ message: "Error" });
     }
 }
 
@@ -492,6 +508,7 @@ const categoryOfferEdit = async (req, res) => {
     }
 }  catch (error) {
   console.log(error.message)
+  res.status(500).json({ message: "Error" });
 }
 }
 
@@ -504,6 +521,7 @@ const orders = await Order.find()
 res.render('Orders',{orders})
   } catch (error){
     console.error(error);
+    res.status(500).json({ message: "Error while loading" });
   }
 };
 
@@ -566,6 +584,7 @@ const sales = async (req, res) => {
    }
  } catch (error) {
    console.log(error.message);
+   res.status(500).json({ message: "Error" });
  }
 
 }
@@ -591,90 +610,9 @@ const filterByDate = async (req, res) => {
     res.json(orderdata)
   }catch(error){
     console.log(error.message);
+    res.status(500).json({ message: "Error" });
   }
 }
-
-//===============Sales Report================
-// const SalesReport = async (req, res) => {
-//   try {
-//   const orderdata = await Order.find({})
-//   ejs.renderFile(
-//     path.join(__dirname, "../views/admin/", "report-template.ejs"),
-//     {
-//       orderdata,
-//     },
-//     (err, data) => {
-//       if (err) {
-//         res.send(err);
-//       } else {
-//         let options = {
-//           height: "11.25in",
-//           width: "8.5in",
-//           header: {
-//             height: "20mm",
-//           },
-//           footer: {
-//             height: "20mm",
-//           },
-//         };
-//         pdf.create(data, options).toFile("report.pdf", function (err, data) {
-//           if (err) {
-//             res.send(err);
-//           } else {
-//             const pdfpath = path.join(__dirname, "../report.pdf");
-//             res.sendFile(pdfpath);
-//           }
-//         });
-//       }
-//     }
-//   );
-
-//   } catch (error) {
-//     console.log(error.message);
-//   }
-// }
-
-// const exel = async (req, res) => {
-//    try {
-//     // Fetch orders from the database
-//     console.log("exel");
-//     const orders = await Order.find().lean(); // Retrieve orders as plain JavaScript objects
-    
-//     // Create a workbook and worksheet
-//     const workbook = new ExcelJS.Workbook();
-//     const worksheet = workbook.addWorksheet('Sales Report');
-
-//     // Adding headers to the worksheet
-//     worksheet.addRow(['Order ID', 'User ID', 'Purchase Date', 'Total Amount', 'Status', 'Payment Method', 'Shipping Method']);
-
-//      console.log("exel");
-//     // Loop through the orders and add data to the worksheet
-//     orders.forEach(order => {
-//       worksheet.addRow([
-//         order._id.toString(), // Assuming _id is an ObjectId
-//         order.user_Id,
-//         new Date(order.purchaseDate).toLocaleString(), // Assuming purchaseDate is a Date
-//         order.totalAmount,
-//         order.status,
-//         order.paymentMethod,
-//         order.shippingMethod
-//       ]);
-//     });
-
-//      console.log("exel");
-//     // Generate the Excel file
-//     const fileName = 'sales_report.xlsx';
-//     res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-//     res.setHeader('Content-Disposition', `attachment; filename=${fileName}`);
-//     await workbook.xlsx.write(res);
-
-//     // Send the response
-//     res.end();
-//   } catch (error) {
-//     console.error('Error generating Excel file:', error);
-//     res.status(500).send('Error generating Excel file');
-//   }
-// };
 
 
 
@@ -746,7 +684,8 @@ const SalesReport = async (req, res) => {
         await workbook.xlsx.writeFile(excelPath);
         resolve();
       } catch (error) {
-        reject(error);
+        console.log(error);
+        res.status(500).json({ message: "Error" });
       }
     });
 
@@ -767,6 +706,16 @@ const SalesReport = async (req, res) => {
   }
 };
 
+
+const logout = async (req, res) => {
+  try {
+    req.session.admin_id = false;
+    res.redirect("/admin");
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json({ message: "Error" });
+  }
+}
 
 module.exports = {
   loadAdmin,
@@ -794,4 +743,5 @@ module.exports = {
   categoryOfferEdit,
   donutChartData,
   barChartData,
+  logout,
 };

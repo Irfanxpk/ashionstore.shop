@@ -72,6 +72,7 @@ const editAddress = async (req, res) => {
     }
   } catch (e) {
     console.log("Error" + e);
+    res.send("error");
   }
 };
 
@@ -108,6 +109,7 @@ const updateAddress = async (req, res) => {
     }
   } catch (err) {
     console.error("Error:", err);
+    res.status(500).json({ message: "Error updating address." });
   }
 };
 
