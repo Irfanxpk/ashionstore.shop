@@ -530,7 +530,7 @@ const orders = async (req, res)=>{
             .exec();
       let orders = orderData;
       console.log(totalOrder);
-             res.render('Orders',{orderData:orderData,totalPages,currentPage:page ,orders})
+             res.render('Orders',{orderData:orderData,totalPages:totalPages,currentPage:page ,orders})
        
     
   }catch (error){
