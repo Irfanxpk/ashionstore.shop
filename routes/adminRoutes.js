@@ -108,7 +108,7 @@ const resizeAndSave = async (req, res, next) => {
     next();
   } catch (error) {
     console.error('Error processing images:', error);
-    res.status(500).send('Error processing images');
+    // res.status(500).send('Error processing images');
   }
 };
 
