@@ -514,17 +514,6 @@ const categoryOfferEdit = async (req, res) => {
 
 
 
-// const orders = async (req, res)=>{
-
-//   try {
-// const orders = await Order.find()
-// res.render('Orders',{orders})
-//   } catch (error){
-//     console.error(error);
-//     res.status(500).json({ message: "Error while loading" });
-//   }
-// };
-
 
 const orders = async (req, res)=>{
   try{
