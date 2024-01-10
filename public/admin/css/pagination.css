@@ -1,0 +1,45 @@
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.pagination__number-indicator {
+    margin-right: 10px;
+    /* Your additional styles for the number indicator */
+}
+
+.pagination__arrow,
+.pagination_arrow--right {
+    /* Your styles for the arrow buttons */
+}
+
+.pagination_number {
+    margin: 0 5px;
+    /* Adjust the spacing between numbers */
+    padding: 5px 10px;
+    /* Adjust the padding to your liking */
+    border-radius: 5px;
+    /* Round corners */
+    text-decoration: none;
+    /* Remove default underline */
+    color: #333;
+    /* Default color for numbers */
+}
+
+.pagination_number--active {
+    background-color: #007bff;
+    /* Background color for active number */
+    color: #fff;
+    /* Text color for active number */
+}
+
+/* Additional styles for hover/focus effects */
+.pagination_number:hover,
+.pagination_number:focus {
+    background-color: #f0f0f0;
+    /* Hover/focus background color */
+    color: #333;
+    /* Hover/focus text color */
+}

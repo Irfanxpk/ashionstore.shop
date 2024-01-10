@@ -135,39 +135,40 @@ adminRoute.post('/Dash', adminController.adminLogin);
 adminRoute.get("/donutChartData", adminController.donutChartData);
 adminRoute.get("/barChartData", adminController.barChartData);
 adminRoute.get('/index',auth.isLogin, adminController.loadDash);
-adminRoute.get('/logout',adminController.adminLogout)
+adminRoute.get('/logout', adminController.adminLogout)
 adminRoute.post('/block/:userId', adminController.blockUser);
-adminRoute.get("/UserManage",adminController.UserManage);
+adminRoute.get("/UserManage",auth.isLogin, adminController.UserManage);
 adminRoute.post('/unblock/:userId', adminController.unblockUser);
-adminRoute.get('/category', adminController.loadCategory);
-adminRoute.get('/addCategory', adminController.loadAddCat);
+adminRoute.get('/category',auth.isLogin, adminController.loadCategory);
+adminRoute.get('/addCategory',auth.isLogin, adminController.loadAddCat);
 adminRoute.post('/addCategory', adminController.addCategory)
-adminRoute.get('/edit/:id', adminController.loadEdit);
+adminRoute.get('/edit/:id',auth.isLogin, adminController.loadEdit);
 adminRoute.post('/edit/:id', adminController.updateCategory);
-adminRoute.get('/categories/:categoryId/remove', adminController.categoryRemove);
-adminRoute.get('/categories/:categoryId/block', adminController.categoryBlock)
-adminRoute.get('/categories/:categoryId/unblock', adminController.categoryUnblock)
-adminRoute.get('/categories/:categoryId/offer', adminController.categoryOffer)
+adminRoute.get('/categories/:categoryId/remove',auth.isLogin, adminController.categoryRemove);
+adminRoute.get('/categories/:categoryId/block',auth.isLogin, adminController.categoryBlock)
+adminRoute.get('/categories/:categoryId/unblock',auth.isLogin, adminController.categoryUnblock)
+adminRoute.get('/categories/:categoryId/offer',auth.isLogin, adminController.categoryOffer)
 adminRoute.post('/categoryoffers/:categoryId', adminController.categoryOfferEdit)
-adminRoute.get('/product',productController.loadProduct)
-adminRoute.get('/addProduct',productController.loadAddProduct);
+adminRoute.get('/product',auth.isLogin,productController.loadProduct)
+adminRoute.get('/addProduct',auth.isLogin, productController.loadAddProduct);
 adminRoute.post('/addProduct', upload.array('images',6), resizeAndSave, productController.addProduct);
-adminRoute.get('/edit-product/:id', productController.loadEditProduct);
+adminRoute.get('/edit-product/:id',auth.isLogin, productController.loadEditProduct);
 adminRoute.post("/updateimg", upload.array('images',1),resizeAndSave , productController.updateimg);
 adminRoute.post("/deleteimg" , productController.deleteimg);
 adminRoute.post("/uploadimg", upload.array('images',1),resizeAndSave , productController.uploadimg);
 adminRoute.post('/uploadCroppedImage', upload.single('images'),  productController.cropimage);
 adminRoute.post('/edit-product/:id',productController.editProduct);
-adminRoute.get('/delete-product/:id', productController.deleteProduct);
-adminRoute.get('/listProduct/:id', productController.listProduct);
-adminRoute.get('/unlistProduct/:id', productController.unlistproduct)
-adminRoute.get("/productoffers/:id", productController.productoffers);
+adminRoute.get('/delete-product/:id',auth.isLogin, productController.deleteProduct);
+adminRoute.get('/listProduct/:id',auth.isLogin, productController.listProduct);
+adminRoute.get('/unlistProduct/:id',auth.isLogin, productController.unlistproduct)
+adminRoute.get("/productoffers/:id",auth.isLogin, productController.productoffers);
 adminRoute.post("/productoffers/:id", productController.productoffersedit);
-adminRoute.get("/orders", adminController.orders);
+adminRoute.get("/orders",auth.isLogin, adminController.orders);
+adminRoute.get("/orderSearch",auth.isLogin, adminController.orderSearch);
 adminRoute.post("/changeOrderStatus/:id", adminController.changeOrderStatus);
-adminRoute.get('/sales', adminController.sales)
-adminRoute.get("/salesdate", adminController.filterByDate);
-adminRoute.get('/SalesReport', adminController.SalesReport);
+adminRoute.get('/sales' ,auth.isLogin, adminController.sales)
+adminRoute.get("/salesdate" ,auth.isLogin, adminController.filterByDate);
+adminRoute.get('/SalesReport' ,auth.isLogin, adminController.SalesReport);
 adminRoute.get('/logout', adminController.logout);
 
 // adminRoute.get("/Sales/exel", adminController.exel);

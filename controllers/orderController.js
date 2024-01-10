@@ -183,7 +183,7 @@ const placeOrder = async (req, res) => {
     }
   } catch (error) {
     console.log(error.message);
-    res.status(500).json({ message: "Error" });
+   
   }
 };
 
@@ -232,23 +232,7 @@ const createOrder = async (req, res) => {
       });
     }
 
-    // const discount = totalsum * 0.15;
-    //    chek = totalsum - discount;
-    //   console.log(Math.floor(chek))
-    //   console.log(chek , req.session.offer);
-
-    // console.log(totalsum , req.sesion.offer);
-    let chec = 0
-    if(req.session.offer == 15){
-      // totalsum = totalsum - (totalsum * 15) / 100;
-      const discount = totalsum * 0.15;
-      chec = totalsum - discount;
-      const totalsum =  Math.floor(chec);
-      console.log(totalsum )
-
-    }
-    console.log(totalsum);
-
+    
     console.log("create order");
     const options = {
       amount: totalsum * 100, // Amount in smallest currency unit (e.g., paisa)
@@ -260,8 +244,8 @@ const createOrder = async (req, res) => {
     console.log(order, ";aosdfhasjf");
     res.json(order);
   } catch (error) {
+    console.log(error);
     res.status(500).send(error);
-    res.status(500).json({ message: "internal server error" });
   }
 };
 

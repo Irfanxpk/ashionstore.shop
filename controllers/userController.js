@@ -5,11 +5,10 @@ const fs = require("fs");
 const ejs = require("ejs");
 const path = require("path");
 const pdf = require("html-pdf");
-const dotenv = require("dotenv");
-dotenv.config();
+require("dotenv").config();
 const { Console, log } = require("console");
 const razorpay = require("razorpay");
-const { key_id, key_secret , pass ,PASS } = process.env;
+const { key_id, key_secret } = process.env;
 const crypto = require("crypto");
 const Product = require("../models/Product");
 const Cart = require("../models/cartModel");
@@ -57,15 +56,14 @@ let nameResend;
 
 const sendVerifyMail = async (email, otp) => {
   try {
-    console.log(process.env.EMAIL , process.env.PASS);
     const transporter = nodemailer.createTransport({
       host: "smtp.gmail.com",
       port: 587,
       secure: false,
       requireTLS: true,
       auth: {
-        user: process.env.EMAIL,
-        pass: process.env.pass,
+        user: "pkirfanx@gmail.com",
+        pass: "lakw mbjk wqtn ozlv",
       },
     });
 
@@ -73,10 +71,10 @@ const sendVerifyMail = async (email, otp) => {
       "views/user/emailSend.ejs",
       "utf8"
     );
-  
+
     const html4mailoption = ejs.render(emailTemplate, { otpsend: otp });
     const mailoptions = {
-      from: "pkirfanx@gmail.com",
+      from: process.env.EMAIL,
       to: email,
       subject: "Ashion.com Verification",
       html: html4mailoption,

@@ -11,9 +11,9 @@
                 <a href="#" class="sidebar-toggler flex-shrink-0">
                     <i class="fa fa-bars"></i>
                 </a>
-                <form class="d-none d-md-flex ms-4">
-                    <!-- <input class="form-control bg-dark border-0" type="search" placeholder="Search"> -->
-                </form>
+                <form  class="d-none d-md-flex ms-4">
+                    <input class="form-control bg-dark border-0" id="searchInput" type="search" placeholder="Search">
+                </form >
                 <div class="navbar-nav align-items-center ms-auto">
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
@@ -86,7 +86,7 @@
                         <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
                             <a href="#" class="dropdown-item">My Profile</a>
                             <a href="#" class="dropdown-item">Settings</a>
-                            <a href="#" class="dropdown-item">Log Out</a>
+                            <a href="/admin/logout" class="dropdown-item">Log Out</a>
                         </div>
                     </div>
                 </div>
@@ -94,31 +94,18 @@
             <!-- Navbar End -->
 
             <div class="container-fluid pt-4 px-4">
-                <div class="row vh-100 bg-secondary rounded mx-0 pt-3">
+                <div class="row vh-auto bg-secondary rounded mx-0 pt-3">
 
 
-
-
-    <!-- views/orders.ejs -->
-
-<!-- Assuming you have a layout file, include it here -->
-
-<!-- views/orders.ejs -->
-
-<!-- Assuming you have a layout file, include it here -->
-
-<!-- views/orders.ejs -->
-
-<!-- Assuming you have a layout file, include it here -->
-
-<div class="container mt-4" >
+<div class="container mt-4">
   <h2>Order Listing</h2>
 
   <table class="table" id="orderTable">
     <thead>
       <tr>
         <th scope="col">Image</th>
-        <th scope="col">Address and Date </th>
+        <th scope="col">Product Name</th>
+        <th scope="col">Address and Date</th>
         <th scope="col">Total Amount</th>
         <th scope="col">Status</th>
         <th scope="col">Change Status</th>
@@ -126,63 +113,65 @@
       </tr>
     </thead>
     <tbody>
-      <% orders.forEach(order => { %>
+      <% orders.forEach(order=> { %>
         <tr>
           <td>
             <!-- Display image if available -->
-            <% if (order.items.length > 0 && order.items[0].img) { %>
-             <a href="/admin/<%=order._id%>"> <img src="/uploads/product_resized/<%= order.items[0].img %>" alt="Product Image" style="max-width: 50px; max-height: 50px;"></a>
-            <% } else { %>
-              No Image
-            <% } %>
-          </td>
-        <% const formattedDate=new Date(order.purchaseDate).toLocaleString(); %>
-          <td><%= formattedDate %>  
-        
-            <address>
-                <strong>
-                    <%= order.addresses.name %>
-                </strong><br />
-                <%= order.addresses.address %><br />
-                    <%= order.addresses.city %>, <%= order.addresses.state %>
-                            <%= order.addresses.zip %><br />
-                                <abbr title="Phone">Phone</abbr>
-                                <%= order.addresses.phone %>
-            </address>
-        </td>
-          <td>₹<%= order.totalAmount %>.00</td>
-          <td><%= order.status %></td>
-          <td>
-            <!-- Replace the form with a select input and use JavaScript to handle the change event -->
-            <% if (order.status != "Cancelled") { %>
-            <select
-              name="newStatus"
-              class="form-select"
-              onchange="changeOrderStatus('<%= order._id %>')"
-              value="<%= order.status %>"
-                                                         
-            >
-               <option value="Placed" <%= order.status == "Placed" ? 'selected' : '' %>>Placed</option>
-                                        <!-- <option value="Processing" <%= order.status == "Processing" ? 'selected' : '' %>>Processing</option> -->
-                                        <option value="Shipped" <%= order.status == "Shipped" ? 'selected' : '' %>>Shipped</option>
-                                        <option value="Out for delivery" <%=order.status == "Out for delivery" ? 'selected' : '' %>>Out for delevery</option>
-                                        <option value="Delivered" <%= order.status == "Delivered" ? 'selected' : '' %>>Delivered</option>
-                                        <option value="Cancelled" <%= order.status == "Cancelled" ? 'selected' : '' %>>Cancell</option>
-                                        <!-- <option value="Returned" <%= order.status == "Returned" ? 'selected' : '' %>>Returned</option> -->
-            </select>
-            <% }else { %>
-
-                <select name="newStatus" class="form-select" id="" >
-                    <option value="" onclick="cancelled()">Cancelled</option>
-                </select>
+            <% if (order.items.length> 0 && order.items[0].img) { %>
+              <a href="/admin/<%=order._id%>">
+                <img src="/uploads/product_resized/<%= order.items[0].img %>" alt="Product Image"
+                  style="max-width: 50px; max-height: 50px;">
+              </a>
+              <% } else { %>
+                No Image
                 <% } %>
           </td>
-          <!-- Add more columns as needed for your order table -->
+          <td>
+            <%= order.items[0].name %>
+          </td>
+          <% const formattedDate=new Date(order.purchaseDate).toLocaleString(); %>
+            <td>
+              <%= formattedDate %>
+                <address>
+                  <strong>
+                    <%= order.addresses.name %>
+                  </strong><br />
+                  <%= order.addresses.address %><br />
+                    <%= order.addresses.city %>, <%= order.addresses.state %>
+                        <%= order.addresses.zip %><br />
+                          <abbr title="Phone">Phone</abbr>
+                          <%= order.addresses.phone %>
+                </address>
+            </td>
+            <td>₹<%= order.totalAmount %>.00</td>
+            <td>
+              <%= order.status %>
+            </td>
+            <td>
+              <% if (order.status !="Cancelled" ) { %>
+                <select name="newStatus" class="form-select" onchange="changeOrderStatus('<%= order._id %>')"
+                  value="<%= order.status %>">
+                  <option value="Placed" <%=order.status=="Placed" ? 'selected' : '' %>>Placed</option>
+                  <option value="Shipped" <%=order.status=="Shipped" ? 'selected' : '' %>>Shipped</option>
+                  <option value="Out for delivery" <%=order.status=="Out for delivery" ? 'selected' : '' %>>Out for
+                    delivery</option>
+                  <option value="Delivered" <%=order.status=="Delivered" ? 'selected' : '' %>>Delivered</option>
+                  <option value="Cancelled" <%=order.status=="Cancelled" ? 'selected' : '' %>>Cancelled</option>
+                </select>
+                <% } else { %>
+                  <select name="newStatus" class="form-select" id="">
+                    <option value="" onclick="cancelled()">Cancelled</option>
+                  </select>
+                  <% } %>
+            </td>
+            <!-- Add more columns as needed for your order table -->
         </tr>
-      <% }); %>
+        <% }); %>
     </tbody>
   </table>
 </div>
+
+
 
 <script>
   function cancelled() {
@@ -221,16 +210,138 @@
       });
   }
 </script>
-<!-- End of the file -->
 
+<script>
+  const searchInput = document.getElementById('searchInput');
+  const orderTableBody = document.querySelector('#orderTable tbody');
 
-<!-- End of the file -->
+  // Function to update the table with filtered orders
+  const updateOrdersUI = (filteredOrders) => {
+    orderTableBody.innerHTML = ''; // Clear the existing table content
 
-<!-- End of the file -->
+    // Render the filtered orders in the table
+    filteredOrders.forEach(order => {
+      const row = document.createElement('tr');
 
+      // Display image if available
+      const imageColumn = document.createElement('td');
+      if (order.items.length > 0 && order.items[0].img) {
+        const imageLink = document.createElement('a');
+        imageLink.href = `/admin/${order._id}`;
+        const image = document.createElement('img');
+        image.src = `/uploads/product_resized/${order.items[0].img}`;
+        image.alt = 'Product Image';
+        image.style.maxWidth = '50px';
+        image.style.maxHeight = '50px';
+        imageLink.appendChild(image);
+        imageColumn.appendChild(imageLink);
+      } else {
+        imageColumn.textContent = 'No Image';
+      }
+      row.appendChild(imageColumn);
 
+      // Product Name
+      const productNameColumn = document.createElement('td');
+      productNameColumn.textContent = order.items[0].name;
+      row.appendChild(productNameColumn);
 
+      // Address and Date
+      const formattedDate = new Date(order.purchaseDate).toLocaleString();
+      const addressColumn = document.createElement('td');
+      addressColumn.innerHTML = `
+      ${formattedDate}
+      <address>
+        <br />
+        ${order.addresses.address}<br />
+        ${order.addresses.city}, ${order.addresses.state} ${order.addresses.zip}<br />
+        <abbr title="Phone">Phone</abbr> ${order.addresses.phone}
+      </address>
+    `;
+      row.appendChild(addressColumn);
+
+      // Total Amount
+      const totalAmountColumn = document.createElement('td');
+      totalAmountColumn.textContent = `₹${order.totalAmount}.00`;
+      row.appendChild(totalAmountColumn);
+
+      // Status
+      const statusColumn = document.createElement('td');
+      statusColumn.textContent = order.status;
+      row.appendChild(statusColumn);
+
+      // Change Status
+      const changeStatusColumn = document.createElement('td');
+      if (order.status !== 'Cancelled') {
+        const select = document.createElement('select');
+        select.name = 'newStatus';
+        select.className = 'form-select';
+        select.onchange = () => changeOrderStatus(order._id);
+        select.value = order.status;
+        const statusOptions = ['Placed', 'Shipped', 'Out for delivery', 'Delivered', 'Cancelled'];
+        statusOptions.forEach(option => {
+          const optionElement = document.createElement('option');
+          optionElement.value = option;
+          optionElement.textContent = option;
+          if (order.status === option) {
+            optionElement.selected = true;
+          }
+          select.appendChild(optionElement);
+        });
+        changeStatusColumn.appendChild(select);
+      } else {
+        const select = document.createElement('select');
+        select.name = 'newStatus';
+        select.className = 'form-select';
+        select.id = '';
+        const optionElement = document.createElement('option');
+        optionElement.value = '';
+        optionElement.textContent = 'Cancelled';
+        optionElement.onclick = cancelled;
+        select.appendChild(optionElement);
+        changeStatusColumn.appendChild(select);
+      }
+      row.appendChild(changeStatusColumn);
+
+      // Append the row to the table body
+      orderTableBody.appendChild(row);
+    });
+  };
+
+  // Function to perform search and update UI
+  const performSearch = async () => {
+    const searchValue = searchInput.value.trim();
+
+    try {
+      const response = await fetch(`/admin/orderSearch?searchQuery=${searchValue}`);
+      const { orders } = await response.json();
+
+      // Handle the orders received from the backend and update the UI
+      console.log('Filtered Orders:', orders);
+      updateOrdersUI(orders);
+    } catch (error) {
+      console.error('Error searching orders:', error);
+    }
+  };
+
+  // Event listener for input change on search
+  searchInput.addEventListener('input', performSearch);
+</script>
+
+                <div class="col-sm-12 col-xl-6">
+                  <div class="bg-secondary rounded h-100 p-4">
+                    <h6 class="mb-4">Pages</h6>
+                    <div class="pagination mx-auto" role="toolbar">
+                      <div class="btn-group me-2" role="group" aria-label="First group">
+                        <% for (let i=1; i <=totalPages; i++) { %>
+                          <a href="?page=<%= i %>" class="btn btn-primary">
+                            <%= i %>
+                          </a>
+                          <% } %>
+                      </div>
+                    </div>
+                  </div>
                 </div>
+
             </div>
             <!-- Blank End -->
 

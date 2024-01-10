@@ -514,16 +514,42 @@ const categoryOfferEdit = async (req, res) => {
 
 
 
-const orders = async (req, res)=>{
+// const orders = async (req, res)=>{
 
-  try {
-const orders = await Order.find()
-res.render('Orders',{orders})
-  } catch (error){
+//   try {
+// const orders = await Order.find()
+// res.render('Orders',{orders})
+//   } catch (error){
+//     console.error(error);
+//     res.status(500).json({ message: "Error while loading" });
+//   }
+// };
+
+
+const orders = async (req, res)=>{
+  try{
+
+   
+      const ORDERS_PER_PAGE = 5
+        
+          const page = parseInt(req.query.page) || 1
+          const totalOrder = await Order.countDocuments({})
+          const totalPages = Math.ceil(totalOrder/ORDERS_PER_PAGE)
+            const orderData = await Order.find().sort({ orderDate:'desc'})
+            .skip((page-1)*ORDERS_PER_PAGE)
+            .limit(ORDERS_PER_PAGE)
+            .exec();
+      let orders = orderData;
+      console.log(totalOrder);
+             res.render('Orders',{orderData:orderData,totalPages,currentPage:page ,orders})
+       
+    
+  }catch (error){
     console.error(error);
     res.status(500).json({ message: "Error while loading" });
   }
-};
+}
+
 
 const changeOrderStatus = async (req, res)=>{
   try {
@@ -555,6 +581,20 @@ res
 }
 
 
+const orderSearch = async (req, res)=>{
+  const { searchQuery } = req.query; // Assuming the search query is sent as 'searchQuery'
+
+  try {
+    const filteredOrders = await Order.find({
+         "items.name": { $regex: new RegExp(searchQuery, "i")  } // Search by product name
+    })
+
+    res.json({ orders: filteredOrders });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error while searching orders" });
+  }
+}
 
 
 //============sales report================
@@ -744,4 +784,5 @@ module.exports = {
   donutChartData,
   barChartData,
   logout,
+  orderSearch,
 };

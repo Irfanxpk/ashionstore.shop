@@ -10,6 +10,13 @@ require("dotenv").config();
 // const noCache = require('nocache');
 const crypto = require('crypto');
 
+app.use((req, res, next) => {
+  res.header(
+    "Cache-Control",
+    "no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0"
+  );
+  next();
+});
 
 //=============================================declaring port
 let port = process.env.PORT||8080;
