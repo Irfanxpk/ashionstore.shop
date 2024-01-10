@@ -523,14 +523,14 @@ const orders = async (req, res)=>{
         
           const page = parseInt(req.query.page) || 1
           const totalOrder = await Order.countDocuments({})
-          const totalPages = Math.ceil(totalOrder/ORDERS_PER_PAGE)
+          const totalPages = await  Math.ceil(totalOrder/ORDERS_PER_PAGE)
             const orderData = await Order.find().sort({ orderDate:'desc'})
             .skip((page-1)*ORDERS_PER_PAGE)
             .limit(ORDERS_PER_PAGE)
             .exec();
       let orders = orderData;
       console.log(totalOrder);
-             res.render('Orders',{orderData:orderData,totalPages:totalPages,currentPage:page ,orders})
+             res.render('Orders',{orderData:orderData,totalPages,currentPage:page ,orders})
        
     
   }catch (error){
