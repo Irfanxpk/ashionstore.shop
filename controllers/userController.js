@@ -175,7 +175,8 @@ const login = async (req, res) => {
   if (req.session.user_id) {
     const isLoggedIn = true;
     const products = await Product.find();
-    res.render("index", { isLoggedIn, products });
+    // res.render("index", { isLoggedIn, products });
+    res.redirect('/')
   } else {
     res.render("login");
   }
@@ -201,7 +202,8 @@ const loginvalid = async (req, res) => {
             req.session.offer = null;
             const isLoggedIn = true;
             const products = await Product.find();
-            res.render("index", { isLoggedIn, products });
+            // res.render("index", { isLoggedIn, products });
+            res.redirect('/')
           } else {
             const email = await logemail.email;
             email2 = email;

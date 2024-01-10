@@ -102,26 +102,21 @@
                           <div class="d-flex  mb-4">
                             <h6 class="mb-0">Add Category</h6>
                           </div>
-                          <form action="/admin/addCategory" method="post">
+                        <form id="addCategoryForm" action="/admin/addCategory" method="post">
                             <div class="mb-4">
-                                <label class="form-label">Catagory Name</label>
-                                <input type="text" class="form-control" 
-                                  name="name">
+                                <label class="form-label">Category Name</label>
+                                <input type="text" class="form-control" name="name" id="categoryName">
+                                <span id="nameError" style="color: red; display: none;">Please enter a category name</span>
                             </div>
                             <div class="mb-4">
-                                <label  class="form-label">Description</label>
-                                <input type="text" class="form-control"  name="description">
+                                <label class="form-label">Description</label>
+                                <input type="text" class="form-control" name="description" id="categoryDescription">
+                                <span id="descriptionError" style="color: red; display: none;">Please enter a description</span>
                             </div>
-                            <button type="submit" class="btn btn-primary">Add</button>
+                            <button type="button" onclick="validateForm()" class="btn btn-primary">Add</button>
                             <div class="text-center">
-                                <% if(typeof message !== 'undefined'){ %>
-                                    <span
-                                    id="er2"
-                                    style="color: rgb(241, 7, 7); text-align: center"
-                                    ><%= message %></span
-                                    >
-                                    <% } %>
-                                </div>
+                                <span id="errorMessage" style="color: rgb(241, 7, 7); text-align: center;"></span>
+                            </div>
                         </form>
                           </div>
                         </div>
@@ -139,6 +134,40 @@
             
         </div>
         <!-- Content End -->
+
+
+
+        <script>
+            function validateForm() {
+                var name = document.getElementById("categoryName").value;
+                var description = document.getElementById("categoryDescription").value;
+                var nameError = document.getElementById("nameError");
+                var descriptionError = document.getElementById("descriptionError");
+                var errorMessage = document.getElementById("errorMessage");
+
+                // Reset previous error messages
+                nameError.style.display = "none";
+                descriptionError.style.display = "none";
+                errorMessage.innerHTML = "";
+
+                // Validate Name
+                if (name.trim() === "") {
+                    nameError.innerHTML = "Please enter a category name";
+                    nameError.style.display = "block";
+                    return; // Stop form submission
+                }
+
+                // Validate Description
+                if (description.trim() === "") {
+                    descriptionError.innerHTML = "Please enter a description";
+                    descriptionError.style.display = "block";
+                    return; // Stop form submission
+                }
+
+                // If all validations pass, submit the form
+                document.getElementById("addCategoryForm").submit();
+            }
+        </script>
 
 
         <!-- Back to Top -->

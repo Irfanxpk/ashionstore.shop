@@ -101,34 +101,60 @@
                       <div class="d-flex  mb-4">
                         <h6 class="mb-0">Edit Category</h6>
                       </div>
-                      <form action="/admin/edit/<%= category._id %>" method="post">
-                        <div class="mb-4">
-                            <label class="form-label">Edit Catagory Name</label>
-                            <input type="text" class="form-control" 
-                              name="name" placeholder="<%= category.name %>" value="<%= category.name %>">
-                        </div>
-                        <div class="mb-4">
-                            <label  class="form-label">Edit Description</label>
-                            <input type="text" class="form-control"  name="description" placeholder="<%= category.description %>" value="<%= category.description %>"> 
-                        </div>
-                        <button type="submit" class="btn btn-primary">Update</button>
-                        <div class="text-center">
-                            <% if(typeof message !== 'undefined'){ %>
-                                <span
-                                id="er2"
-                                style="color: rgb(241, 7, 7); text-align: center"
-                                ><%= message %></span
-                                >
-                                <% } %>
-                            </div>
-                    </form>
+                <form action="/admin/edit/<%= category._id %>" method="post" onsubmit="return validateEditCategoryForm()">
+                    <div class="mb-4">
+                        <label class="form-label">Edit Category Name</label>
+                        <input type="text" class="form-control" name="name" placeholder="<%= category.name %>"
+                            value="<%= category.name %>">
+                        <div id="nameError" style="color: red; display: none;">Please enter a category name</div>
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label">Edit Description</label>
+                        <input type="text" class="form-control" name="description" placeholder="<%= category.description %>"
+                            value="<%= category.description %>">
+                        <div id="descriptionError" style="color: red; display: none;">Please enter a description</div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Update</button>
+                    <div class="text-center">
+                        <% if(typeof message !=='undefined' ){ %>
+                            <span id="er2" style="color: rgb(241, 7, 7); text-align: center">
+                                <%= message %>
+                            </span>
+                            <% } %>
+                    </div>
+                </form>
+
                       </div>
                     </div>
                   </div>
 
                   
                    
-                  
+                  <script>
+                    function validateEditCategoryForm() {
+                        var name = document.querySelector('input[name="name"]').value;
+                        var description = document.querySelector('input[name="description"]').value;
+                        var nameError = document.getElementById("nameError");
+                        var descriptionError = document.getElementById("descriptionError");
+
+                        // Reset previous error messages
+                        nameError.style.display = "none";
+                        descriptionError.style.display = "none";
+
+                        if (name.trim() === "") {
+                            nameError.style.display = "block";
+                            return false;
+                        }
+
+                        if (description.trim() === "") {
+                            descriptionError.style.display = "block";
+                            return false;
+                        }
+
+                        return true;
+                    }
+                </script>
+
                   
             </div>
         </div>

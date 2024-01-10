@@ -122,7 +122,7 @@
 
             <div class="container-fluid pt-4 px-4">
                 <div class="row vh-100 bg-secondary rounded mx-0 pt-3">
-                   <form action="/admin/edit-Product/<%= product._id %>" method="post">  
+                   <form action="/admin/edit-Product/<%= product._id %>" method="post" onsubmit="return validateEditProductForm()">  
                     
                     <div class="form-floating mb-3 ">
                         <input type="productName" class="form-control" id="floatingInput"
@@ -136,7 +136,7 @@
                     </div> 
                     <div class="input-group mb-3">
                         <span class="input-group-text">₹</span>
-                        <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)" name="price" placeholder="<%= product.price %>">
+                        <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)" name="price"  value="<%= product.price %>">
                         <span class="input-group-text">.00</span>
                     </div>
 
@@ -145,8 +145,8 @@
 
                 
                     <div class="form-floating">
-                        <textarea class="form-control" name="description" placeholder="Leave a comment here"
-                            id="floatingTextarea" style="height: 150px;"></textarea>
+                        <textarea va class="form-control" name="description" placeholder="Leave a comment here"
+                            id="floatingTextarea" style="height: 150px;" ></textarea>
                         <label for="floatingTextarea"><%= product.description %></label>
                     </div>
 
@@ -467,6 +467,39 @@
                 
                 </form> 
                 
+
+                <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                <script>
+                    function validateEditProductForm() {
+                        var name = document.querySelector('input[name="name"]').value;
+                        var price = document.querySelector('input[name="price"]').value;
+                        var stock = document.querySelector('input[name="stock"]').value;
+                        var description = document.querySelector('textarea[name="description"]').value;
+
+                        if (name.trim() === "") {
+                            Swal.fire("Error", "Please enter a product name.", "error");
+                            return false;
+                        }
+
+                        if (parseFloat(price) <= 0 || isNaN(parseFloat(price))) {
+                            Swal.fire("Error", "Please enter a valid positive price.", "error");
+                            return false;
+                        }
+
+                        if (parseInt(stock) <= 0 || isNaN(parseInt(stock))) {
+                            Swal.fire("Error", "Please enter a valid positive stock quantity.", "error");
+                            return false;
+                        }
+
+                       
+
+                        return true;
+                    }
+                </script>
+
+
+
+
                 </div>
             </div>
             <!-- Blank End -->

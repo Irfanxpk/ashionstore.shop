@@ -46,9 +46,9 @@ const adminLogout = async (req, res) => {
 
 
 
+
+
 const admdata = { email: "pkirfanx@gmail.com", password: "8281", Name: "irfan" }
-
-
 
 //==========================  Admin Authorization ====================
 const adminLogin = async (req, res) => {
@@ -362,7 +362,7 @@ const updateCategory = async (req, res) => {
     
      const category = await Category.findById(req.params.id)
     const categoryName = name.toLowerCase();
-    if (categoryName != category.name) {
+    if (categoryName == category.name) {
 
       console.log("hello")
 // Check for existing categories with the normalized name
@@ -524,7 +524,7 @@ const orders = async (req, res)=>{
           const page = parseInt(req.query.page) || 1
           const totalOrder = await Order.countDocuments({})
           const totalPages = await  Math.ceil(totalOrder/ORDERS_PER_PAGE)
-            const orderData = await Order.find().sort({ orderDate:'desc'})
+            const orderData = await Order.find().sort({ Date:'desc'})
             .skip((page-1)*ORDERS_PER_PAGE)
             .limit(ORDERS_PER_PAGE)
             .exec();

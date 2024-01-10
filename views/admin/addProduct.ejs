@@ -95,49 +95,9 @@
 
             <div class="container-fluid pt-4 px-4">
                 <div class="row vh-100 bg-secondary rounded mx-0 pt-3">
-                   <!-- <form action="/admin/addProduct" method="post" enctype="multipart/form-data" >  
-                    
-                    <div class="form-floating mb-3 ">
-                        <input name="name" type="text" class="form-control" id="floatingInput"
-                        placeholder="name@example.com" >
-                        <label for="floatingInput">Product Name</label>
-                    </div>   
-                    <div class="input-group mb-3">
-                        <span class="input-group-text">₹</span>
-                        <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)" name="price">
-                        <span class="input-group-text">.00</span>
-                    </div>
-                    <select class="form-select mb-3" aria-label="Default select example" name="selectedCategory">
-                        <option selected>Select Category</option>
-                        <% category.forEach(category => { %>
-                            <option value="<%= category.id %>"><%= category.name %></option>
-                        <% }); %>
-                    </select>
-                
-                    <div class="form-floating">
-                        <textarea class="form-control" name="description" placeholder="Leave a comment here"
-                            id="floatingTextarea" style="height: 150px;"></textarea>
-                        <label for="floatingTextarea">Description</label>
-                    </div>
-                
-                    <div class="mb-3 pt-4" >
-                        <label for="formFileMultiple" class="form-label" >Upload Product Images</label>
-                        <input class="form-control bg-dark" type="file" id="imageInput" name="images" accept="image/*" multiple>
-                    </div>
-                
-                    <div class="image-preview">
-                            <div id="previewContainer"></div>
-                    </div>
+                  
 
-                    <div class="m-n2">
-                        <button class="btn btn-primary w-50 m-2 " type="submit">Add Product</button>
-                    </div>
-                
-                </form> 
-                 -->
-
-
-<form action="/admin/addProduct" method="post" enctype="multipart/form-data">
+<form action="/admin/addProduct" method="post" enctype="multipart/form-data" onsubmit="return validateProductForm()">
     <div class="form-floating mb-3 ">
         <input name="name" type="text" class="form-control" id="floatingInput"
                placeholder="name@example.com" required>
@@ -145,7 +105,7 @@
     </div>
     <div class="input-group mb-3">
         <span class="input-group-text">₹</span>
-        <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)" name="price" placeholder="Price" required>
+        <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)" name="price" placeholder="Price" type="number" required>
         <span class="input-group-text">.00</span>
     </div>
 
@@ -232,24 +192,54 @@
                 </div>
             </div>
             <!-- Blank End -->
+<!-- Include the SweetAlert CDN -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-         
-            <!-- Footer Start -->
-            <!-- <div class="container-fluid pt-4 px-4">
-                <div class="bg-secondary rounded-top p-4">
-                    <div class="row">
-                        <div class="col-12 col-sm-6 text-center text-sm-start">
-                            &copy; <a href="#">Your Site Name</a>, All Right Reserved. 
-                        </div>
-                        <div class="col-12 col-sm-6 text-center text-sm-end"> -->
-                            <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
-                            <!-- Designed By <a href="https://htmlcodex.com">HTML Codex</a>
-                            <br>Distributed By: <a href="https://themewagon.com" target="_blank">ThemeWagon</a>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
-            <!-- Footer End -->
+<script>
+    function validateProductForm() {
+        var name = document.querySelector('input[name="name"]').value;
+        var price = document.querySelector('input[name="price"]').value;
+        var stock = document.querySelector('input[name="Stock"]').value;
+        var category = document.querySelector('select[name="selectedCategory"]').value;
+        var description = document.querySelector('textarea[name="description"]').value;
+        var images = document.querySelector('input[name="images"]').files;
+
+        if (name.trim() === "") {
+            Swal.fire("Error", "Please enter a product name.", "error");
+            return false;
+        }
+
+        if (price.trim() === "" || parseFloat(price) <= 0 || isNaN(parseFloat(price))) {
+            Swal.fire("Error", "Please enter a valid positive price.", "error");
+            return false;
+        }
+
+        if (stock.trim() === "" || parseInt(stock) <= 0 || isNaN(parseInt(stock))) {
+            Swal.fire("Error", "Please enter a valid positive stock quantity.", "error");
+            return false;
+        }
+
+        if (category === "Select Category") {
+            Swal.fire("Error", "Please select a category.", "error");
+            return false;
+        }
+
+        if (description.trim() === "") {
+            Swal.fire("Error", "Please enter a description.", "error");
+            return false;
+        }
+
+        if (images.length === 0) {
+            Swal.fire("Error", "Please upload at least one image.", "error");
+            return false;
+        }
+
+        return true;
+    }
+</script>
+
+            
+           
         </div>
         <!-- Content End -->
 
@@ -257,20 +247,7 @@
         <!-- Back to Top -->
         <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
     </div>
-    <!-- JavaScript Libraries -->
- <!-- <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const imageInput = document.getElementById('imageInput');
-        const maxImageCount = 6;
-
-        imageInput.addEventListener('change', function (e) {
-            if (e.target.files.length > maxImageCount) {
-                alert(`Maximum ${maxImageCount} images allowed.`);
-                e.target.value = ''; // Clear the file input
-            }
-        });
-    });
-</script>  -->
+ 
 
 
     <script>
